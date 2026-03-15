@@ -22,7 +22,19 @@ function setLink(id, href, label) {
 }
 
 function renderSocialLinks() {
-  return;
+  const { profile } = siteContent;
+  const socialLinks = [
+    { label: "Git", href: profile.githubUrl, external: true },
+    { label: "In", href: profile.linkedinUrl, external: true },
+    { label: "Mail", href: `mailto:${profile.email}`, external: false }
+  ];
+
+  document.getElementById("social-links").innerHTML = socialLinks
+    .map(
+      (item) =>
+        `<a href="${item.href}" rel="${item.external ? "noreferrer" : ""}" target="${item.external ? "_blank" : "_self"}">${item.label}</a>`
+    )
+    .join("");
 }
 
 function renderProfile() {
@@ -46,10 +58,6 @@ function renderProfile() {
   setLink("contact-github", profile.githubUrl);
   setLink("contact-linkedin", profile.linkedinUrl);
   setLink("contact-resume", profile.resumeUrl);
-
-  document.getElementById("focus-pills").innerHTML = profile.focusAreas
-    .map((item) => `<li class="tag-list__item">${item}</li>`)
-    .join("");
 
   document.getElementById("hero-stats").innerHTML = [
     { label: "Roles", value: String(experience.length).padStart(2, "0") },
