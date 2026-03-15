@@ -69,7 +69,6 @@ function setupThemeToggle() {
 function renderProfile() {
   const { profile } = siteContent;
 
-  setText("profile-role", profile.roleLine);
   setText("profile-summary", profile.summary);
   setText("contact-copy", profile.contactPitch);
   setLink("resume-link", profile.resumeUrl);

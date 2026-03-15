@@ -7,7 +7,7 @@ export const siteContent = {
       "I build dependable software shaped by hands-on system admin experience and a practical understanding of how systems are used every day.",
     location: "Kenya",
     summary:
-      "Software engineer with system admin depth, focused on reliable systems and practical workflows that hold up in real environments.",
+      "I design dependable web systems that are easy to run and maintain.",
     showcaseCopy:
       "This work is presented as a focused showcase of how I think through useful systems, clean workflows, and practical implementation.",
     experienceCopy:
@@ -20,7 +20,7 @@ export const siteContent = {
       "Communicates clearly with both technical teammates and everyday users.",
       "Learns quickly and stays grounded in solving the actual problem."
     ],
-    focusAreas: ["Python and Django", "System administration", "User-centered support"],
+    focusAreas: ["Django", "System Admin", "Workflow Automation"],
     email: "mayakaombogo254@gmail.com",
     githubUrl: "https://www.github.com/calebmayaka",
     linkedinUrl: "https://www.linkedin.com/in/calebmayaka",
