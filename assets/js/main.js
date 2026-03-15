@@ -1,6 +1,6 @@
 import { siteContent } from "./content.js";
 
-const sectionIds = ["profile", "showcase", "experience", "contact"];
+const tabIds = ["profile", "showcase", "experience", "contact"];
 
 function setText(id, value) {
   const node = document.getElementById(id);
@@ -24,16 +24,15 @@ function setLink(id, href, label) {
 function renderSocialLinks() {
   const { profile } = siteContent;
   const socialLinks = [
-    { label: "Git", href: profile.githubUrl },
-    { label: "In", href: profile.linkedinUrl },
-    { label: "Mail", href: `mailto:${profile.email}` }
+    { label: "Git", href: profile.githubUrl, external: true },
+    { label: "In", href: profile.linkedinUrl, external: true },
+    { label: "Mail", href: `mailto:${profile.email}`, external: false }
   ];
 
-  const socialLinksNode = document.getElementById("social-links");
-  socialLinksNode.innerHTML = socialLinks
+  document.getElementById("social-links").innerHTML = socialLinks
     .map(
       (item) =>
-        `<a class="social-rail__link" href="${item.href}" rel="noreferrer" target="${item.href.startsWith("mailto:") ? "_self" : "_blank"}">${item.label}</a>`
+        `<a class="social-rail__link" href="${item.href}" rel="${item.external ? "noreferrer" : ""}" target="${item.external ? "_blank" : "_self"}">${item.label}</a>`
     )
     .join("");
 }
@@ -47,6 +46,7 @@ function renderProfile() {
   setText("profile-name", profile.name);
   setText("profile-role", profile.roleLine);
   setText("profile-summary", profile.summary);
+  setText("profile-copy", profile.summary);
   setText("showcase-copy", profile.showcaseCopy);
   setText("experience-copy", profile.experienceCopy);
   setText("contact-copy", profile.contactPitch);
@@ -133,7 +133,7 @@ function renderExperience() {
   document.getElementById("experience-list").innerHTML = siteContent.experience
     .map(
       (role) => `
-        <article class="timeline-card" data-reveal>
+        <article class="timeline-card">
           <div class="timeline-card__meta">
             <p class="timeline-card__date">${role.dateRange}</p>
             <h3>${role.role}</h3>
@@ -179,6 +179,54 @@ function renderExperience() {
     .join("");
 }
 
+function setActiveTab(tabId) {
+  const triggers = document.querySelectorAll("[data-tab-trigger]");
+  const panels = document.querySelectorAll("[data-tab-panel]");
+
+  triggers.forEach((trigger) => {
+    const isActive = trigger.dataset.tabTrigger === tabId;
+    trigger.setAttribute("aria-selected", isActive ? "true" : "false");
+    trigger.setAttribute("tabindex", isActive ? "0" : "-1");
+    trigger.classList.toggle("is-active", isActive);
+  });
+
+  panels.forEach((panel) => {
+    const isActive = panel.dataset.tabPanel === tabId;
+    panel.hidden = !isActive;
+    panel.classList.toggle("is-active", isActive);
+  });
+
+  if (window.location.hash !== `#${tabId}`) {
+    history.replaceState(null, "", `#${tabId}`);
+  }
+}
+
+function setupTabs() {
+  const initialTab = tabIds.includes(window.location.hash.slice(1)) ? window.location.hash.slice(1) : "profile";
+
+  document.querySelectorAll("[data-tab-trigger]").forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      setActiveTab(trigger.dataset.tabTrigger);
+    });
+  });
+
+  document.querySelectorAll("[data-switch-tab]").forEach((button) => {
+    button.addEventListener("click", () => {
+      setActiveTab(button.dataset.switchTab);
+      document.querySelector(".content-stage").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  window.addEventListener("hashchange", () => {
+    const hashTab = window.location.hash.slice(1);
+    if (tabIds.includes(hashTab)) {
+      setActiveTab(hashTab);
+    }
+  });
+
+  setActiveTab(initialTab);
+}
+
 function setupRevealObserver() {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const revealNodes = document.querySelectorAll("[data-reveal]");
@@ -206,70 +254,13 @@ function setupRevealObserver() {
   revealNodes.forEach((node) => observer.observe(node));
 }
 
-function setupSectionTracking() {
-  const navLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
-  const indicatorLinks = Array.from(document.querySelectorAll("[data-indicator]"));
-  const nextSectionLink = document.getElementById("next-section-link");
-  const nextSectionName = document.getElementById("next-section-name");
-  const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
-
-  const updateIndicators = (activeId) => {
-    navLinks.forEach((link) => {
-      if (link.getAttribute("href") === `#${activeId}`) {
-        link.setAttribute("aria-current", "true");
-      } else {
-        link.removeAttribute("aria-current");
-      }
-    });
-
-    indicatorLinks.forEach((link) => {
-      if (link.getAttribute("href") === `#${activeId}`) {
-        link.setAttribute("aria-current", "true");
-      } else {
-        link.removeAttribute("aria-current");
-      }
-    });
-
-    const currentIndex = sectionIds.indexOf(activeId);
-    const nextId = sectionIds[currentIndex + 1];
-
-    if (!nextId) {
-      nextSectionLink.classList.add("is-hidden");
-      return;
-    }
-
-    nextSectionLink.classList.remove("is-hidden");
-    nextSectionLink.href = `#${nextId}`;
-    nextSectionName.textContent = nextId.charAt(0).toUpperCase() + nextId.slice(1);
-  };
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-      if (visible) {
-        updateIndicators(visible.target.id);
-      }
-    },
-    {
-      threshold: [0.2, 0.45, 0.65],
-      rootMargin: "-20% 0px -40% 0px"
-    }
-  );
-
-  sections.forEach((section) => observer.observe(section));
-  updateIndicators(sectionIds[0]);
-}
-
 function init() {
   renderSocialLinks();
   renderProfile();
   renderFeaturedProject();
   renderExperience();
+  setupTabs();
   setupRevealObserver();
-  setupSectionTracking();
 }
 
 init();

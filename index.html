@@ -25,28 +25,9 @@
         <div class="social-rail__links" id="social-links"></div>
       </aside>
 
-      <aside aria-label="Section indicator" class="section-rail">
-        <a class="section-rail__dot" data-indicator href="#profile">
-          <span>01</span>
-          <strong>Profile</strong>
-        </a>
-        <a class="section-rail__dot" data-indicator href="#showcase">
-          <span>02</span>
-          <strong>Showcase</strong>
-        </a>
-        <a class="section-rail__dot" data-indicator href="#experience">
-          <span>03</span>
-          <strong>Experience</strong>
-        </a>
-        <a class="section-rail__dot" data-indicator href="#contact">
-          <span>04</span>
-          <strong>Contact</strong>
-        </a>
-      </aside>
-
       <header class="site-header">
         <div class="shell">
-          <a class="brand" href="#profile" aria-label="Go to profile section">
+          <a class="brand" href="#main" aria-label="Go to main content">
             <span class="brand__mark">CM</span>
             <span class="brand__copy">
               <span class="brand__name">Caleb Mayaka</span>
@@ -54,34 +35,34 @@
             </span>
           </a>
 
-          <nav aria-label="Primary navigation" class="site-nav">
-            <a class="site-nav__link" data-nav-link href="#profile">Profile</a>
-            <a class="site-nav__link" data-nav-link href="#showcase">Showcase</a>
-            <a class="site-nav__link" data-nav-link href="#experience">Experience</a>
-            <a class="site-nav__link" data-nav-link href="#contact">Contact</a>
+          <nav aria-label="Primary navigation" class="site-nav" role="tablist">
+            <button class="site-nav__link" data-tab-trigger="profile" role="tab" type="button">Profile</button>
+            <button class="site-nav__link" data-tab-trigger="showcase" role="tab" type="button">Showcase</button>
+            <button class="site-nav__link" data-tab-trigger="experience" role="tab" type="button">Experience</button>
+            <button class="site-nav__link" data-tab-trigger="contact" role="tab" type="button">Contact</button>
           </nav>
 
-          <a class="button button--ghost" href="#contact">Get in touch</a>
+          <button class="button button--ghost" data-switch-tab="contact" type="button">Get in touch</button>
         </div>
       </header>
 
-      <main id="main">
-        <section class="site-section site-section--hero" id="profile">
-          <div class="shell site-section__inner site-section__inner--hero">
-            <div class="intro-panel" data-reveal>
+      <main class="single-page" id="main">
+        <div class="shell single-page__grid">
+          <section class="intro-column">
+            <article class="intro-panel" data-reveal>
               <p class="eyebrow" id="profile-location"></p>
               <h1 class="hero-title" id="hero-headline"></h1>
               <p class="hero-copy" id="hero-subheadline"></p>
 
               <div class="hero-actions">
-                <a class="button button--solid" href="#contact">Get in touch</a>
+                <button class="button button--solid" data-switch-tab="contact" type="button">Get in touch</button>
                 <a class="button button--ghost" download id="resume-link" rel="noreferrer" target="_blank">Get my resume</a>
               </div>
 
               <ul aria-label="Core focus areas" class="tag-list" id="focus-pills"></ul>
-            </div>
+            </article>
 
-            <div class="profile-panel" data-reveal>
+            <article class="profile-panel" data-reveal>
               <div class="profile-panel__intro">
                 <p class="eyebrow">Profile</p>
                 <h2 class="profile-panel__title" id="profile-name"></h2>
@@ -93,11 +74,6 @@
 
               <div class="profile-panel__meta">
                 <div>
-                  <p class="meta-label">Education</p>
-                  <div class="education-list" id="education-list"></div>
-                </div>
-
-                <div>
                   <p class="meta-label">Quick links</p>
                   <div class="quick-links">
                     <a id="hero-email"></a>
@@ -106,90 +82,107 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="site-section" id="showcase">
-          <div class="shell site-section__inner">
-            <div class="section-heading" data-reveal>
-              <p class="eyebrow">Showcase</p>
-              <h2 class="section-title">Case-study thinking, practical execution, and room to grow.</h2>
-              <p class="section-copy" id="showcase-copy"></p>
-            </div>
-
-            <div class="showcase-layout">
-              <article class="feature-card" data-reveal id="featured-project"></article>
-
-              <div class="showcase-side">
-                <article class="side-card" data-reveal>
-                  <p class="meta-label">Working style</p>
-                  <ul class="strength-list" id="strengths-list"></ul>
-                </article>
-
-                <article class="side-card side-card--muted" data-reveal>
-                  <p class="meta-label">Next up</p>
-                  <h3>More projects can slot into this same showcase system.</h3>
-                  <p>
-                    The layout intentionally leaves clear room for more engineering stories without padding the portfolio
-                    with weak filler.
-                  </p>
-                </article>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="site-section" id="experience">
-          <div class="shell site-section__inner">
-            <div class="section-heading" data-reveal>
-              <p class="eyebrow">Experience</p>
-              <h2 class="section-title">A mix of software engineering momentum and real operational support work.</h2>
-              <p class="section-copy" id="experience-copy"></p>
-            </div>
-
-            <div class="experience-layout">
-              <div class="experience-list" id="experience-list"></div>
-
-              <div class="credibility-stack">
-                <article class="side-card" data-reveal>
-                  <p class="meta-label">Tech stack</p>
-                  <div class="stack-groups" id="stack-groups"></div>
-                </article>
-
-                <article class="side-card" data-reveal>
-                  <p class="meta-label">Certifications</p>
-                  <div class="certification-list" id="certifications-list"></div>
-                </article>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="site-section site-section--contact" id="contact">
-          <div class="shell site-section__inner">
-            <article class="contact-panel" data-reveal>
-              <div class="contact-panel__copy">
-                <p class="eyebrow eyebrow--dark">Contact</p>
-                <h2 class="section-title section-title--light">Let's build something dependable.</h2>
-                <p class="section-copy section-copy--light" id="contact-copy"></p>
-              </div>
-
-              <div class="contact-panel__actions">
-                <a class="button button--light" id="contact-email">Email Caleb</a>
-                <a class="button button--outline-light" id="contact-github" rel="noreferrer" target="_blank">GitHub</a>
-                <a class="button button--outline-light" id="contact-linkedin" rel="noreferrer" target="_blank">LinkedIn</a>
-                <a class="button button--outline-light" download id="contact-resume" rel="noreferrer" target="_blank">Resume PDF</a>
-              </div>
             </article>
-          </div>
-        </section>
-      </main>
+          </section>
 
-      <a class="next-section" href="#showcase" id="next-section-link">
-        <span class="next-section__label">Next</span>
-        <strong id="next-section-name">Showcase</strong>
-      </a>
+          <section class="content-stage" data-reveal>
+            <div class="content-stage__tabs" role="tablist" aria-label="Content sections">
+              <button class="tab-chip" data-tab-trigger="profile" role="tab" type="button">Profile</button>
+              <button class="tab-chip" data-tab-trigger="showcase" role="tab" type="button">Showcase</button>
+              <button class="tab-chip" data-tab-trigger="experience" role="tab" type="button">Experience</button>
+              <button class="tab-chip" data-tab-trigger="contact" role="tab" type="button">Contact</button>
+            </div>
+
+            <div class="content-stage__panels">
+              <section class="tab-panel" data-tab-panel="profile" role="tabpanel" aria-labelledby="profile">
+                <div class="section-heading">
+                  <p class="eyebrow">Profile</p>
+                  <h2 class="section-title">A software-first profile grounded in real support and systems work.</h2>
+                </div>
+
+                <div class="panel-grid">
+                  <article class="side-card">
+                    <p class="meta-label">About</p>
+                    <p class="section-copy" id="profile-copy"></p>
+                  </article>
+
+                  <article class="side-card">
+                    <p class="meta-label">Education</p>
+                    <div class="education-list" id="education-list"></div>
+                  </article>
+
+                  <article class="side-card side-card--wide">
+                    <p class="meta-label">Working style</p>
+                    <ul class="strength-list" id="strengths-list"></ul>
+                  </article>
+                </div>
+              </section>
+
+              <section class="tab-panel" data-tab-panel="showcase" role="tabpanel" aria-labelledby="showcase" hidden>
+                <div class="section-heading">
+                  <p class="eyebrow">Showcase</p>
+                  <h2 class="section-title">Case-study thinking, practical execution, and room to grow.</h2>
+                  <p class="section-copy" id="showcase-copy"></p>
+                </div>
+
+                <div class="panel-grid panel-grid--showcase">
+                  <article class="feature-card" id="featured-project"></article>
+
+                  <article class="side-card side-card--muted">
+                    <p class="meta-label">Next up</p>
+                    <h3>More projects can slot into this same showcase system.</h3>
+                    <p>
+                      The layout intentionally leaves clear room for more engineering stories without padding the portfolio
+                      with weak filler.
+                    </p>
+                  </article>
+                </div>
+              </section>
+
+              <section class="tab-panel" data-tab-panel="experience" role="tabpanel" aria-labelledby="experience" hidden>
+                <div class="section-heading">
+                  <p class="eyebrow">Experience</p>
+                  <h2 class="section-title">A mix of software engineering momentum and real operational support work.</h2>
+                  <p class="section-copy" id="experience-copy"></p>
+                </div>
+
+                <div class="panel-grid panel-grid--experience">
+                  <div class="experience-list" id="experience-list"></div>
+
+                  <div class="credibility-stack">
+                    <article class="side-card">
+                      <p class="meta-label">Tech stack</p>
+                      <div class="stack-groups" id="stack-groups"></div>
+                    </article>
+
+                    <article class="side-card">
+                      <p class="meta-label">Certifications</p>
+                      <div class="certification-list" id="certifications-list"></div>
+                    </article>
+                  </div>
+                </div>
+              </section>
+
+              <section class="tab-panel" data-tab-panel="contact" role="tabpanel" aria-labelledby="contact" hidden>
+                <article class="contact-panel">
+                  <div class="contact-panel__copy">
+                    <p class="eyebrow eyebrow--dark">Contact</p>
+                    <h2 class="section-title section-title--light">Let's build something dependable.</h2>
+                    <p class="section-copy section-copy--light" id="contact-copy"></p>
+                  </div>
+
+                  <div class="contact-panel__actions">
+                    <a class="button button--light" id="contact-email">Email Caleb</a>
+                    <a class="button button--outline-light" id="contact-github" rel="noreferrer" target="_blank">GitHub</a>
+                    <a class="button button--outline-light" id="contact-linkedin" rel="noreferrer" target="_blank">LinkedIn</a>
+                    <a class="button button--outline-light" download id="contact-resume" rel="noreferrer" target="_blank">Resume PDF</a>
+                  </div>
+                </article>
+              </section>
+            </div>
+          </section>
+        </div>
+      </main>
 
       <footer class="site-footer shell">
         <p id="footer-copy"></p>
