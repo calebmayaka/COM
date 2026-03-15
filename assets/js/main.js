@@ -1,6 +1,30 @@
 import { siteContent } from "./content.js";
 
 const tabIds = ["profile", "showcase", "contact"];
+const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+const panelTimers = new Map();
+
+function clearPanelTimer(panel, key) {
+  const timerKey = `${panel.id}:${key}`;
+  const timerId = panelTimers.get(timerKey);
+
+  if (!timerId) {
+    return;
+  }
+
+  window.clearTimeout(timerId);
+  panelTimers.delete(timerKey);
+}
+
+function setPanelTimer(panel, key, callback, delay) {
+  const timerKey = `${panel.id}:${key}`;
+  const timerId = window.setTimeout(() => {
+    panelTimers.delete(timerKey);
+    callback();
+  }, delay);
+
+  panelTimers.set(timerKey, timerId);
+}
 
 function setText(id, value) {
   const node = document.getElementById(id);
@@ -76,7 +100,7 @@ function renderProfile() {
   setLink("hero-github", profile.githubUrl);
   setLink("hero-linkedin", profile.linkedinUrl);
   setLink("hero-twitter", profile.twitterUrl);
-  setLink("contact-email", `mailto:${profile.email}`, profile.email);
+  setLink("contact-email", `mailto:${profile.email}`);
   setLink("contact-github", profile.githubUrl);
   setLink("contact-linkedin", profile.linkedinUrl);
   setLink("contact-twitter", profile.twitterUrl);
@@ -257,7 +281,15 @@ function setupDeepDive() {
 
 function setActiveTab(tabId) {
   const triggers = document.querySelectorAll("[data-tab-trigger]");
-  const panels = document.querySelectorAll("[data-tab-panel]");
+  const panels = Array.from(document.querySelectorAll("[data-tab-panel]"));
+  const nextPanel = panels.find((panel) => panel.dataset.tabPanel === tabId);
+  const currentPanel = panels.find((panel) => !panel.hidden && panel !== nextPanel);
+  const reducedMotion = motionQuery.matches;
+
+  if (!nextPanel) {
+    return;
+  }
+
   document.documentElement.setAttribute("data-active-tab", tabId);
 
   triggers.forEach((trigger) => {
@@ -268,13 +300,40 @@ function setActiveTab(tabId) {
   });
 
   panels.forEach((panel) => {
-    const isActive = panel.dataset.tabPanel === tabId;
-    panel.hidden = !isActive;
-    panel.classList.toggle("is-active", isActive);
-    panel.setAttribute("tabindex", isActive ? "0" : "-1");
-    if (isActive) {
+    clearPanelTimer(panel, "enter");
+    clearPanelTimer(panel, "hide");
+
+    if (panel === nextPanel) {
+      panel.hidden = false;
+      panel.classList.remove("is-exiting");
+      panel.classList.add("is-active", "is-entering");
+      panel.setAttribute("tabindex", "0");
+      panel.removeAttribute("aria-hidden");
       panel.scrollTop = 0;
+
+      setPanelTimer(panel, "enter", () => {
+        panel.classList.remove("is-entering");
+      }, 260);
+      return;
     }
+
+    panel.classList.remove("is-active", "is-entering");
+    panel.setAttribute("tabindex", "-1");
+
+    if (panel === currentPanel && !reducedMotion) {
+      panel.classList.add("is-exiting");
+      panel.setAttribute("aria-hidden", "true");
+      setPanelTimer(panel, "hide", () => {
+        panel.hidden = true;
+        panel.classList.remove("is-exiting");
+        panel.removeAttribute("aria-hidden");
+      }, 220);
+      return;
+    }
+
+    panel.hidden = true;
+    panel.classList.remove("is-exiting");
+    panel.removeAttribute("aria-hidden");
   });
 
   if (window.location.hash !== `#${tabId}`) {
@@ -330,7 +389,7 @@ function setupTabs() {
 }
 
 function setupRevealObserver() {
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reducedMotion = motionQuery.matches;
   const revealNodes = document.querySelectorAll("[data-reveal]");
 
   if (reducedMotion) {
@@ -356,10 +415,118 @@ function setupRevealObserver() {
   revealNodes.forEach((node) => observer.observe(node));
 }
 
+function setupProfileIntro() {
+  const profileMinimal = document.getElementById("profile-minimal");
+
+  if (!profileMinimal) {
+    return;
+  }
+
+  if (motionQuery.matches) {
+    profileMinimal.classList.add("is-intro-complete");
+    return;
+  }
+
+  profileMinimal.classList.add("is-intro-start");
+
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      profileMinimal.classList.add("is-intro-ready");
+      profileMinimal.classList.remove("is-intro-start");
+      profileMinimal.classList.add("is-intro-complete");
+    });
+  });
+}
+
+function setupProfileIconTilt() {
+  if (motionQuery.matches) {
+    return;
+  }
+
+  const icons = document.querySelectorAll(".profile-icon");
+
+  icons.forEach((icon) => {
+    let settleTimer = null;
+
+    const clearSettle = () => {
+      if (!settleTimer) {
+        return;
+      }
+
+      window.clearTimeout(settleTimer);
+      settleTimer = null;
+    };
+
+    const settleIcon = () => {
+      clearSettle();
+      icon.classList.add("is-interacting", "is-settling");
+      icon.style.transform = "translateY(0) rotateX(0deg) rotateY(0deg)";
+
+      settleTimer = window.setTimeout(() => {
+        icon.classList.remove("is-interacting", "is-settling");
+        icon.style.removeProperty("transform");
+        icon.style.animation = "none";
+        void icon.offsetWidth;
+        icon.style.removeProperty("animation");
+      }, 280);
+    };
+
+    icon.addEventListener("pointermove", (event) => {
+      const rect = icon.getBoundingClientRect();
+      const horizontal = (event.clientX - rect.left) / rect.width - 0.5;
+      const vertical = (event.clientY - rect.top) / rect.height - 0.5;
+      const tiltX = (-vertical * 12).toFixed(2);
+      const tiltY = (horizontal * 12).toFixed(2);
+
+      clearSettle();
+      icon.classList.remove("is-settling");
+      icon.classList.add("is-interacting");
+      icon.style.transform = `translateY(-4px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+    });
+
+    icon.addEventListener("pointerleave", settleIcon);
+    icon.addEventListener("pointercancel", settleIcon);
+    icon.addEventListener("blur", settleIcon);
+  });
+}
+
+function setupProfileCtaPulse() {
+  const standoutCta = document.querySelector(".hero-link--standout");
+
+  if (!standoutCta || motionQuery.matches) {
+    return;
+  }
+
+  const triggerPulse = () => {
+    standoutCta.classList.remove("is-pulsing");
+    void standoutCta.offsetWidth;
+    standoutCta.classList.add("is-pulsing");
+
+    window.setTimeout(() => {
+      standoutCta.classList.remove("is-pulsing");
+    }, 1700);
+  };
+
+  window.setTimeout(triggerPulse, 1000);
+
+  window.setInterval(() => {
+    if (document.documentElement.getAttribute("data-active-tab") === "profile") {
+      triggerPulse();
+    }
+  }, 6500);
+}
+
+function setupProfileAnimations() {
+  setupProfileIntro();
+  setupProfileIconTilt();
+  setupProfileCtaPulse();
+}
+
 function init() {
   renderSocialLinks();
   renderProfile();
   renderFeaturedProject();
+  setupProfileAnimations();
   setupDeepDive();
   setupThemeToggle();
   setupTabs();

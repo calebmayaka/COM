@@ -89,11 +89,11 @@
                 id="panel-profile"
                 role="tabpanel"
               >
-                <article class="profile-minimal">
-                  <h2 class="section-title profile-minimal__title">Software Engineer</h2>
-                  <p class="section-copy profile-minimal__summary" id="profile-summary"></p>
-                  <div class="focus-list" id="focus-list"></div>
-                  <div class="quick-links profile-minimal__links">
+                <article class="profile-minimal" id="profile-minimal">
+                  <h2 class="section-title profile-minimal__title profile-anim-item" style="--intro-delay: 40ms">Software Engineer</h2>
+                  <p class="section-copy profile-minimal__summary profile-anim-item" id="profile-summary" style="--intro-delay: 120ms"></p>
+                  <div class="focus-list profile-anim-item" id="focus-list" style="--intro-delay: 200ms"></div>
+                  <div class="quick-links profile-minimal__links profile-anim-item" style="--intro-delay: 280ms">
                     <a aria-label="Email" class="profile-icon" id="hero-email">
                       <svg aria-hidden="true" viewBox="0 0 24 24">
                         <path d="M3.8 5h16.4A2.8 2.8 0 0 1 23 7.8v8.4A2.8 2.8 0 0 1 20.2 19H3.8A2.8 2.8 0 0 1 1 16.2V7.8A2.8 2.8 0 0 1 3.8 5Zm0 1.8L12 12l8.2-5.2H3.8Zm17.4 10.4V8.5l-8.7 5.5a1 1 0 0 1-1 0L2.8 8.5v8.7h18.4Z" />
@@ -115,10 +115,10 @@
                       </svg>
                     </a>
                   </div>
-                  <div class="panel-actions panel-actions--primary">
+                  <div class="panel-actions panel-actions--primary profile-anim-item" style="--intro-delay: 360ms">
                     <button class="hero-link hero-link--standout" data-switch-tab="showcase" type="button">View showcase</button>
                   </div>
-                  <div class="panel-actions">
+                  <div class="panel-actions profile-anim-item" style="--intro-delay: 440ms">
                     <a class="hero-link" download id="resume-link" rel="noreferrer" target="_blank">View resume</a>
                     <button class="hero-link" data-switch-tab="contact" type="button">Get in touch</button>
                     <button class="hero-link" data-open-deep-dive="profile" type="button">Open full profile</button>
@@ -167,6 +167,11 @@
                   <p class="section-copy" id="contact-copy"></p>
 
                   <div class="contact-icons">
+                    <a aria-label="Email" class="contact-icon" id="contact-email">
+                      <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M3.8 5h16.4A2.8 2.8 0 0 1 23 7.8v8.4A2.8 2.8 0 0 1 20.2 19H3.8A2.8 2.8 0 0 1 1 16.2V7.8A2.8 2.8 0 0 1 3.8 5Zm0 1.8L12 12l8.2-5.2H3.8Zm17.4 10.4V8.5l-8.7 5.5a1 1 0 0 1-1 0L2.8 8.5v8.7h18.4Z" />
+                      </svg>
+                    </a>
                     <a aria-label="GitHub profile" class="contact-icon" id="contact-github" rel="noreferrer" target="_blank">
                       <svg aria-hidden="true" viewBox="0 0 24 24">
                         <path
@@ -189,8 +194,6 @@
                       </svg>
                     </a>
                   </div>
-
-                  <a class="contact-email" id="contact-email">Email me</a>
                 </article>
               </section>
             </div>

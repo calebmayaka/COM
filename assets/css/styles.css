@@ -266,13 +266,16 @@ html[data-theme="light"] .theme-toggle__thumb {
 }
 
 .content-stage__panels {
+  display: grid;
   position: relative;
   height: 100%;
   min-height: 0;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .tab-panel {
+  grid-area: 1 / 1;
   height: 100%;
   min-height: 100%;
   overflow: auto;
@@ -283,8 +286,50 @@ html[data-theme="light"] .theme-toggle__thumb {
   display: none;
 }
 
-.tab-panel.is-active {
-  animation: panel-fade 180ms ease;
+.tab-panel.is-active,
+.tab-panel.is-entering {
+  animation: panel-enter 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tab-panel.is-exiting {
+  pointer-events: none;
+  animation: panel-exit 220ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+#panel-profile {
+  position: relative;
+  isolation: isolate;
+}
+
+#panel-profile::before,
+#panel-profile::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+#panel-profile::before {
+  width: min(58vw, 36rem);
+  height: min(58vw, 36rem);
+  right: 12%;
+  top: 10%;
+  background: radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--color-accent) 36%, transparent), transparent 70%);
+  opacity: 0.32;
+  filter: blur(10px);
+  animation: profile-bg-drift 18s ease-in-out infinite;
+}
+
+#panel-profile::after {
+  width: min(46vw, 28rem);
+  height: min(46vw, 28rem);
+  left: 8%;
+  bottom: -4%;
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--color-line-strong) 75%, transparent), transparent 70%);
+  opacity: 0.26;
+  filter: blur(12px);
+  animation: profile-bg-drift 22s ease-in-out infinite reverse;
 }
 
 .profile-minimal {
@@ -296,6 +341,18 @@ html[data-theme="light"] .theme-toggle__thumb {
   max-width: 36rem;
   margin-inline: auto;
   text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.profile-minimal.is-intro-start .profile-anim-item {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.profile-minimal.is-intro-ready .profile-anim-item {
+  animation: profile-intro 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--intro-delay, 0ms);
 }
 
 .profile-minimal__title {
@@ -321,6 +378,9 @@ html[data-theme="light"] .theme-toggle__thumb {
   background: var(--color-panel);
   color: var(--color-text-soft);
   animation: profile-icon-float 2.8s ease-in-out infinite;
+  transition: color 180ms ease, border-color 180ms ease, box-shadow 220ms ease, transform 220ms ease;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .profile-icon:nth-child(2) {
@@ -341,11 +401,20 @@ html[data-theme="light"] .theme-toggle__thumb {
   fill: currentColor;
 }
 
-.profile-icon:hover {
+.profile-icon:hover,
+.profile-icon:focus-visible,
+.profile-icon.is-interacting {
   color: var(--color-accent);
   border-color: var(--color-line-strong);
+}
+
+.profile-icon.is-interacting {
   animation-play-state: paused;
-  transform: translateY(-2px);
+  box-shadow: 0 12px 26px var(--color-shadow-block);
+}
+
+.profile-icon.is-settling {
+  transition: color 180ms ease, border-color 180ms ease, box-shadow 220ms ease, transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes profile-icon-float {
@@ -442,10 +511,31 @@ html[data-active-tab="contact"] .section-copy {
   padding: 0.52rem 1rem;
   border: 1px solid var(--color-line-strong);
   background: var(--color-panel);
+  position: relative;
+  isolation: isolate;
+  transition: border-color 180ms ease, color 180ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+
+.hero-link--standout::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 52%, transparent);
 }
 
 .hero-link--standout:hover {
   border-color: var(--color-accent);
+}
+
+.hero-link--standout.is-pulsing {
+  animation: cta-pulse 1700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-link--standout.is-pulsing::before {
+  animation: cta-glow 1700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .panel-grid {
@@ -663,17 +753,6 @@ html[data-active-tab="contact"] .section-copy {
   border-color: var(--color-line-strong);
 }
 
-.contact-email {
-  color: var(--color-text);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  font-size: 1.02rem;
-}
-
-.contact-email:hover {
-  color: var(--color-accent);
-}
-
 .deep-dive {
   position: fixed;
   inset: 0;
@@ -759,7 +838,7 @@ html[data-active-tab="contact"] .section-copy {
   transform: none;
 }
 
-@keyframes panel-fade {
+@keyframes panel-enter {
   from {
     opacity: 0;
     transform: translateY(10px);
@@ -768,6 +847,73 @@ html[data-active-tab="contact"] .section-copy {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes panel-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes profile-intro {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes profile-bg-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(0.9rem, -0.7rem, 0) scale(1.06);
+  }
+}
+
+@keyframes cta-pulse {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  45% {
+    transform: translateY(-2px);
+  }
+
+  70% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes cta-glow {
+  0% {
+    opacity: 0;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 50%, transparent);
+  }
+
+  35% {
+    opacity: 0.9;
+    box-shadow: 0 0 0 0.46rem color-mix(in srgb, var(--color-accent) 45%, transparent);
+  }
+
+  100% {
+    opacity: 0;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 40%, transparent);
   }
 }
 
@@ -846,11 +992,32 @@ html[data-active-tab="contact"] .section-copy {
     transition: none;
   }
 
-  .tab-panel.is-active {
+  .tab-panel.is-active,
+  .tab-panel.is-entering,
+  .tab-panel.is-exiting {
     animation: none;
+    transform: none;
+    opacity: 1;
   }
 
   .profile-icon {
+    animation: none;
+  }
+
+  #panel-profile::before,
+  #panel-profile::after {
+    animation: none;
+  }
+
+  .profile-minimal.is-intro-start .profile-anim-item,
+  .profile-minimal.is-intro-ready .profile-anim-item {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .hero-link--standout.is-pulsing,
+  .hero-link--standout.is-pulsing::before {
     animation: none;
   }
 
