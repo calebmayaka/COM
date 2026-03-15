@@ -49,14 +49,14 @@
               Profile
             </button>
             <button
-              aria-controls="panel-showcase"
+              aria-controls="panel-consultancy"
               class="site-nav__link"
-              data-tab-trigger="showcase"
-              id="tab-showcase"
+              data-tab-trigger="consultancy"
+              id="tab-consultancy"
               role="tab"
               type="button"
             >
-              Showcase
+              Work with me
             </button>
             <button
               aria-controls="panel-contact"
@@ -116,7 +116,7 @@
                     </a>
                   </div>
                   <div class="panel-actions panel-actions--primary profile-anim-item" style="--intro-delay: 360ms">
-                    <button class="hero-link hero-link--standout" data-switch-tab="showcase" type="button">View showcase</button>
+                    <button class="hero-link hero-link--standout" data-switch-tab="consultancy" type="button">Work with me</button>
                   </div>
                   <div class="panel-actions profile-anim-item" style="--intro-delay: 440ms">
                     <a class="hero-link" download id="resume-link" rel="noreferrer" target="_blank">View resume</a>
@@ -127,30 +127,20 @@
               </section>
 
               <section
-                aria-labelledby="tab-showcase"
+                aria-labelledby="tab-consultancy"
                 class="tab-panel"
-                data-tab-panel="showcase"
-                id="panel-showcase"
+                data-tab-panel="consultancy"
+                id="panel-consultancy"
                 role="tabpanel"
                 hidden
               >
                 <div class="section-heading">
-                  <p class="eyebrow">Showcase</p>
+                  <p class="eyebrow">Work with me</p>
+                  <h2 class="section-title">Services</h2>
+                  <p class="section-copy" id="consultancy-copy"></p>
                 </div>
 
-                <div class="showcase-layout">
-                  <article class="side-card showcase-tech-card">
-                    <p class="meta-label">Stack and technologies</p>
-                    <div class="showcase-stack" id="showcase-tech"></div>
-                  </article>
-
-                  <article class="feature-card" id="featured-project"></article>
-                  <div class="showcase-more" id="showcase-more-projects"></div>
-                </div>
-
-                <div class="panel-actions">
-                  <button class="hero-link" data-open-deep-dive="showcase" type="button">Open full case study</button>
-                </div>
+                <div class="services-grid" id="consultancy-services"></div>
               </section>
 
               <section

@@ -14,6 +14,8 @@ export const siteContent = {
       "Across internships and field support roles, I have worked across software delivery, technical support, infrastructure setup, and day-to-day problem solving in real operational environments.",
     contactPitch:
       "If you are looking for someone who can contribute to software work while understanding the systems and support reality around it, I would love to connect.",
+    consultancyPitch:
+      "I offer practical digital and technical services for individuals, teams, and small businesses.",
     strengths: [
       "Builds software with a practical eye for reliability and user needs.",
       "Moves comfortably between product work, troubleshooting, and technical support.",
@@ -60,6 +62,81 @@ export const siteContent = {
       liveUrl: "",
       repoUrl: "https://github.com/calebmayaka/Python-Torrent-Download-To-Google-Drive-Google-Colab",
       status: "Utility project"
+    },
+    {
+      title: "Restaurant Website",
+      tagline: "A class project website focused on a clean restaurant browsing and menu experience.",
+      summary:
+        "This project was built for web development coursework and demonstrates practical frontend layout work, visual styling, and interactive page behavior for a restaurant concept.",
+      highlights: [
+        "Built as a complete static website for coursework submission.",
+        "Implements page interactions with vanilla JavaScript.",
+        "Uses responsive HTML and CSS structure for web presentation."
+      ],
+      stack: ["HTML", "CSS", "JavaScript"],
+      liveUrl: "https://calebmayaka.github.io/COMP-341-SUBMISSION/#go_to_top",
+      repoUrl: "https://github.com/calebmayaka/COMP-341-SUBMISSION",
+      status: "Course project"
+    },
+    {
+      title: "FoodBankHub",
+      tagline: "A platform concept centered on food support coordination and access.",
+      summary:
+        "FoodBankHub is presented as a practical product idea focused on improving how people discover, request, and manage food support resources.",
+      highlights: [
+        "Structured as a focused repository for the FoodBankHub concept.",
+        "Positioned around community impact and practical access workflows."
+      ],
+      stack: ["Web Application", "Community Platform"],
+      liveUrl: "",
+      repoUrl: "https://github.com/calebmayaka/FoodBankHub",
+      status: "Product concept"
+    },
+    {
+      title: "COMP-390 Group Project",
+      tagline: "Academic team project delivered as part of coursework.",
+      summary:
+        "A collaborative course project focused on practical implementation, team coordination, and end-to-end delivery of a working solution.",
+      highlights: [
+        "Built and delivered in a group setting with shared responsibilities.",
+        "Applied software engineering practices from planning to implementation."
+      ],
+      stack: ["Academic Project", "Team Collaboration"],
+      liveUrl: "",
+      repoUrl: "https://github.com/calebmayaka/COMP-390-GRP-8",
+      status: "Course project"
+    }
+  ],
+  services: [
+    {
+      id: "software-development",
+      title: "Software Development",
+      summary: "Custom web solutions, workflow tools, and system features built with maintainability in mind.",
+      tags: ["Web Apps", "APIs", "Automation"]
+    },
+    {
+      id: "hardware-maintenance-repairs",
+      title: "Hardware Maintenance and Repairs",
+      summary: "Device diagnostics, troubleshooting, repair, and preventive maintenance for reliable day-to-day use.",
+      tags: ["Diagnostics", "Repairs", "Maintenance"]
+    },
+    {
+      id: "video-editing",
+      title: "Video Editing",
+      summary: "Clean and engaging edits for personal brands, events, and digital content needs.",
+      tags: ["Cuts", "Motion", "Export"]
+    },
+    {
+      id: "graphics-design",
+      title: "Graphics Design",
+      summary: "Visual assets for social media, branding, and promotional communication.",
+      tags: ["Brand Assets", "Posters", "Social Media"]
+    },
+    {
+      id: "consultancy",
+      title: "Consultancy",
+      summary: "Guidance on technology decisions, system setup, and practical implementation paths.",
+      tags: ["Advisory", "Planning", "Implementation"]
     }
   ],
   experience: [

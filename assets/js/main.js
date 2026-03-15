@@ -1,6 +1,6 @@
 import { siteContent } from "./content.js";
 
-const tabIds = ["profile", "showcase", "contact"];
+const tabIds = ["profile", "consultancy", "contact"];
 const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 const panelTimers = new Map();
 
@@ -45,25 +45,17 @@ function setLink(id, href, label) {
   }
 }
 
-function renderSocialLinks() {
-  const container = document.getElementById("social-links");
-  if (!container) {
-    return;
+function renderProjectLinks(project) {
+  if (!project.liveUrl && !project.repoUrl) {
+    return "";
   }
 
-  const { profile } = siteContent;
-  const socialLinks = [
-    { label: "Git", href: profile.githubUrl, external: true },
-    { label: "In", href: profile.linkedinUrl, external: true },
-    { label: "Mail", href: `mailto:${profile.email}`, external: false }
-  ];
-
-  container.innerHTML = socialLinks
-    .map(
-      (item) =>
-        `<a href="${item.href}" rel="${item.external ? "noreferrer" : ""}" target="${item.external ? "_blank" : "_self"}">${item.label}</a>`
-    )
-    .join("");
+  return `
+    <div class="feature-card__actions">
+      ${project.liveUrl ? `<a class="hero-link hero-link--compact" href="${project.liveUrl}" rel="noreferrer" target="_blank">Live project</a>` : ""}
+      ${project.repoUrl ? `<a class="hero-link hero-link--compact" href="${project.repoUrl}" rel="noreferrer" target="_blank">Source code</a>` : ""}
+    </div>
+  `;
 }
 
 function setupThemeToggle() {
@@ -95,6 +87,7 @@ function renderProfile() {
 
   setText("profile-summary", profile.summary);
   setText("contact-copy", profile.contactPitch);
+  setText("consultancy-copy", profile.consultancyPitch);
   setLink("resume-link", profile.resumeUrl);
   setLink("hero-email", `mailto:${profile.email}`);
   setLink("hero-github", profile.githubUrl);
@@ -110,87 +103,34 @@ function renderProfile() {
     .join("");
 }
 
-function renderProjectLinks(project, compact = false) {
-  if (!project.liveUrl && !project.repoUrl) {
-    return "";
+function renderConsultancyServices() {
+  const container = document.getElementById("consultancy-services");
+  const services = siteContent.services || [];
+
+  if (!container) {
+    return;
   }
 
-  const className = compact ? "hero-link hero-link--compact" : "hero-link";
-
-  return `
-    <div class="feature-card__actions">
-      ${project.liveUrl ? `<a class="${className}" href="${project.liveUrl}" rel="noreferrer" target="_blank">Live project</a>` : ""}
-      ${project.repoUrl ? `<a class="${className}" href="${project.repoUrl}" rel="noreferrer" target="_blank">Source code</a>` : ""}
-    </div>
-  `;
-}
-
-function renderShowcaseProjects() {
-  const featuredProject = siteContent.projects[0];
-  const highlights = featuredProject.highlights.slice(0, 2);
-
-  document.getElementById("featured-project").innerHTML = `
-    <p class="eyebrow">${featuredProject.status}</p>
-    <div class="feature-card__body">
-      <div>
-        <h3>${featuredProject.title}</h3>
-        <p class="feature-card__tagline">${featuredProject.tagline}</p>
-      </div>
-      <p class="feature-card__summary">${featuredProject.summary}</p>
-      <ul class="feature-card__list">
-        ${highlights.map((item) => `<li>${item}</li>`).join("")}
-      </ul>
-      <div class="tag-list tag-list--compact">
-        ${featuredProject.stack.map((item) => `<span class="tag-list__item">${item}</span>`).join("")}
-      </div>
-      <p class="feature-card__note">Open the full case study for the complete workflow and implementation details.</p>
-    </div>
-  `;
-
-  const extraProjects = siteContent.projects.slice(1);
-  const extraContainer = document.getElementById("showcase-more-projects");
-  if (extraContainer) {
-    if (!extraProjects.length) {
-      extraContainer.innerHTML = "";
-    } else {
-      extraContainer.innerHTML = extraProjects
-        .map((project) => {
-          return `
-            <article class="feature-card feature-card--compact">
-              <p class="eyebrow">${project.status || "Project"}</p>
-              <div class="feature-card__body">
-                <div>
-                  <h3>${project.title}</h3>
-                  <p class="feature-card__tagline">${project.tagline}</p>
-                </div>
-                <p class="feature-card__summary">${project.summary}</p>
-                <div class="tag-list tag-list--compact">
-                  ${project.stack.map((item) => `<span class="tag-list__item">${item}</span>`).join("")}
-                </div>
-                ${renderProjectLinks(project, true)}
-              </div>
-            </article>
-          `;
-        })
+  container.innerHTML = services
+    .map((service, index) => {
+      const serviceKey = service.id || `service-${index}`;
+      const tagsMarkup = (service.tags || [])
+        .map((tag) => `<span class="tag-list__item">${tag}</span>`)
         .join("");
-    }
-  }
 
-  const showcaseTech = document.getElementById("showcase-tech");
-  if (showcaseTech) {
-    const projectStacks = siteContent.projects.flatMap((project) => project.stack || []);
-    const stackSet = new Set([
-      ...projectStacks,
-      ...siteContent.techStack[0].items,
-      "Git",
-      "Docker"
-    ]);
-
-    showcaseTech.innerHTML = Array.from(stackSet)
-      .slice(0, 10)
-      .map((item) => `<span class="tag-list__item">${item}</span>`)
-      .join("");
-  }
+      return `
+        <article class="side-card service-card">
+          <h3>
+            <button class="service-card__trigger" data-open-service="${serviceKey}" type="button">
+              ${service.title}
+            </button>
+          </h3>
+          <p>${service.summary}</p>
+          <div class="tag-list">${tagsMarkup}</div>
+        </article>
+      `;
+    })
+    .join("");
 }
 
 function buildProfileDeepDiveMarkup() {
@@ -221,26 +161,82 @@ function buildProfileDeepDiveMarkup() {
   `;
 }
 
-function buildShowcaseDeepDiveMarkup() {
-  const project = siteContent.projects[0];
-  const linksMarkup = renderProjectLinks(project) || `<p class="feature-card__note">Public links can be added later as the project case study expands.</p>`;
+function buildConsultancyDeepDiveMarkup() {
+  const services = siteContent.services || [];
 
   return `
-    <article class="feature-card">
-      <p class="eyebrow">${project.status}</p>
-      <div class="feature-card__body">
-        <div>
-          <h3>${project.title}</h3>
-          <p class="feature-card__tagline">${project.tagline}</p>
-        </div>
-        <p class="feature-card__summary">${project.summary}</p>
-        <ul class="feature-card__list">
-          ${project.highlights.map((item) => `<li>${item}</li>`).join("")}
-        </ul>
+    <div class="deep-dive-grid">
+      ${services
+        .map(
+          (service) => `
+            <article class="timeline-card">
+              <h3>${service.title}</h3>
+              <p class="timeline-card__summary">${service.summary}</p>
+              <div class="tag-list">
+                ${(service.tags || []).map((tag) => `<span class="tag-list__item">${tag}</span>`).join("")}
+              </div>
+            </article>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
+function buildSoftwareServiceDeepDiveMarkup(service) {
+  const projects = siteContent.projects || [];
+
+  return `
+    <div class="deep-dive-grid">
+      <article class="timeline-card">
+        <h3>${service.title}</h3>
+        <p class="timeline-card__summary">${service.summary}</p>
         <div class="tag-list">
-          ${project.stack.map((item) => `<span class="tag-list__item">${item}</span>`).join("")}
+          ${(service.tags || []).map((tag) => `<span class="tag-list__item">${tag}</span>`).join("")}
         </div>
-        ${linksMarkup}
+      </article>
+      ${projects
+        .map(
+          (project) => `
+            <article class="feature-card feature-card--compact">
+              <p class="eyebrow">${project.status || "Project"}</p>
+              <div class="feature-card__body">
+                <div>
+                  <h3>${project.title}</h3>
+                  <p class="feature-card__tagline">${project.tagline}</p>
+                </div>
+                <p class="feature-card__summary">${project.summary}</p>
+                <ul class="feature-card__list feature-card__list--compact">
+                  ${(project.highlights || []).slice(0, 2).map((item) => `<li>${item}</li>`).join("")}
+                </ul>
+                <div class="tag-list tag-list--compact">
+                  ${(project.stack || []).map((item) => `<span class="tag-list__item">${item}</span>`).join("")}
+                </div>
+                ${renderProjectLinks(project)}
+              </div>
+            </article>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
+function buildSingleServiceDeepDiveMarkup(service) {
+  if (!service) {
+    return "";
+  }
+
+  if (service.id === "software-development" || service.title.toLowerCase() === "software development") {
+    return buildSoftwareServiceDeepDiveMarkup(service);
+  }
+
+  return `
+    <article class="timeline-card">
+      <h3>${service.title}</h3>
+      <p class="timeline-card__summary">${service.summary}</p>
+      <div class="tag-list">
+        ${(service.tags || []).map((tag) => `<span class="tag-list__item">${tag}</span>`).join("")}
       </div>
     </article>
   `;
@@ -254,6 +250,7 @@ function setupDeepDive() {
   const closeButton = document.getElementById("deep-dive-close");
   const dismissButtons = document.querySelectorAll("[data-close-deep-dive]");
   const openers = document.querySelectorAll("[data-open-deep-dive]");
+  const serviceOpeners = document.querySelectorAll("[data-open-service]");
   let returnFocusNode = null;
 
   if (!overlay || !body || !title || !eyebrow || !closeButton) {
@@ -266,10 +263,10 @@ function setupDeepDive() {
       title: "Approach and strengths",
       html: buildProfileDeepDiveMarkup
     },
-    showcase: {
-      eyebrow: "Showcase",
-      title: "HireSphere full case study",
-      html: buildShowcaseDeepDiveMarkup
+    consultancy: {
+      eyebrow: "Work with me",
+      title: "Service details",
+      html: buildConsultancyDeepDiveMarkup
     }
   };
 
@@ -297,9 +294,31 @@ function setupDeepDive() {
     closeButton.focus();
   };
 
+  const openServiceDeepDive = (serviceKey, triggerNode) => {
+    const services = siteContent.services || [];
+    const service = services.find((item, index) => (item.id || `service-${index}`) === serviceKey);
+    if (!service) {
+      return;
+    }
+
+    returnFocusNode = triggerNode || null;
+    eyebrow.textContent = "Work with me";
+    title.textContent = service.title;
+    body.innerHTML = buildSingleServiceDeepDiveMarkup(service);
+    overlay.hidden = false;
+    document.documentElement.classList.add("is-deep-dive-open");
+    closeButton.focus();
+  };
+
   openers.forEach((node) => {
     node.addEventListener("click", () => {
       openDeepDive(node.dataset.openDeepDive, node);
+    });
+  });
+
+  serviceOpeners.forEach((node) => {
+    node.addEventListener("click", () => {
+      openServiceDeepDive(node.dataset.openService, node);
     });
   });
 
@@ -560,9 +579,8 @@ function setupProfileAnimations() {
 }
 
 function init() {
-  renderSocialLinks();
   renderProfile();
-  renderShowcaseProjects();
+  renderConsultancyServices();
   setupProfileAnimations();
   setupDeepDive();
   setupThemeToggle();
