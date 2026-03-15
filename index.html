@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Caleb Mayaka is a Nairobi-based software engineer building dependable digital experiences with hands-on ICT support depth."
+      content="Caleb Mayaka is a Nairobi-based software engineer building dependable digital experiences shaped by hands-on ICT support."
     />
     <title>Caleb Mayaka | Software Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -38,10 +38,46 @@
           </a>
 
           <nav aria-label="Primary navigation" class="site-nav" role="tablist">
-            <button class="site-nav__link" data-tab-trigger="profile" role="tab" type="button">Profile</button>
-            <button class="site-nav__link" data-tab-trigger="showcase" role="tab" type="button">Showcases</button>
-            <button class="site-nav__link" data-tab-trigger="experience" role="tab" type="button">Projects</button>
-            <button class="site-nav__link" data-tab-trigger="contact" role="tab" type="button">Contact</button>
+            <button
+              aria-controls="panel-profile"
+              class="site-nav__link"
+              data-tab-trigger="profile"
+              id="tab-profile"
+              role="tab"
+              type="button"
+            >
+              Profile
+            </button>
+            <button
+              aria-controls="panel-showcase"
+              class="site-nav__link"
+              data-tab-trigger="showcase"
+              id="tab-showcase"
+              role="tab"
+              type="button"
+            >
+              Showcase
+            </button>
+            <button
+              aria-controls="panel-experience"
+              class="site-nav__link"
+              data-tab-trigger="experience"
+              id="tab-experience"
+              role="tab"
+              type="button"
+            >
+              Experience
+            </button>
+            <button
+              aria-controls="panel-contact"
+              class="site-nav__link"
+              data-tab-trigger="contact"
+              id="tab-contact"
+              role="tab"
+              type="button"
+            >
+              Contact
+            </button>
           </nav>
 
           <button aria-label="Toggle theme" class="theme-toggle" id="theme-toggle" type="button">
@@ -55,13 +91,6 @@
       <main class="single-page" id="main">
         <div class="shell single-page__grid">
           <section class="intro-column" data-reveal>
-            <div class="scroll-marker" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
-              <strong>Scroll down</strong>
-            </div>
-
             <article class="intro-panel">
               <h1 class="hero-title">Hello,<br />My name is Caleb</h1>
               <p class="hero-copy" id="hero-subheadline"></p>
@@ -69,20 +98,26 @@
 
               <div class="hero-actions">
                 <button class="hero-link" data-switch-tab="contact" type="button">Get in touch</button>
-                <a class="hero-link" download id="resume-link" rel="noreferrer" target="_blank">Get my resume</a>
+                <a class="hero-link" download id="resume-link" rel="noreferrer" target="_blank">View resume</a>
               </div>
             </article>
           </section>
 
           <section class="content-stage" data-reveal>
             <div class="content-stage__panels">
-              <section class="tab-panel" data-tab-panel="profile" role="tabpanel" aria-labelledby="profile">
+              <section
+                aria-labelledby="tab-profile"
+                class="tab-panel"
+                data-tab-panel="profile"
+                id="panel-profile"
+                role="tabpanel"
+              >
                 <div class="profile-stage">
                   <div class="portrait-stage">
                     <div class="portrait-shadow"></div>
                     <div class="portrait-card">
                       <span class="portrait-card__monogram">CM</span>
-                      <p>Portrait slot</p>
+                      <p>Nairobi based</p>
                     </div>
                   </div>
 
@@ -91,8 +126,7 @@
                     <h2 class="section-title" id="profile-name"></h2>
                     <p class="profile-role" id="profile-role"></p>
                     <p class="section-copy" id="profile-copy"></p>
-
-                    <dl class="stat-grid" id="hero-stats"></dl>
+                    <div class="focus-list" id="focus-list"></div>
 
                     <div class="quick-links">
                       <a id="hero-email"></a>
@@ -103,57 +137,75 @@
                 </div>
               </section>
 
-              <section class="tab-panel" data-tab-panel="showcase" role="tabpanel" aria-labelledby="showcase" hidden>
+              <section
+                aria-labelledby="tab-showcase"
+                class="tab-panel"
+                data-tab-panel="showcase"
+                id="panel-showcase"
+                role="tabpanel"
+                hidden
+              >
                 <div class="section-heading">
-                  <p class="eyebrow">Showcases</p>
-                  <h2 class="section-title">Practical systems, thoughtful workflows, and room for growth.</h2>
+                  <p class="eyebrow">Showcase</p>
+                  <h2 class="section-title">Focused work shaped by useful systems and clear product thinking.</h2>
                   <p class="section-copy" id="showcase-copy"></p>
                 </div>
 
-                <div class="panel-grid panel-grid--showcase">
+                <div class="panel-grid panel-grid--showcase panel-grid--single">
                   <article class="feature-card" id="featured-project"></article>
-
-                  <article class="side-card">
-                    <p class="meta-label">Working style</p>
-                    <ul class="strength-list" id="strengths-list"></ul>
-                  </article>
                 </div>
               </section>
 
-              <section class="tab-panel" data-tab-panel="experience" role="tabpanel" aria-labelledby="experience" hidden>
+              <section
+                aria-labelledby="tab-experience"
+                class="tab-panel"
+                data-tab-panel="experience"
+                id="panel-experience"
+                role="tabpanel"
+                hidden
+              >
                 <div class="section-heading">
-                  <p class="eyebrow">Projects</p>
-                  <h2 class="section-title">Engineering development backed by hands-on technical support work.</h2>
+                  <p class="eyebrow">Experience</p>
+                  <h2 class="section-title">Software growth backed by hands-on support and operations work.</h2>
                   <p class="section-copy" id="experience-copy"></p>
                 </div>
 
                 <div class="panel-grid panel-grid--experience">
                   <div class="experience-list" id="experience-list"></div>
 
-                  <div class="credibility-stack">
-                    <article class="side-card">
-                      <p class="meta-label">Education</p>
-                      <div class="education-list" id="education-list"></div>
-                    </article>
+                  <article class="side-card foundations-card">
+                    <p class="meta-label">Foundations</p>
 
-                    <article class="side-card">
-                      <p class="meta-label">Tech stack</p>
-                      <div class="stack-groups" id="stack-groups"></div>
-                    </article>
+                    <section class="compact-section">
+                      <h3>Education</h3>
+                      <div class="education-list education-list--compact" id="education-list"></div>
+                    </section>
 
-                    <article class="side-card">
-                      <p class="meta-label">Certifications</p>
-                      <div class="certification-list" id="certifications-list"></div>
-                    </article>
-                  </div>
+                    <section class="compact-section">
+                      <h3>Tech stack</h3>
+                      <div class="stack-groups stack-groups--compact" id="stack-groups"></div>
+                    </section>
+
+                    <section class="compact-section">
+                      <h3>Certifications</h3>
+                      <div class="certification-list certification-list--compact" id="certifications-list"></div>
+                    </section>
+                  </article>
                 </div>
               </section>
 
-              <section class="tab-panel" data-tab-panel="contact" role="tabpanel" aria-labelledby="contact" hidden>
+              <section
+                aria-labelledby="tab-contact"
+                class="tab-panel"
+                data-tab-panel="contact"
+                id="panel-contact"
+                role="tabpanel"
+                hidden
+              >
                 <article class="contact-panel">
                   <div class="contact-panel__copy">
                     <p class="eyebrow">Contact</p>
-                    <h2 class="section-title">Let's build something dependable.</h2>
+                    <h2 class="section-title">Open to thoughtful work and good conversations.</h2>
                     <p class="section-copy" id="contact-copy"></p>
                   </div>
 

@@ -62,10 +62,9 @@ function setupThemeToggle() {
 }
 
 function renderProfile() {
-  const { profile, education, experience, certifications } = siteContent;
+  const { profile, education } = siteContent;
 
   setText("profile-location", profile.location);
-  setText("hero-headline", profile.headline);
   setText("hero-subheadline", profile.subheadline);
   setText("profile-name", profile.name);
   setText("profile-role", profile.roleLine);
@@ -83,19 +82,8 @@ function renderProfile() {
   setLink("contact-linkedin", profile.linkedinUrl);
   setLink("contact-resume", profile.resumeUrl);
 
-  document.getElementById("hero-stats").innerHTML = [
-    { label: "Roles", value: String(experience.length).padStart(2, "0") },
-    { label: "Certs", value: String(certifications.length).padStart(2, "0") },
-    { label: "Case study", value: "01" }
-  ]
-    .map(
-      (stat) => `
-        <div class="stat-card">
-          <dt>${stat.label}</dt>
-          <dd>${stat.value}</dd>
-        </div>
-      `
-    )
+  document.getElementById("focus-list").innerHTML = profile.focusAreas
+    .map((item) => `<span class="focus-pill">${item}</span>`)
     .join("");
 
   document.getElementById("education-list").innerHTML = education
@@ -109,10 +97,6 @@ function renderProfile() {
         </article>
       `
     )
-    .join("");
-
-  document.getElementById("strengths-list").innerHTML = profile.strengths
-    .map((item) => `<li>${item}</li>`)
     .join("");
 }
 
@@ -212,6 +196,10 @@ function setActiveTab(tabId) {
     const isActive = panel.dataset.tabPanel === tabId;
     panel.hidden = !isActive;
     panel.classList.toggle("is-active", isActive);
+    panel.setAttribute("tabindex", isActive ? "0" : "-1");
+    if (isActive) {
+      panel.scrollTop = 0;
+    }
   });
 
   if (window.location.hash !== `#${tabId}`) {
@@ -221,10 +209,32 @@ function setActiveTab(tabId) {
 
 function setupTabs() {
   const initialTab = tabIds.includes(window.location.hash.slice(1)) ? window.location.hash.slice(1) : "profile";
+  const triggers = Array.from(document.querySelectorAll("[data-tab-trigger]"));
 
-  document.querySelectorAll("[data-tab-trigger]").forEach((trigger) => {
+  triggers.forEach((trigger) => {
     trigger.addEventListener("click", () => {
       setActiveTab(trigger.dataset.tabTrigger);
+    });
+
+    trigger.addEventListener("keydown", (event) => {
+      const currentIndex = triggers.indexOf(trigger);
+      let nextIndex = currentIndex;
+
+      if (event.key === "ArrowRight") {
+        nextIndex = (currentIndex + 1) % triggers.length;
+      } else if (event.key === "ArrowLeft") {
+        nextIndex = (currentIndex - 1 + triggers.length) % triggers.length;
+      } else if (event.key === "Home") {
+        nextIndex = 0;
+      } else if (event.key === "End") {
+        nextIndex = triggers.length - 1;
+      } else {
+        return;
+      }
+
+      event.preventDefault();
+      triggers[nextIndex].focus();
+      setActiveTab(triggers[nextIndex].dataset.tabTrigger);
     });
   });
 

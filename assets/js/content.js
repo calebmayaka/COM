@@ -4,16 +4,16 @@ export const siteContent = {
     roleLine: "Software Engineer | ICT Support Expert",
     headline: "Software engineer building dependable digital experiences.",
     subheadline:
-      "I combine software engineering training with real ICT support experience to build systems that are stable, useful, and easier for people to rely on.",
+      "I build dependable software shaped by hands-on ICT support experience and a practical understanding of how systems are used every day.",
     location: "Nairobi, Kenya",
     summary:
-      "Caleb brings together product thinking, troubleshooting discipline, and hands-on systems support across software delivery, networking, operating system setup, and day-to-day technical operations.",
+      "My work sits at the intersection of software development, troubleshooting, and ICT operations. I enjoy building tools that are useful, reliable, and easier for people to trust in real working environments.",
     showcaseCopy:
-      "The strongest work here is framed as a showcase instead of a raw resume dump. The goal is to present practical systems thinking, not just list tasks.",
+      "This work is presented as a focused showcase of how I think through useful systems, clean workflows, and practical implementation.",
     experienceCopy:
-      "Across internships and field support work, Caleb has handled software delivery, technical support, infrastructure setup, and user-facing problem solving in real environments.",
+      "Across internships and field support roles, I have worked across software delivery, technical support, infrastructure setup, and day-to-day problem solving in real operational environments.",
     contactPitch:
-      "If you need someone who can contribute on the software side while understanding the support and systems reality around it, let's talk.",
+      "If you are looking for someone who can contribute to software work while understanding the systems and support reality around it, I would love to connect.",
     strengths: [
       "Builds software with a practical eye for reliability and user needs.",
       "Moves comfortably between product work, troubleshooting, and technical support.",
@@ -29,9 +29,9 @@ export const siteContent = {
   projects: [
     {
       title: "HireSphere Hiring System",
-      tagline: "A hiring platform built to help jobseekers and recruiters move through the search process with less friction.",
+      tagline: "A hiring platform designed to make job discovery, posting, and recruitment workflows easier to manage.",
       summary:
-        "HireSphere is a practical recruitment system for searching jobs, posting opportunities, and managing hiring flows. It shows Caleb's interest in products with clear user value and operational utility.",
+        "HireSphere is a recruitment system built for both jobseekers and recruiters. It reflects my interest in products that solve clear user problems while keeping the underlying workflow practical and organized.",
       highlights: [
         "Authentication with registration, login, and email-based password reset.",
         "Role-aware access control for the different people using the system.",
@@ -52,7 +52,7 @@ export const siteContent = {
       location: "Nairobi, Kenya",
       dateRange: "2024 - 2025",
       summary:
-        "Supported the daily ICT environment for staff and students while helping keep systems, devices, and exam infrastructure reliable.",
+        "Supported the daily ICT environment for staff and students, helping keep systems, devices, and exam infrastructure stable and ready for use.",
       highlights: [
         "Handled technical support across software, devices, and end-user issues.",
         "Diagnosed Microsoft Dynamics issues and restored smoother user workflows.",
@@ -67,7 +67,7 @@ export const siteContent = {
       location: "Nairobi, Kenya",
       dateRange: "2024 - 2025",
       summary:
-        "Selected into the Presidential Digitalent Programme cohort IX under the Software Engineering and AI track.",
+        "Selected into cohort IX of the Presidential Digitalent Programme under the Software Engineering and AI track.",
       highlights: [
         "Contributed within a recognized national internship pipeline focused on engineering growth.",
         "Deepened software engineering and AI foundations inside a structured professional setting."
@@ -79,7 +79,7 @@ export const siteContent = {
       location: "Nyamira, Kenya",
       dateRange: "2023",
       summary:
-        "Helped prepare internal ICT infrastructure, devices, and meeting readiness for day-to-day assembly operations.",
+        "Supported internal ICT infrastructure, device setup, and meeting readiness for day-to-day assembly operations.",
       highlights: [
         "Set up computers, laptops, and related equipment for operational use.",
         "Reduced downtime through hardware troubleshooting and printer support.",
