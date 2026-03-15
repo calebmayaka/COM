@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-active-tab="profile">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Caleb Mayaka is a Nairobi-based software engineer building dependable digital experiences shaped by hands-on ICT support."
+      content="A software engineer building dependable digital experiences shaped by hands-on system admin work."
     />
-    <title>Caleb Mayaka | Software Engineer</title>
+    <title>Software Engineer Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -33,8 +33,8 @@
     <div class="page-shell">
       <header class="site-header">
         <div class="shell shell--header">
-          <a class="brand" href="#main" aria-label="Go to main content">
-            <span class="brand__name">Caleb<br />Mayaka.</span>
+          <a class="brand" data-switch-tab="profile" href="#profile" aria-label="Go to profile section">
+            <span class="brand__name">Caleb Mayaka.</span>
           </a>
 
           <nav aria-label="Primary navigation" class="site-nav" role="tablist">
@@ -59,16 +59,6 @@
               Showcase
             </button>
             <button
-              aria-controls="panel-experience"
-              class="site-nav__link"
-              data-tab-trigger="experience"
-              id="tab-experience"
-              role="tab"
-              type="button"
-            >
-              Experience
-            </button>
-            <button
               aria-controls="panel-contact"
               class="site-nav__link"
               data-tab-trigger="contact"
@@ -90,19 +80,6 @@
 
       <main class="single-page" id="main">
         <div class="shell single-page__grid">
-          <section class="intro-column" data-reveal>
-            <article class="intro-panel">
-              <h1 class="hero-title">Hello,<br />My name is Caleb</h1>
-              <p class="hero-copy" id="hero-subheadline"></p>
-              <p class="hero-copy hero-copy--secondary" id="profile-summary"></p>
-
-              <div class="hero-actions">
-                <button class="hero-link" data-switch-tab="contact" type="button">Get in touch</button>
-                <a class="hero-link" download id="resume-link" rel="noreferrer" target="_blank">View resume</a>
-              </div>
-            </article>
-          </section>
-
           <section class="content-stage" data-reveal>
             <div class="content-stage__panels">
               <section
@@ -112,29 +89,42 @@
                 id="panel-profile"
                 role="tabpanel"
               >
-                <div class="profile-stage">
-                  <div class="portrait-stage">
-                    <div class="portrait-shadow"></div>
-                    <div class="portrait-card">
-                      <span class="portrait-card__monogram">CM</span>
-                      <p>Nairobi based</p>
-                    </div>
+                <article class="profile-minimal">
+                  <h2 class="section-title profile-minimal__title">Software Engineer</h2>
+                  <p class="profile-role" id="profile-role"></p>
+                  <p class="section-copy profile-minimal__summary" id="profile-summary"></p>
+                  <div class="focus-list" id="focus-list"></div>
+                  <div class="quick-links profile-minimal__links">
+                    <a aria-label="Email" class="profile-icon" id="hero-email">
+                      <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M3.8 5h16.4A2.8 2.8 0 0 1 23 7.8v8.4A2.8 2.8 0 0 1 20.2 19H3.8A2.8 2.8 0 0 1 1 16.2V7.8A2.8 2.8 0 0 1 3.8 5Zm0 1.8L12 12l8.2-5.2H3.8Zm17.4 10.4V8.5l-8.7 5.5a1 1 0 0 1-1 0L2.8 8.5v8.7h18.4Z" />
+                      </svg>
+                    </a>
+                    <a aria-label="GitHub" class="profile-icon" id="hero-github" rel="noreferrer" target="_blank">
+                      <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M12 .6A12 12 0 0 0 8.2 24c.6.1.8-.2.8-.6v-2.2c-3.3.8-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.4-5.5-6A4.7 4.7 0 0 1 6.5 8a4.3 4.3 0 0 1 .1-3.2s1-.3 3.4 1.3a11.8 11.8 0 0 1 6.1 0c2.3-1.6 3.4-1.3 3.4-1.3a4.3 4.3 0 0 1 .1 3.2 4.7 4.7 0 0 1 1.3 3.3c0 4.6-2.8 5.7-5.5 6 .4.3.8 1 .8 2v3c0 .4.2.7.8.6A12 12 0 0 0 12 .6Z" />
+                      </svg>
+                    </a>
+                    <a aria-label="LinkedIn" class="profile-icon" id="hero-linkedin" rel="noreferrer" target="_blank">
+                      <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M5.4 3.6A2.4 2.4 0 1 0 5.4 8a2.4 2.4 0 0 0 0-4.4ZM3.4 9.8h4v10.6h-4V9.8Zm6.3 0h3.8v1.5h.1c.5-1 1.8-2 3.8-2 4 0 4.7 2.6 4.7 6.1v5h-4v-4.4c0-1.1 0-2.5-1.6-2.5s-1.8 1.2-1.8 2.4v4.5h-4V9.8Z" />
+                      </svg>
+                    </a>
+                    <a aria-label="Twitter" class="profile-icon" id="hero-twitter" rel="noreferrer" target="_blank">
+                      <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M18.9 2.2h3.3l-7.3 8.4L23.5 22h-6.8l-5.3-6.9L5.3 22H2l7.8-8.9L.7 2.2h7l4.8 6.3 6.4-6.3Zm-1.2 17.7h1.8L6.7 4.2H4.8l12.9 15.7Z" />
+                      </svg>
+                    </a>
                   </div>
-
-                  <div class="profile-stage__copy">
-                    <p class="eyebrow" id="profile-location"></p>
-                    <h2 class="section-title" id="profile-name"></h2>
-                    <p class="profile-role" id="profile-role"></p>
-                    <p class="section-copy" id="profile-copy"></p>
-                    <div class="focus-list" id="focus-list"></div>
-
-                    <div class="quick-links">
-                      <a id="hero-email"></a>
-                      <a id="hero-github" rel="noreferrer" target="_blank"></a>
-                      <a id="hero-linkedin" rel="noreferrer" target="_blank"></a>
-                    </div>
+                  <div class="panel-actions panel-actions--primary">
+                    <button class="hero-link hero-link--standout" data-switch-tab="showcase" type="button">View showcase</button>
                   </div>
-                </div>
+                  <div class="panel-actions">
+                    <a class="hero-link" download id="resume-link" rel="noreferrer" target="_blank">View resume</a>
+                    <button class="hero-link" data-switch-tab="contact" type="button">Get in touch</button>
+                    <button class="hero-link" data-open-deep-dive="profile" type="button">Open full profile</button>
+                  </div>
+                </article>
               </section>
 
               <section
@@ -148,49 +138,19 @@
                 <div class="section-heading">
                   <p class="eyebrow">Showcase</p>
                   <h2 class="section-title">Focused work shaped by useful systems and clear product thinking.</h2>
-                  <p class="section-copy" id="showcase-copy"></p>
                 </div>
 
-                <div class="panel-grid panel-grid--showcase panel-grid--single">
+                <div class="showcase-layout">
+                  <article class="side-card showcase-tech-card">
+                    <p class="meta-label">Stack and technologies</p>
+                    <div class="showcase-stack" id="showcase-tech"></div>
+                  </article>
+
                   <article class="feature-card" id="featured-project"></article>
                 </div>
-              </section>
 
-              <section
-                aria-labelledby="tab-experience"
-                class="tab-panel"
-                data-tab-panel="experience"
-                id="panel-experience"
-                role="tabpanel"
-                hidden
-              >
-                <div class="section-heading">
-                  <p class="eyebrow">Experience</p>
-                  <h2 class="section-title">Software growth backed by hands-on support and operations work.</h2>
-                  <p class="section-copy" id="experience-copy"></p>
-                </div>
-
-                <div class="panel-grid panel-grid--experience">
-                  <div class="experience-list" id="experience-list"></div>
-
-                  <article class="side-card foundations-card">
-                    <p class="meta-label">Foundations</p>
-
-                    <section class="compact-section">
-                      <h3>Education</h3>
-                      <div class="education-list education-list--compact" id="education-list"></div>
-                    </section>
-
-                    <section class="compact-section">
-                      <h3>Tech stack</h3>
-                      <div class="stack-groups stack-groups--compact" id="stack-groups"></div>
-                    </section>
-
-                    <section class="compact-section">
-                      <h3>Certifications</h3>
-                      <div class="certification-list certification-list--compact" id="certifications-list"></div>
-                    </section>
-                  </article>
+                <div class="panel-actions">
+                  <button class="hero-link" data-open-deep-dive="showcase" type="button">Open full case study</button>
                 </div>
               </section>
 
@@ -202,29 +162,55 @@
                 role="tabpanel"
                 hidden
               >
-                <article class="contact-panel">
-                  <div class="contact-panel__copy">
-                    <p class="eyebrow">Contact</p>
-                    <h2 class="section-title">Open to thoughtful work and good conversations.</h2>
-                    <p class="section-copy" id="contact-copy"></p>
+                <article class="contact-panel contact-panel--simple">
+                  <p class="eyebrow">Contact</p>
+                  <h2 class="section-title">Let's connect.</h2>
+                  <p class="section-copy" id="contact-copy"></p>
+
+                  <div class="contact-icons">
+                    <a aria-label="GitHub profile" class="contact-icon" id="contact-github" rel="noreferrer" target="_blank">
+                      <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path
+                          d="M12 .6A12 12 0 0 0 8.2 24c.6.1.8-.2.8-.6v-2.2c-3.3.8-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.4-5.5-6A4.7 4.7 0 0 1 6.5 8a4.3 4.3 0 0 1 .1-3.2s1-.3 3.4 1.3a11.8 11.8 0 0 1 6.1 0c2.3-1.6 3.4-1.3 3.4-1.3a4.3 4.3 0 0 1 .1 3.2 4.7 4.7 0 0 1 1.3 3.3c0 4.6-2.8 5.7-5.5 6 .4.3.8 1 .8 2v3c0 .4.2.7.8.6A12 12 0 0 0 12 .6Z"
+                        />
+                      </svg>
+                    </a>
+                    <a aria-label="LinkedIn profile" class="contact-icon" id="contact-linkedin" rel="noreferrer" target="_blank">
+                      <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path
+                          d="M5.4 3.6A2.4 2.4 0 1 0 5.4 8a2.4 2.4 0 0 0 0-4.4ZM3.4 9.8h4v10.6h-4V9.8Zm6.3 0h3.8v1.5h.1c.5-1 1.8-2 3.8-2 4 0 4.7 2.6 4.7 6.1v5h-4v-4.4c0-1.1 0-2.5-1.6-2.5s-1.8 1.2-1.8 2.4v4.5h-4V9.8Z"
+                        />
+                      </svg>
+                    </a>
+                    <a aria-label="Twitter profile" class="contact-icon" id="contact-twitter" rel="noreferrer" target="_blank">
+                      <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path
+                          d="M18.9 2.2h3.3l-7.3 8.4L23.5 22h-6.8l-5.3-6.9L5.3 22H2l7.8-8.9L.7 2.2h7l4.8 6.3 6.4-6.3Zm-1.2 17.7h1.8L6.7 4.2H4.8l12.9 15.7Z"
+                        />
+                      </svg>
+                    </a>
                   </div>
 
-                  <div class="contact-panel__actions">
-                    <a class="hero-link" id="contact-email">Email Caleb</a>
-                    <a class="hero-link" id="contact-github" rel="noreferrer" target="_blank">Git</a>
-                    <a class="hero-link" id="contact-linkedin" rel="noreferrer" target="_blank">In</a>
-                    <a class="hero-link" download id="contact-resume" rel="noreferrer" target="_blank">Resume</a>
-                  </div>
+                  <a class="contact-email" id="contact-email">Email me</a>
                 </article>
               </section>
             </div>
           </section>
 
-          <aside aria-label="Social links" class="social-rail" data-reveal>
-            <div class="social-rail__links" id="social-links"></div>
-          </aside>
         </div>
       </main>
+    </div>
+
+    <div class="deep-dive" id="deep-dive" hidden>
+      <button aria-label="Close detail view" class="deep-dive__backdrop" data-close-deep-dive type="button"></button>
+      <section aria-labelledby="deep-dive-title" aria-modal="true" class="deep-dive__dialog" role="dialog">
+        <header class="deep-dive__header">
+          <p class="eyebrow" id="deep-dive-eyebrow"></p>
+          <h2 class="section-title deep-dive__title" id="deep-dive-title"></h2>
+          <button aria-label="Close detail view" class="deep-dive__close" id="deep-dive-close" type="button">Close</button>
+        </header>
+        <div class="deep-dive__body" id="deep-dive-body"></div>
+      </section>
     </div>
 
     <noscript>

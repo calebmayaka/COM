@@ -1,13 +1,13 @@
 export const siteContent = {
   profile: {
     name: "Caleb Mayaka",
-    roleLine: "Software Engineer | ICT Support Expert",
+    roleLine: "Software Engineer",
     headline: "Software engineer building dependable digital experiences.",
     subheadline:
-      "I build dependable software shaped by hands-on ICT support experience and a practical understanding of how systems are used every day.",
-    location: "Nairobi, Kenya",
+      "I build dependable software shaped by hands-on system admin experience and a practical understanding of how systems are used every day.",
+    location: "Kenya",
     summary:
-      "My work sits at the intersection of software development, troubleshooting, and ICT operations. I enjoy building tools that are useful, reliable, and easier for people to trust in real working environments.",
+      "Software engineer with system admin depth, focused on reliable systems and practical workflows that hold up in real environments.",
     showcaseCopy:
       "This work is presented as a focused showcase of how I think through useful systems, clean workflows, and practical implementation.",
     experienceCopy:
@@ -20,10 +20,11 @@ export const siteContent = {
       "Communicates clearly with both technical teammates and everyday users.",
       "Learns quickly and stays grounded in solving the actual problem."
     ],
-    focusAreas: ["Python and Django", "ICT operations", "User-centered support"],
+    focusAreas: ["Python and Django", "System administration", "User-centered support"],
     email: "mayakaombogo254@gmail.com",
     githubUrl: "https://www.github.com/calebmayaka",
     linkedinUrl: "https://www.linkedin.com/in/calebmayaka",
+    twitterUrl: "https://x.com/ombogomayaka",
     resumeUrl: "./assets/files/caleb-mayaka-resume.pdf"
   },
   projects: [
@@ -49,7 +50,7 @@ export const siteContent = {
     {
       organization: "KASNEB",
       role: "ICT Intern",
-      location: "Nairobi, Kenya",
+      location: "Kenya",
       dateRange: "2024 - 2025",
       summary:
         "Supported the daily ICT environment for staff and students, helping keep systems, devices, and exam infrastructure stable and ready for use.",
@@ -64,7 +65,7 @@ export const siteContent = {
     {
       organization: "ICT Authority",
       role: "Presidential Digitalent Programme - Software Dev Intern",
-      location: "Nairobi, Kenya",
+      location: "Kenya",
       dateRange: "2024 - 2025",
       summary:
         "Selected into cohort IX of the Presidential Digitalent Programme under the Software Engineering and AI track.",
