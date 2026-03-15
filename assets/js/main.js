@@ -22,19 +22,7 @@ function setLink(id, href, label) {
 }
 
 function renderSocialLinks() {
-  const { profile } = siteContent;
-  const socialLinks = [
-    { label: "Git", href: profile.githubUrl, external: true },
-    { label: "In", href: profile.linkedinUrl, external: true },
-    { label: "Mail", href: `mailto:${profile.email}`, external: false }
-  ];
-
-  document.getElementById("social-links").innerHTML = socialLinks
-    .map(
-      (item) =>
-        `<a class="social-rail__link" href="${item.href}" rel="${item.external ? "noreferrer" : ""}" target="${item.external ? "_blank" : "_self"}">${item.label}</a>`
-    )
-    .join("");
+  return;
 }
 
 function renderProfile() {
@@ -50,8 +38,6 @@ function renderProfile() {
   setText("showcase-copy", profile.showcaseCopy);
   setText("experience-copy", profile.experienceCopy);
   setText("contact-copy", profile.contactPitch);
-  setText("footer-copy", `${profile.name} - ${new Date().getFullYear()}`);
-
   setLink("resume-link", profile.resumeUrl);
   setLink("hero-email", `mailto:${profile.email}`, profile.email);
   setLink("hero-github", profile.githubUrl, "GitHub");
@@ -213,7 +199,6 @@ function setupTabs() {
   document.querySelectorAll("[data-switch-tab]").forEach((button) => {
     button.addEventListener("click", () => {
       setActiveTab(button.dataset.switchTab);
-      document.querySelector(".content-stage").scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
 
