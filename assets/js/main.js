@@ -110,32 +110,77 @@ function renderProfile() {
     .join("");
 }
 
-function renderFeaturedProject() {
-  const project = siteContent.projects[0];
-  const highlights = project.highlights.slice(0, 2);
+function renderProjectLinks(project, compact = false) {
+  if (!project.liveUrl && !project.repoUrl) {
+    return "";
+  }
+
+  const className = compact ? "hero-link hero-link--compact" : "hero-link";
+
+  return `
+    <div class="feature-card__actions">
+      ${project.liveUrl ? `<a class="${className}" href="${project.liveUrl}" rel="noreferrer" target="_blank">Live project</a>` : ""}
+      ${project.repoUrl ? `<a class="${className}" href="${project.repoUrl}" rel="noreferrer" target="_blank">Source code</a>` : ""}
+    </div>
+  `;
+}
+
+function renderShowcaseProjects() {
+  const featuredProject = siteContent.projects[0];
+  const highlights = featuredProject.highlights.slice(0, 2);
 
   document.getElementById("featured-project").innerHTML = `
-    <p class="eyebrow">${project.status}</p>
+    <p class="eyebrow">${featuredProject.status}</p>
     <div class="feature-card__body">
       <div>
-        <h3>${project.title}</h3>
-        <p class="feature-card__tagline">${project.tagline}</p>
+        <h3>${featuredProject.title}</h3>
+        <p class="feature-card__tagline">${featuredProject.tagline}</p>
       </div>
-      <p class="feature-card__summary">${project.summary}</p>
+      <p class="feature-card__summary">${featuredProject.summary}</p>
       <ul class="feature-card__list">
         ${highlights.map((item) => `<li>${item}</li>`).join("")}
       </ul>
       <div class="tag-list tag-list--compact">
-        ${project.stack.map((item) => `<span class="tag-list__item">${item}</span>`).join("")}
+        ${featuredProject.stack.map((item) => `<span class="tag-list__item">${item}</span>`).join("")}
       </div>
       <p class="feature-card__note">Open the full case study for the complete workflow and implementation details.</p>
     </div>
   `;
 
+  const extraProjects = siteContent.projects.slice(1);
+  const extraContainer = document.getElementById("showcase-more-projects");
+  if (extraContainer) {
+    if (!extraProjects.length) {
+      extraContainer.innerHTML = "";
+    } else {
+      extraContainer.innerHTML = extraProjects
+        .map((project) => {
+          return `
+            <article class="feature-card feature-card--compact">
+              <p class="eyebrow">${project.status || "Project"}</p>
+              <div class="feature-card__body">
+                <div>
+                  <h3>${project.title}</h3>
+                  <p class="feature-card__tagline">${project.tagline}</p>
+                </div>
+                <p class="feature-card__summary">${project.summary}</p>
+                <div class="tag-list tag-list--compact">
+                  ${project.stack.map((item) => `<span class="tag-list__item">${item}</span>`).join("")}
+                </div>
+                ${renderProjectLinks(project, true)}
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+    }
+  }
+
   const showcaseTech = document.getElementById("showcase-tech");
   if (showcaseTech) {
+    const projectStacks = siteContent.projects.flatMap((project) => project.stack || []);
     const stackSet = new Set([
-      ...project.stack,
+      ...projectStacks,
       ...siteContent.techStack[0].items,
       "Git",
       "Docker"
@@ -178,15 +223,7 @@ function buildProfileDeepDiveMarkup() {
 
 function buildShowcaseDeepDiveMarkup() {
   const project = siteContent.projects[0];
-  const linksMarkup =
-    project.liveUrl || project.repoUrl
-      ? `
-        <div class="feature-card__actions">
-          ${project.liveUrl ? `<a class="hero-link" href="${project.liveUrl}" rel="noreferrer" target="_blank">Live project</a>` : ""}
-          ${project.repoUrl ? `<a class="hero-link" href="${project.repoUrl}" rel="noreferrer" target="_blank">Source code</a>` : ""}
-        </div>
-      `
-      : `<p class="feature-card__note">Public links can be added later as the project case study expands.</p>`;
+  const linksMarkup = renderProjectLinks(project) || `<p class="feature-card__note">Public links can be added later as the project case study expands.</p>`;
 
   return `
     <article class="feature-card">
@@ -525,7 +562,7 @@ function setupProfileAnimations() {
 function init() {
   renderSocialLinks();
   renderProfile();
-  renderFeaturedProject();
+  renderShowcaseProjects();
   setupProfileAnimations();
   setupDeepDive();
   setupThemeToggle();

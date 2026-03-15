@@ -44,6 +44,22 @@ export const siteContent = {
       liveUrl: "",
       repoUrl: "",
       status: "Featured case study"
+    },
+    {
+      title: "Torrent Download to Google Drive (Colab)",
+      tagline: "A practical Python workflow for downloading torrent or magnet links straight into Google Drive using Colab.",
+      summary:
+        "This utility project uses Google Colab and libtorrent to run long downloads in a cloud notebook and save output directly to Drive, avoiding local machine constraints.",
+      highlights: [
+        "Mounts Google Drive from Colab for direct cloud storage output.",
+        "Uses libtorrent for torrent and magnet download handling.",
+        "Tracks progress, peers, transfer rates, and elapsed time during downloads.",
+        "Built as a lightweight notebook workflow with minimal setup steps."
+      ],
+      stack: ["Python", "Google Colab", "libtorrent", "Google Drive"],
+      liveUrl: "",
+      repoUrl: "https://github.com/calebmayaka/Python-Torrent-Download-To-Google-Drive-Google-Colab",
+      status: "Utility project"
     }
   ],
   experience: [
