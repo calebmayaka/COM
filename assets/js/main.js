@@ -37,6 +37,30 @@ function renderSocialLinks() {
     .join("");
 }
 
+function setupThemeToggle() {
+  const toggle = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+
+  const applyTheme = (theme) => {
+    root.setAttribute("data-theme", theme);
+    toggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+    toggle.setAttribute("title", theme === "light" ? "Switch to dark mode" : "Switch to light mode");
+  };
+
+  const initialTheme = root.getAttribute("data-theme") || "dark";
+  applyTheme(initialTheme);
+
+  toggle.addEventListener("click", () => {
+    const nextTheme = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+    applyTheme(nextTheme);
+    try {
+      localStorage.setItem("theme", nextTheme);
+    } catch (error) {
+      return;
+    }
+  });
+}
+
 function renderProfile() {
   const { profile, education, experience, certifications } = siteContent;
 
@@ -252,6 +276,7 @@ function init() {
   renderProfile();
   renderFeaturedProject();
   renderExperience();
+  setupThemeToggle();
   setupTabs();
   setupRevealObserver();
 }

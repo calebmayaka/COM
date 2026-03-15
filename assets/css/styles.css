@@ -3,13 +3,35 @@
   --font-display: "Instrument Serif", Georgia, serif;
   --color-bg: #17191b;
   --color-panel: #1d2023;
-  --color-panel-soft: #23272b;
   --color-text: #f4f2ee;
   --color-text-soft: rgba(244, 242, 238, 0.78);
   --color-text-muted: rgba(244, 242, 238, 0.48);
   --color-line: rgba(244, 242, 238, 0.12);
   --color-line-strong: rgba(244, 242, 238, 0.22);
   --color-accent: #f08c8c;
+  --color-portrait-a: #d4d1dd;
+  --color-portrait-b: #b8b4c4;
+  --color-portrait-c: #d9d5df;
+  --color-portrait-text: #1d2023;
+  --color-shadow-block: rgba(255, 255, 255, 0.06);
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  --color-bg: #f7f1e8;
+  --color-panel: #fffdf8;
+  --color-text: #181716;
+  --color-text-soft: rgba(24, 23, 22, 0.78);
+  --color-text-muted: rgba(24, 23, 22, 0.48);
+  --color-line: rgba(24, 23, 22, 0.12);
+  --color-line-strong: rgba(24, 23, 22, 0.2);
+  --color-accent: #c86e62;
+  --color-portrait-a: #b8b4c4;
+  --color-portrait-b: #d4d1dd;
+  --color-portrait-c: #ece8f0;
+  --color-portrait-text: #25252b;
+  --color-shadow-block: rgba(24, 23, 22, 0.08);
+  color-scheme: light;
 }
 
 html {
@@ -90,7 +112,7 @@ ul {
 
 .shell--header {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1.5rem;
   padding-top: 2rem;
@@ -111,6 +133,36 @@ ul {
   display: flex;
   justify-content: flex-end;
   gap: 1.2rem;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle__track {
+  display: inline-flex;
+  align-items: center;
+  width: 2.8rem;
+  height: 1.6rem;
+  padding: 0.2rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--color-panel);
+}
+
+.theme-toggle__thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  background: var(--color-text);
+  transform: translateX(0);
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+html[data-theme="light"] .theme-toggle__thumb {
+  transform: translateX(1.1rem);
 }
 
 .site-nav__link,
@@ -286,7 +338,7 @@ ul {
   height: 78%;
   right: -2rem;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--color-shadow-block);
 }
 
 .portrait-card {
@@ -296,8 +348,8 @@ ul {
   place-items: center;
   width: min(100%, 25rem);
   aspect-ratio: 4 / 5;
-  background: linear-gradient(145deg, #d4d1dd, #b8b4c4 48%, #d9d5df);
-  color: #1d2023;
+  background: linear-gradient(145deg, var(--color-portrait-a), var(--color-portrait-b) 48%, var(--color-portrait-c));
+  color: var(--color-portrait-text);
 }
 
 .portrait-card__monogram {
