@@ -1,23 +1,26 @@
 export const siteContent = {
   profile: {
     name: "Caleb Mayaka",
-    headline: "Software Engineer",
+    roleLine: "Software Engineer | ICT Support Expert",
+    headline: "Software engineer building dependable digital experiences.",
     subheadline:
-      "A Nairobi-based builder with hands-on ICT support depth, focused on dependable web systems, smooth operations, and practical problem-solving.",
+      "I combine software engineering training with real ICT support experience to build systems that are stable, useful, and easier for people to rely on.",
     location: "Nairobi, Kenya",
     summary:
-      "Caleb combines a computer science background with real-world support experience across software delivery, device troubleshooting, networking, and operating system setup. He enjoys building stable systems, improving user experience, and keeping digital operations running well.",
-    aboutLead:
-      "With a foundation in computer science and day-to-day technical support, Caleb brings a useful mix of product thinking and operational discipline. He is comfortable moving from web development tasks into troubleshooting, setup, and user support without losing sight of the bigger system.",
-    aboutSupport:
-      "That blend shows up in the kind of work he does best: software that solves practical problems, technical environments that stay reliable, and support experiences that feel calm and efficient for the people using them.",
+      "Caleb brings together product thinking, troubleshooting discipline, and hands-on systems support across software delivery, networking, operating system setup, and day-to-day technical operations.",
+    showcaseCopy:
+      "The strongest work here is framed as a showcase instead of a raw resume dump. The goal is to present practical systems thinking, not just list tasks.",
+    experienceCopy:
+      "Across internships and field support work, Caleb has handled software delivery, technical support, infrastructure setup, and user-facing problem solving in real environments.",
+    contactPitch:
+      "If you need someone who can contribute on the software side while understanding the support and systems reality around it, let's talk.",
     strengths: [
       "Builds software with a practical eye for reliability and user needs.",
-      "Troubleshoots systems, devices, and network issues with patience and structure.",
+      "Moves comfortably between product work, troubleshooting, and technical support.",
       "Communicates clearly with both technical teammates and everyday users.",
-      "Adapts quickly across software engineering, ICT support, and digital operations."
+      "Learns quickly and stays grounded in solving the actual problem."
     ],
-    focusAreas: ["Python & Django", "ICT operations", "User-centered support"],
+    focusAreas: ["Python and Django", "ICT operations", "User-centered support"],
     email: "mayakaombogo254@gmail.com",
     githubUrl: "https://www.github.com/calebmayaka",
     linkedinUrl: "https://www.linkedin.com/in/calebmayaka",
@@ -26,15 +29,15 @@ export const siteContent = {
   projects: [
     {
       title: "HireSphere Hiring System",
-      tagline: "A recruitment platform for matching jobseekers with companies and open roles.",
+      tagline: "A hiring platform built to help jobseekers and recruiters move through the search process with less friction.",
       summary:
-        "HireSphere is designed to make job search and talent discovery easier by giving jobseekers and recruiters one place to manage opportunities, communication, and hiring workflows.",
+        "HireSphere is a practical recruitment system for searching jobs, posting opportunities, and managing hiring flows. It shows Caleb's interest in products with clear user value and operational utility.",
       highlights: [
-        "Authentication flows with registration, login, and email password reset.",
-        "Role-based access control for different platform users.",
-        "CRUD workflows for managing jobs and related database content.",
-        "Job recommendations informed by location-aware logic.",
-        "Google Maps API integration and email notifications."
+        "Authentication with registration, login, and email-based password reset.",
+        "Role-aware access control for the different people using the system.",
+        "CRUD workflows for managing jobs and related application data.",
+        "Location-based recommendation logic for more relevant job discovery.",
+        "Email notifications and Google Maps API integration."
       ],
       stack: ["Python", "Django", "Django REST", "JavaScript", "Tailwind CSS", "Google Maps API"],
       liveUrl: "",
@@ -49,13 +52,13 @@ export const siteContent = {
       location: "Nairobi, Kenya",
       dateRange: "2024 - 2025",
       summary:
-        "Supported day-to-day ICT operations for staff and students while helping keep systems, devices, and exam infrastructure stable.",
+        "Supported the daily ICT environment for staff and students while helping keep systems, devices, and exam infrastructure reliable.",
       highlights: [
-        "Delivered technical support for staff and students across software and device issues.",
-        "Diagnosed Microsoft Dynamics issues and restored reliable end-user workflows.",
-        "Installed and configured Windows, Linux, and other software applications.",
-        "Handled hardware troubleshooting for laptops, desktops, printers, and peripherals.",
-        "Assisted with network setup, maintenance, and support during computer-based exams."
+        "Handled technical support across software, devices, and end-user issues.",
+        "Diagnosed Microsoft Dynamics issues and restored smoother user workflows.",
+        "Installed and configured Windows, Linux, and supporting software tools.",
+        "Troubleshot laptops, desktops, printers, and other peripherals.",
+        "Helped with network support and computing setup for computer-based exams."
       ]
     },
     {
@@ -64,10 +67,10 @@ export const siteContent = {
       location: "Nairobi, Kenya",
       dateRange: "2024 - 2025",
       summary:
-        "Selected for the Presidential Digitalent Programme cohort IX under the Software Engineering and AI track.",
+        "Selected into the Presidential Digitalent Programme cohort IX under the Software Engineering and AI track.",
       highlights: [
-        "Contributed within a nationally recognized internship programme focused on software engineering and AI.",
-        "Strengthened engineering fundamentals while working in a structured professional environment."
+        "Contributed within a recognized national internship pipeline focused on engineering growth.",
+        "Deepened software engineering and AI foundations inside a structured professional setting."
       ]
     },
     {
@@ -76,13 +79,13 @@ export const siteContent = {
       location: "Nyamira, Kenya",
       dateRange: "2023",
       summary:
-        "Helped prepare devices, infrastructure, and internal systems for day-to-day assembly operations and new facility readiness.",
+        "Helped prepare internal ICT infrastructure, devices, and meeting readiness for day-to-day assembly operations.",
       highlights: [
-        "Set up computers, laptops, and related devices for operational use.",
-        "Troubleshot computers, laptops, and printers to reduce downtime.",
-        "Prepared screens and audio systems for assembly sittings.",
+        "Set up computers, laptops, and related equipment for operational use.",
+        "Reduced downtime through hardware troubleshooting and printer support.",
+        "Prepared audio and display systems for assembly sittings.",
         "Supported networking infrastructure for the new county assembly building.",
-        "Collaborated with departments on the 2023 - 2025 ICT strategic policy revision."
+        "Contributed to the 2023 - 2025 ICT strategic policy review process."
       ]
     }
   ],
@@ -95,7 +98,7 @@ export const siteContent = {
     },
     {
       institution: "Kisii School",
-      award: "Kenya Certificate of Secondary Education (KCSE)",
+      award: "Kenya Certificate of Secondary Education",
       dateRange: "2016 - 2019",
       notes: "Grade B+"
     }
@@ -124,11 +127,11 @@ export const siteContent = {
   ],
   techStack: [
     {
-      label: "Languages & web",
+      label: "Languages and web",
       items: ["Python", "Django", "Django REST", "JavaScript", "HTML", "CSS", "Tailwind CSS"]
     },
     {
-      label: "Tools & platforms",
+      label: "Tools and platforms",
       items: ["Git", "GitHub", "Docker", "VS Code", "XAMPP", "Windows", "Linux", "Microsoft Office"]
     },
     {

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Caleb Mayaka is a Nairobi-based software engineer with hands-on ICT support experience across software delivery, systems troubleshooting, and digital operations."
+      content="Caleb Mayaka is a Nairobi-based software engineer building dependable digital experiences with hands-on ICT support depth."
     />
     <title>Caleb Mayaka | Software Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,170 +20,185 @@
     <a class="skip-link" href="#main">Skip to content</a>
 
     <div class="page-shell">
+      <aside aria-label="Social links" class="social-rail">
+        <div class="social-rail__line"></div>
+        <div class="social-rail__links" id="social-links"></div>
+      </aside>
+
+      <aside aria-label="Section indicator" class="section-rail">
+        <a class="section-rail__dot" data-indicator href="#profile">
+          <span>01</span>
+          <strong>Profile</strong>
+        </a>
+        <a class="section-rail__dot" data-indicator href="#showcase">
+          <span>02</span>
+          <strong>Showcase</strong>
+        </a>
+        <a class="section-rail__dot" data-indicator href="#experience">
+          <span>03</span>
+          <strong>Experience</strong>
+        </a>
+        <a class="section-rail__dot" data-indicator href="#contact">
+          <span>04</span>
+          <strong>Contact</strong>
+        </a>
+      </aside>
+
       <header class="site-header">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 sm:px-8 lg:px-10">
-          <a class="brand-mark" href="#top" aria-label="Go to the top of the page">
-            <span class="brand-monogram">CM</span>
-            <span class="brand-copy">
-              <span class="brand-name">Caleb Mayaka</span>
-              <span class="brand-role">Software Engineer</span>
+        <div class="shell">
+          <a class="brand" href="#profile" aria-label="Go to profile section">
+            <span class="brand__mark">CM</span>
+            <span class="brand__copy">
+              <span class="brand__name">Caleb Mayaka</span>
+              <span class="brand__role">Software Engineer</span>
             </span>
           </a>
 
-          <nav aria-label="Primary navigation" class="hidden items-center gap-6 md:flex">
-            <a class="nav-link" data-nav-link href="#about">About</a>
-            <a class="nav-link" data-nav-link href="#projects">Projects</a>
-            <a class="nav-link" data-nav-link href="#experience">Experience</a>
-            <a class="nav-link" data-nav-link href="#credibility">Stack</a>
-            <a class="nav-link" data-nav-link href="#contact">Contact</a>
+          <nav aria-label="Primary navigation" class="site-nav">
+            <a class="site-nav__link" data-nav-link href="#profile">Profile</a>
+            <a class="site-nav__link" data-nav-link href="#showcase">Showcase</a>
+            <a class="site-nav__link" data-nav-link href="#experience">Experience</a>
+            <a class="site-nav__link" data-nav-link href="#contact">Contact</a>
           </nav>
 
-          <a class="btn-secondary hidden md:inline-flex" href="#contact">Get in touch</a>
+          <a class="button button--ghost" href="#contact">Get in touch</a>
         </div>
       </header>
 
       <main id="main">
-        <section class="section-shell hero-frame" id="top">
-          <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.35fr_0.85fr] lg:items-end">
-            <div class="space-y-8" data-reveal>
-              <p class="section-kicker" id="profile-location"></p>
-              <div class="space-y-6">
-                <h1 class="headline-display balance" id="hero-headline"></h1>
-                <p class="max-w-2xl text-lg leading-8 text-ink-900/80 sm:text-xl" id="hero-subheadline"></p>
+        <section class="site-section site-section--hero" id="profile">
+          <div class="shell site-section__inner site-section__inner--hero">
+            <div class="intro-panel" data-reveal>
+              <p class="eyebrow" id="profile-location"></p>
+              <h1 class="hero-title" id="hero-headline"></h1>
+              <p class="hero-copy" id="hero-subheadline"></p>
+
+              <div class="hero-actions">
+                <a class="button button--solid" href="#contact">Get in touch</a>
+                <a class="button button--ghost" download id="resume-link" rel="noreferrer" target="_blank">Get my resume</a>
               </div>
 
-              <div class="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-                <a class="btn-primary" href="#contact">Get in touch</a>
-                <a class="btn-secondary" download id="resume-link" rel="noreferrer" target="_blank">Download resume</a>
-              </div>
-
-              <ul class="flex flex-wrap gap-3" id="focus-pills" aria-label="Core focus areas"></ul>
+              <ul aria-label="Core focus areas" class="tag-list" id="focus-pills"></ul>
             </div>
 
-            <aside class="panel p-6 sm:p-8" data-reveal>
-              <div class="space-y-6">
-                <div class="space-y-4">
-                  <p class="section-kicker">Profile</p>
-                  <div>
-                    <p class="text-sm font-semibold uppercase tracking-[0.28em] text-teal-600" id="profile-name"></p>
-                    <p class="mt-3 text-lg leading-8 text-ink-900/80" id="profile-summary"></p>
-                  </div>
+            <div class="profile-panel" data-reveal>
+              <div class="profile-panel__intro">
+                <p class="eyebrow">Profile</p>
+                <h2 class="profile-panel__title" id="profile-name"></h2>
+                <p class="profile-panel__role" id="profile-role"></p>
+                <p class="profile-panel__summary" id="profile-summary"></p>
+              </div>
+
+              <dl class="stat-grid" id="hero-stats"></dl>
+
+              <div class="profile-panel__meta">
+                <div>
+                  <p class="meta-label">Education</p>
+                  <div class="education-list" id="education-list"></div>
                 </div>
 
-                <dl class="grid gap-4 sm:grid-cols-3" id="hero-stats"></dl>
-
-                <div class="border-t border-ink-950/10 pt-5">
-                  <p class="text-sm font-medium text-ink-900/70">Quick links</p>
-                  <div class="mt-4 flex flex-wrap gap-3">
-                    <a class="contact-pill" id="hero-email">Email</a>
-                    <a class="contact-pill" id="hero-github" rel="noreferrer" target="_blank">GitHub</a>
-                    <a class="contact-pill" id="hero-linkedin" rel="noreferrer" target="_blank">LinkedIn</a>
+                <div>
+                  <p class="meta-label">Quick links</p>
+                  <div class="quick-links">
+                    <a id="hero-email"></a>
+                    <a id="hero-github" rel="noreferrer" target="_blank"></a>
+                    <a id="hero-linkedin" rel="noreferrer" target="_blank"></a>
                   </div>
                 </div>
               </div>
-            </aside>
+            </div>
           </div>
         </section>
 
-        <section class="section-shell" id="about">
-          <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-            <div class="space-y-6" data-reveal>
-              <p class="section-kicker">About</p>
-              <div class="space-y-5">
-                <h2 class="section-title balance">Engineering systems that work well for both teams and end users.</h2>
-                <p class="max-w-2xl text-base leading-8 text-ink-900/80" id="about-lead"></p>
-                <p class="max-w-2xl text-base leading-8 text-ink-900/70" id="about-support"></p>
+        <section class="site-section" id="showcase">
+          <div class="shell site-section__inner">
+            <div class="section-heading" data-reveal>
+              <p class="eyebrow">Showcase</p>
+              <h2 class="section-title">Case-study thinking, practical execution, and room to grow.</h2>
+              <p class="section-copy" id="showcase-copy"></p>
+            </div>
+
+            <div class="showcase-layout">
+              <article class="feature-card" data-reveal id="featured-project"></article>
+
+              <div class="showcase-side">
+                <article class="side-card" data-reveal>
+                  <p class="meta-label">Working style</p>
+                  <ul class="strength-list" id="strengths-list"></ul>
+                </article>
+
+                <article class="side-card side-card--muted" data-reveal>
+                  <p class="meta-label">Next up</p>
+                  <h3>More projects can slot into this same showcase system.</h3>
+                  <p>
+                    The layout intentionally leaves clear room for more engineering stories without padding the portfolio
+                    with weak filler.
+                  </p>
+                </article>
               </div>
             </div>
+          </div>
+        </section>
 
-            <div class="grid gap-6" data-reveal>
-              <article class="panel p-6 sm:p-8">
-                <p class="section-kicker">Education</p>
-                <div class="space-y-5" id="education-list"></div>
-              </article>
+        <section class="site-section" id="experience">
+          <div class="shell site-section__inner">
+            <div class="section-heading" data-reveal>
+              <p class="eyebrow">Experience</p>
+              <h2 class="section-title">A mix of software engineering momentum and real operational support work.</h2>
+              <p class="section-copy" id="experience-copy"></p>
+            </div>
 
-              <article class="panel p-6 sm:p-8">
-                <p class="section-kicker">Strengths</p>
-                <ul class="grid gap-3" id="strengths-list"></ul>
-              </article>
+            <div class="experience-layout">
+              <div class="experience-list" id="experience-list"></div>
+
+              <div class="credibility-stack">
+                <article class="side-card" data-reveal>
+                  <p class="meta-label">Tech stack</p>
+                  <div class="stack-groups" id="stack-groups"></div>
+                </article>
+
+                <article class="side-card" data-reveal>
+                  <p class="meta-label">Certifications</p>
+                  <div class="certification-list" id="certifications-list"></div>
+                </article>
+              </div>
             </div>
           </div>
         </section>
 
-        <section class="section-shell" id="projects">
-          <div class="mx-auto max-w-7xl space-y-8">
-            <div class="max-w-3xl space-y-4" data-reveal>
-              <p class="section-kicker">Featured project</p>
-              <h2 class="section-title balance">A practical portfolio built around products with clear user value.</h2>
-              <p class="text-base leading-8 text-ink-900/80">
-                Caleb's portfolio starts with HireSphere and leaves space for future case studies without making the page
-                feel unfinished.
-              </p>
-            </div>
-
-            <div class="grid gap-6 lg:grid-cols-3" id="projects-grid"></div>
-          </div>
-        </section>
-
-        <section class="section-shell" id="experience">
-          <div class="mx-auto max-w-7xl space-y-8">
-            <div class="max-w-3xl space-y-4" data-reveal>
-              <p class="section-kicker">Experience</p>
-              <h2 class="section-title balance">Hands-on delivery across software, support, and digital infrastructure.</h2>
-              <p class="text-base leading-8 text-ink-900/80">
-                The experience section keeps the strongest responsibilities and outcomes from Caleb's resume in a cleaner,
-                web-friendly format.
-              </p>
-            </div>
-
-            <div class="grid gap-6" id="experience-list"></div>
-          </div>
-        </section>
-
-        <section class="section-shell" id="credibility">
-          <div class="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-            <article class="panel p-6 sm:p-8" data-reveal>
-              <p class="section-kicker">Tech stack</p>
-              <h2 class="section-title">Tools and capabilities that support both product work and ICT operations.</h2>
-              <div class="mt-8 grid gap-6" id="stack-groups"></div>
-            </article>
-
-            <article class="panel p-6 sm:p-8" data-reveal>
-              <p class="section-kicker">Certifications</p>
-              <h2 class="section-title">Recent formal training that backs up the practical work.</h2>
-              <div class="mt-8 grid gap-4" id="certifications-list"></div>
-            </article>
-          </div>
-        </section>
-
-        <section class="section-shell" id="contact">
-          <div class="mx-auto max-w-7xl" data-reveal>
-            <article class="contact-panel">
-              <div class="space-y-5">
-                <p class="section-kicker">Contact</p>
-                <h2 class="headline-display balance text-4xl sm:text-5xl">Let's build something dependable.</h2>
-                <p class="max-w-2xl text-base leading-8 text-sand-50/78" id="contact-copy"></p>
+        <section class="site-section site-section--contact" id="contact">
+          <div class="shell site-section__inner">
+            <article class="contact-panel" data-reveal>
+              <div class="contact-panel__copy">
+                <p class="eyebrow eyebrow--dark">Contact</p>
+                <h2 class="section-title section-title--light">Let's build something dependable.</h2>
+                <p class="section-copy section-copy--light" id="contact-copy"></p>
               </div>
 
-              <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-                <a class="btn-light" id="contact-email">Email Caleb</a>
-                <a class="btn-outline-light" id="contact-github" rel="noreferrer" target="_blank">GitHub</a>
-                <a class="btn-outline-light" id="contact-linkedin" rel="noreferrer" target="_blank">LinkedIn</a>
-                <a class="btn-outline-light" download id="contact-resume" rel="noreferrer" target="_blank">Resume PDF</a>
+              <div class="contact-panel__actions">
+                <a class="button button--light" id="contact-email">Email Caleb</a>
+                <a class="button button--outline-light" id="contact-github" rel="noreferrer" target="_blank">GitHub</a>
+                <a class="button button--outline-light" id="contact-linkedin" rel="noreferrer" target="_blank">LinkedIn</a>
+                <a class="button button--outline-light" download id="contact-resume" rel="noreferrer" target="_blank">Resume PDF</a>
               </div>
             </article>
           </div>
         </section>
       </main>
 
-      <footer class="mx-auto flex max-w-7xl flex-col gap-3 px-5 pb-10 pt-2 text-sm text-ink-900/65 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+      <a class="next-section" href="#showcase" id="next-section-link">
+        <span class="next-section__label">Next</span>
+        <strong id="next-section-name">Showcase</strong>
+      </a>
+
+      <footer class="site-footer shell">
         <p id="footer-copy"></p>
-        <p>Static site built for GitHub Pages with vanilla HTML, static CSS, and lightweight JavaScript.</p>
+        <p>Static portfolio for GitHub Pages, built with vanilla HTML, static CSS, and lightweight JavaScript.</p>
       </footer>
     </div>
 
     <noscript>
-      <div class="mx-auto max-w-3xl px-5 pb-10 text-sm text-ink-900/80 sm:px-8">
+      <div class="noscript-note">
         This portfolio uses a small amount of JavaScript to render structured resume content. Please enable JavaScript to
         view the full site.
       </div>

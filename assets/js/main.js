@@ -1,6 +1,6 @@
 import { siteContent } from "./content.js";
 
-const sectionIds = ["about", "projects", "experience", "credibility", "contact"];
+const sectionIds = ["profile", "showcase", "experience", "contact"];
 
 function setText(id, value) {
   const node = document.getElementById(id);
@@ -21,20 +21,35 @@ function setLink(id, href, label) {
   }
 }
 
-function renderHero() {
-  const { profile, experience, certifications } = siteContent;
+function renderSocialLinks() {
+  const { profile } = siteContent;
+  const socialLinks = [
+    { label: "Git", href: profile.githubUrl },
+    { label: "In", href: profile.linkedinUrl },
+    { label: "Mail", href: `mailto:${profile.email}` }
+  ];
+
+  const socialLinksNode = document.getElementById("social-links");
+  socialLinksNode.innerHTML = socialLinks
+    .map(
+      (item) =>
+        `<a class="social-rail__link" href="${item.href}" rel="noreferrer" target="${item.href.startsWith("mailto:") ? "_self" : "_blank"}">${item.label}</a>`
+    )
+    .join("");
+}
+
+function renderProfile() {
+  const { profile, education, experience, certifications } = siteContent;
 
   setText("profile-location", profile.location);
-  setText("profile-name", profile.name);
-  setText("profile-summary", profile.summary);
-  setText("hero-headline", `${profile.headline} with real-world ICT support depth.`);
+  setText("hero-headline", profile.headline);
   setText("hero-subheadline", profile.subheadline);
-  setText("about-lead", profile.aboutLead);
-  setText("about-support", profile.aboutSupport);
-  setText(
-    "contact-copy",
-    "If you are hiring, collaborating, or building something that needs reliable engineering and grounded technical support, Caleb would love to connect."
-  );
+  setText("profile-name", profile.name);
+  setText("profile-role", profile.roleLine);
+  setText("profile-summary", profile.summary);
+  setText("showcase-copy", profile.showcaseCopy);
+  setText("experience-copy", profile.experienceCopy);
+  setText("contact-copy", profile.contactPitch);
   setText("footer-copy", `${profile.name} - ${new Date().getFullYear()}`);
 
   setLink("resume-link", profile.resumeUrl);
@@ -46,168 +61,118 @@ function renderHero() {
   setLink("contact-linkedin", profile.linkedinUrl);
   setLink("contact-resume", profile.resumeUrl);
 
-  const focusPills = document.getElementById("focus-pills");
-  focusPills.innerHTML = profile.focusAreas
-    .map(
-      (item) =>
-        `<li class="inline-flex items-center rounded-full border border-ink-950/10 bg-white/75 px-4 py-2 text-sm font-medium text-ink-900">${item}</li>`
-    )
+  document.getElementById("focus-pills").innerHTML = profile.focusAreas
+    .map((item) => `<li class="tag-list__item">${item}</li>`)
     .join("");
 
-  const heroStats = document.getElementById("hero-stats");
-  heroStats.innerHTML = [
-    {
-      label: "Roles",
-      value: String(experience.length).padStart(2, "0")
-    },
-    {
-      label: "Certifications",
-      value: String(certifications.length).padStart(2, "0")
-    },
-    {
-      label: "Flagship project",
-      value: "01"
-    }
+  document.getElementById("hero-stats").innerHTML = [
+    { label: "Roles", value: String(experience.length).padStart(2, "0") },
+    { label: "Certs", value: String(certifications.length).padStart(2, "0") },
+    { label: "Case study", value: "01" }
   ]
     .map(
       (stat) => `
         <div class="stat-card">
-          <dt class="text-[11px] font-bold uppercase tracking-[0.28em] text-ink-900/55">${stat.label}</dt>
-          <dd class="mt-3 text-3xl font-semibold text-ink-950">${stat.value}</dd>
+          <dt>${stat.label}</dt>
+          <dd>${stat.value}</dd>
         </div>
       `
     )
     .join("");
-}
 
-function renderEducation() {
-  const educationList = document.getElementById("education-list");
-  educationList.innerHTML = siteContent.education
+  document.getElementById("education-list").innerHTML = education
     .map(
       (entry) => `
-        <div class="border-l-2 border-rust-500/70 pl-4">
-          <p class="text-sm font-bold uppercase tracking-[0.24em] text-teal-600">${entry.dateRange}</p>
-          <h3 class="mt-2 text-xl font-semibold text-ink-950">${entry.award}</h3>
-          <p class="mt-1 text-sm font-medium text-ink-900/70">${entry.institution}</p>
-          <p class="mt-3 text-sm leading-7 text-ink-900/75">${entry.notes}</p>
-        </div>
+        <article class="education-item">
+          <p class="education-item__date">${entry.dateRange}</p>
+          <h3>${entry.award}</h3>
+          <p class="education-item__institution">${entry.institution}</p>
+          <p class="education-item__note">${entry.notes}</p>
+        </article>
       `
     )
     .join("");
 
-  const strengthsList = document.getElementById("strengths-list");
-  strengthsList.innerHTML = siteContent.profile.strengths
-    .map((item) => `<li class="strength-item">${item}</li>`)
+  document.getElementById("strengths-list").innerHTML = profile.strengths
+    .map((item) => `<li>${item}</li>`)
     .join("");
 }
 
-function renderProjects() {
-  const projectsGrid = document.getElementById("projects-grid");
-  const projectCards = siteContent.projects.map((project, index) => {
-    const cardClasses = index === 0 ? "project-card lg:col-span-2" : "project-card";
-    const links = [project.liveUrl, project.repoUrl].filter(Boolean).length
+function renderFeaturedProject() {
+  const project = siteContent.projects[0];
+  const linksMarkup =
+    project.liveUrl || project.repoUrl
       ? `
-          <div class="mt-6 flex flex-wrap gap-3">
-            ${project.liveUrl ? `<a class="btn-secondary" href="${project.liveUrl}" rel="noreferrer" target="_blank">Live project</a>` : ""}
-            ${project.repoUrl ? `<a class="btn-secondary" href="${project.repoUrl}" rel="noreferrer" target="_blank">Source code</a>` : ""}
-          </div>
-        `
-      : `<p class="mt-6 text-sm font-medium text-ink-900/65">Links can be added later as the public case study evolves.</p>`;
-
-    return `
-      <article class="${cardClasses}" data-reveal>
-        <p class="section-kicker">${project.status}</p>
-        <div class="mt-5 space-y-4">
-          <div>
-            <h3 class="text-2xl font-semibold text-ink-950">${project.title}</h3>
-            <p class="mt-2 text-base leading-8 text-ink-900/80">${project.tagline}</p>
-          </div>
-          <p class="text-base leading-8 text-ink-900/75">${project.summary}</p>
-          <ul class="grid gap-3 text-sm leading-7 text-ink-900/75">
-            ${project.highlights.map((item) => `<li class="rounded-[1.25rem] border border-ink-950/10 bg-sand-50/80 px-4 py-3">${item}</li>`).join("")}
-          </ul>
-          <div class="flex flex-wrap gap-3">
-            ${project.stack.map((item) => `<span class="stack-chip">${item}</span>`).join("")}
-          </div>
-          ${links}
+        <div class="feature-card__actions">
+          ${project.liveUrl ? `<a class="button button--ghost" href="${project.liveUrl}" rel="noreferrer" target="_blank">Live project</a>` : ""}
+          ${project.repoUrl ? `<a class="button button--ghost" href="${project.repoUrl}" rel="noreferrer" target="_blank">Source code</a>` : ""}
         </div>
-      </article>
-    `;
-  });
+      `
+      : `<p class="feature-card__note">Public links can be added later as the project case study expands.</p>`;
 
-  while (projectCards.length < 3) {
-    projectCards.push(`
-      <article class="project-card" data-reveal>
-        <p class="section-kicker">Next case study</p>
-        <div class="mt-5 space-y-4">
-          <h3 class="text-2xl font-semibold text-ink-950">More project stories will be added here.</h3>
-          <p class="text-base leading-8 text-ink-900/75">
-            The layout intentionally leaves room for future software engineering work without making the current site feel empty.
-          </p>
-          <div class="rounded-[1.5rem] border border-dashed border-ink-950/15 bg-white/50 px-5 py-6 text-sm leading-7 text-ink-900/65">
-            Future additions can drop straight into the same content model with title, summary, highlights, stack, and optional links.
-          </div>
-        </div>
-      </article>
-    `);
-  }
-
-  projectsGrid.innerHTML = projectCards.join("");
+  document.getElementById("featured-project").innerHTML = `
+    <p class="eyebrow">${project.status}</p>
+    <div class="feature-card__body">
+      <div>
+        <h3>${project.title}</h3>
+        <p class="feature-card__tagline">${project.tagline}</p>
+      </div>
+      <p class="feature-card__summary">${project.summary}</p>
+      <ul class="feature-card__list">
+        ${project.highlights.map((item) => `<li>${item}</li>`).join("")}
+      </ul>
+      <div class="tag-list tag-list--compact">
+        ${project.stack.map((item) => `<span class="tag-list__item">${item}</span>`).join("")}
+      </div>
+      ${linksMarkup}
+    </div>
+  `;
 }
 
 function renderExperience() {
-  const experienceList = document.getElementById("experience-list");
-  experienceList.innerHTML = siteContent.experience
+  document.getElementById("experience-list").innerHTML = siteContent.experience
     .map(
       (role) => `
-        <article class="experience-card" data-reveal>
-          <div class="grid gap-5 lg:grid-cols-[0.34fr_1fr]">
-            <div class="space-y-2">
-              <p class="text-sm font-bold uppercase tracking-[0.24em] text-teal-600">${role.dateRange}</p>
-              <h3 class="text-2xl font-semibold text-ink-950">${role.role}</h3>
-              <p class="text-sm font-medium text-ink-900/70">${role.organization}</p>
-              <p class="text-sm text-ink-900/60">${role.location}</p>
-            </div>
-            <div class="space-y-4">
-              <p class="text-base leading-8 text-ink-900/78">${role.summary}</p>
-              <ul class="grid gap-3 text-sm leading-7 text-ink-900/75">
-                ${role.highlights.map((item) => `<li class="rounded-[1.25rem] border border-ink-950/10 bg-white/70 px-4 py-3">${item}</li>`).join("")}
-              </ul>
-            </div>
+        <article class="timeline-card" data-reveal>
+          <div class="timeline-card__meta">
+            <p class="timeline-card__date">${role.dateRange}</p>
+            <h3>${role.role}</h3>
+            <p>${role.organization}</p>
+            <span>${role.location}</span>
+          </div>
+          <div class="timeline-card__body">
+            <p class="timeline-card__summary">${role.summary}</p>
+            <ul class="timeline-card__list">
+              ${role.highlights.map((item) => `<li>${item}</li>`).join("")}
+            </ul>
           </div>
         </article>
       `
     )
     .join("");
-}
 
-function renderCredibility() {
-  const stackGroups = document.getElementById("stack-groups");
-  stackGroups.innerHTML = siteContent.techStack
+  document.getElementById("stack-groups").innerHTML = siteContent.techStack
     .map(
       (group) => `
-        <section>
-          <h3 class="text-sm font-bold uppercase tracking-[0.28em] text-ink-900/60">${group.label}</h3>
-          <div class="mt-4 flex flex-wrap gap-3">
-            ${group.items.map((item) => `<span class="stack-chip">${item}</span>`).join("")}
+        <section class="stack-group">
+          <h3>${group.label}</h3>
+          <div class="tag-list tag-list--compact">
+            ${group.items.map((item) => `<span class="tag-list__item">${item}</span>`).join("")}
           </div>
         </section>
       `
     )
     .join("");
 
-  const certificationsList = document.getElementById("certifications-list");
-  certificationsList.innerHTML = siteContent.certifications
+  document.getElementById("certifications-list").innerHTML = siteContent.certifications
     .map(
       (cert) => `
-        <article class="cert-card">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <h3 class="text-xl font-semibold text-ink-950">${cert.title}</h3>
-              <p class="mt-2 text-sm leading-7 text-ink-900/75">${cert.issuer}</p>
-            </div>
-            <p class="text-sm font-bold uppercase tracking-[0.24em] text-teal-600">${cert.year}</p>
+        <article class="cert-item">
+          <div>
+            <h3>${cert.title}</h3>
+            <p>${cert.issuer}</p>
           </div>
+          <span>${cert.year}</span>
         </article>
       `
     )
@@ -233,52 +198,78 @@ function setupRevealObserver() {
       });
     },
     {
-      threshold: 0.2,
-      rootMargin: "0px 0px -40px 0px"
+      threshold: 0.18,
+      rootMargin: "0px 0px -48px 0px"
     }
   );
 
   revealNodes.forEach((node) => observer.observe(node));
 }
 
-function setupNavHighlight() {
+function setupSectionTracking() {
   const navLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
+  const indicatorLinks = Array.from(document.querySelectorAll("[data-indicator]"));
+  const nextSectionLink = document.getElementById("next-section-link");
+  const nextSectionName = document.getElementById("next-section-name");
   const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
+
+  const updateIndicators = (activeId) => {
+    navLinks.forEach((link) => {
+      if (link.getAttribute("href") === `#${activeId}`) {
+        link.setAttribute("aria-current", "true");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+
+    indicatorLinks.forEach((link) => {
+      if (link.getAttribute("href") === `#${activeId}`) {
+        link.setAttribute("aria-current", "true");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+
+    const currentIndex = sectionIds.indexOf(activeId);
+    const nextId = sectionIds[currentIndex + 1];
+
+    if (!nextId) {
+      nextSectionLink.classList.add("is-hidden");
+      return;
+    }
+
+    nextSectionLink.classList.remove("is-hidden");
+    nextSectionLink.href = `#${nextId}`;
+    nextSectionName.textContent = nextId.charAt(0).toUpperCase() + nextId.slice(1);
+  };
 
   const observer = new IntersectionObserver(
     (entries) => {
-      const activeEntry = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-      if (!activeEntry) {
-        return;
+      if (visible) {
+        updateIndicators(visible.target.id);
       }
-
-      navLinks.forEach((link) => {
-        const matches = link.getAttribute("href") === `#${activeEntry.target.id}`;
-        if (matches) {
-          link.setAttribute("aria-current", "true");
-        } else {
-          link.removeAttribute("aria-current");
-        }
-      });
     },
     {
-      threshold: [0.2, 0.5, 0.7],
-      rootMargin: "-20% 0px -60% 0px"
+      threshold: [0.2, 0.45, 0.65],
+      rootMargin: "-20% 0px -40% 0px"
     }
   );
 
   sections.forEach((section) => observer.observe(section));
+  updateIndicators(sectionIds[0]);
 }
 
 function init() {
-  renderHero();
-  renderEducation();
-  renderProjects();
+  renderSocialLinks();
+  renderProfile();
+  renderFeaturedProject();
   renderExperience();
-  renderCredibility();
   setupRevealObserver();
-  setupNavHighlight();
+  setupSectionTracking();
 }
 
 init();
