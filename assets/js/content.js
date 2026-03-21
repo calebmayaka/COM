@@ -13,6 +13,8 @@ export const siteContent = {
     location: "Kenya",
     summary:
       "I design dependable web systems that are easy to run and maintain.",
+    aboutMe:
+      "I have been close to computers from an early age, and that curiosity grew into a practical software engineering journey. I started by building with simple tools, then moved into coding full solutions with modern web technologies. Today I focus on building useful systems, automating repetitive work, and delivering software that is dependable in real-world use. My background in hands-on system administration helps me build with both product thinking and operational reliability in mind.",
     showcaseCopy:
       "This work is presented as a focused showcase of how I think through useful systems, clean workflows, and practical implementation.",
     experienceCopy:

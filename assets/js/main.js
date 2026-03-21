@@ -86,6 +86,7 @@ function renderProfile() {
   const { profile } = siteContent;
 
   setText("profile-summary", profile.summary);
+  setText("profile-about-copy", profile.aboutMe || "");
   setText("contact-copy", profile.contactPitch);
   setText("consultancy-copy", profile.consultancyPitch);
   setLink("resume-link", profile.resumeUrl);
