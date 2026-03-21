@@ -39,6 +39,7 @@ export const siteContent = {
     githubUrl: "https://www.github.com/calebmayaka",
     linkedinUrl: "https://www.linkedin.com/in/calebmayaka",
     twitterUrl: "https://x.com/ombogomayaka",
+    whatsappUrl: "https://wa.me/254798934667",
     resumeUrl: "./assets/files/caleb-mayaka-resume.pdf"
   },
   projects: [

@@ -88,12 +88,12 @@ function renderProfile() {
   setText("profile-summary", profile.summary);
   setText("contact-copy", profile.contactPitch);
   setText("consultancy-copy", profile.consultancyPitch);
-  setText("contact-response-note", profile.responseTimeNote);
   setLink("resume-link", profile.resumeUrl);
   setLink("hero-email", `mailto:${profile.email}`);
   setLink("hero-github", profile.githubUrl);
   setLink("hero-linkedin", profile.linkedinUrl);
   setLink("hero-twitter", profile.twitterUrl);
+  setLink("hero-whatsapp", profile.whatsappUrl);
   setLink("contact-primary-cta", `mailto:${profile.email}`, profile.primaryCtaLabel || "Email me");
   setLink("contact-email", `mailto:${profile.email}`);
   setLink("contact-github", profile.githubUrl);
