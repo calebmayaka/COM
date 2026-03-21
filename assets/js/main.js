@@ -86,7 +86,6 @@ function renderProfile() {
   const { profile } = siteContent;
 
   setText("profile-summary", profile.summary);
-  setText("profile-about-copy", profile.aboutMe || "");
   setText("contact-copy", profile.contactPitch);
   setText("consultancy-copy", profile.consultancyPitch);
   setLink("resume-link", profile.resumeUrl);
@@ -125,21 +124,32 @@ function buildServiceMailtoHref(service, email) {
 }
 
 function buildSoftwareProofMarkup() {
-  const linkedProjects = (siteContent.projects || [])
-    .filter((project) => project.liveUrl || project.repoUrl)
-    .slice(0, 4);
+  const preferredTitles = [
+    "HireSphere Hiring System",
+    "FoodBankHub",
+    "Restaurant Website",
+    "Torrent Download to Google Drive (Colab)"
+  ];
 
-  if (!linkedProjects.length) {
+  const projects = siteContent.projects || [];
+  const selectedProjects = preferredTitles
+    .map((title) => projects.find((project) => project.title === title))
+    .filter(Boolean);
+
+  if (!selectedProjects.length) {
     return "";
   }
 
   return `
     <div class="service-story__proof">
-      <p class="meta-label">Project proof</p>
+      <p class="meta-label">Selected Work</p>
       <div class="service-story__proof-links">
-        ${linkedProjects
+        ${selectedProjects
           .map((project) => {
             const href = project.liveUrl || project.repoUrl;
+            if (!href) {
+              return `<span>${project.title}</span>`;
+            }
             return `<a href="${href}" rel="noreferrer" target="_blank">${project.title}</a>`;
           })
           .join("")}
@@ -164,9 +174,18 @@ function renderConsultancyServices() {
       const tagsMarkup = (service.tags || [])
         .map((tag) => `<span class="tag-list__item">${tag}</span>`)
         .join("");
+      const tagsLabel = service.tagsLabel || "Focus Areas";
       const forWhoPreview = (service.forWho || []).slice(0, 3);
       const deliverablesPreview = (service.deliverables || []).slice(0, 3);
       const softwareProof = service.id === "software-development" ? buildSoftwareProofMarkup() : "";
+      const tagSection = tagsMarkup
+        ? `
+            <div class="service-story__tags">
+              <p class="meta-label">${tagsLabel}</p>
+              <div class="tag-list">${tagsMarkup}</div>
+            </div>
+          `
+        : "";
 
       return `
         <article class="service-story" data-service-reveal>
@@ -197,7 +216,7 @@ function renderConsultancyServices() {
               <p>${service.outcome || ""}</p>
             </div>
             ${softwareProof}
-            <div class="tag-list">${tagsMarkup}</div>
+            ${tagSection}
             <a class="hero-link hero-link--service" href="${ctaHref}">${service.ctaLabel || "Discuss this service"}</a>
           </div>
         </article>

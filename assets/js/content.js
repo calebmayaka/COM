@@ -22,7 +22,7 @@ export const siteContent = {
     contactPitch:
       "If you need reliable technical support with clear communication and practical execution, I would love to work with you.",
     consultancyPitch:
-      "I deliver practical services that help individuals and teams move faster, reduce technical friction, and get dependable results.",
+      "I help individuals and teams build reliable systems, eliminate technical friction, and get real work done faster without unnecessary complexity.",
     primaryCtaLabel: "Email me",
     responseTimeNote: "Typical response within 24 hours.",
     whyWorkWithMe: [
@@ -126,18 +126,20 @@ export const siteContent = {
     {
       id: "software-development",
       title: "Software Development",
-      summary: "I build dependable web products and internal tools that remove manual work and support growth.",
+      summary: "I build dependable web applications and internal tools that streamline operations and scale with your needs.",
       forWho: [
-        "Startups and small teams building MVPs or internal platforms",
-        "Organizations improving inefficient manual workflows"
+        "Startups building MVPs or internal systems",
+        "Teams replacing manual or inefficient workflows",
+        "Organizations that need stable, long-term solutions"
       ],
       deliverables: [
-        "Web application features and workflow automation",
-        "Backend/API endpoints and role-based business logic",
-        "Deployment-ready codebase with clean structure"
+        "Custom web features and workflow automation",
+        "Secure backend systems and API integrations",
+        "Clean, scalable, and deployment-ready code"
       ],
-      outcome: "A stable, maintainable software solution that solves real operational problems.",
+      outcome: "A reliable system that reduces manual work, improves efficiency, and supports growth.",
       tags: ["Web Apps", "APIs", "Automation"],
+      tagsLabel: "Focus Areas",
       imageUrl: "./assets/images/services/software-development.jpg",
       imageAlt: "Developer working on software architecture and code on multiple screens.",
       ctaLabel: "Discuss this service",
@@ -146,19 +148,21 @@ export const siteContent = {
     },
     {
       id: "hardware-maintenance-repairs",
-      title: "Hardware Maintenance and Repairs",
-      summary: "I keep devices and office hardware running reliably through diagnostics, repair, and preventive care.",
+      title: "Hardware Maintenance & IT Support",
+      summary: "I keep your devices, systems, and office infrastructure running reliably so your work never stops.",
       forWho: [
-        "Small offices and teams with recurring hardware downtime",
-        "Individuals needing reliable repair and maintenance support"
+        "Offices experiencing frequent downtime",
+        "Teams without dedicated IT support",
+        "Individuals who need dependable repair and setup"
       ],
       deliverables: [
-        "Hardware diagnostics and fault isolation",
-        "Repair, replacement, and optimization recommendations",
-        "Preventive maintenance checklist and support guidance"
+        "Full diagnostics and issue resolution",
+        "Hardware repair, upgrades, and optimization",
+        "System setup (Windows, Linux, networks, printers)"
       ],
-      outcome: "Reduced downtime and longer device usability for daily operations.",
-      tags: ["Diagnostics", "Repairs", "Maintenance"],
+      outcome: "Less downtime, longer device lifespan, and smoother day-to-day operations.",
+      tags: ["Diagnostics", "Repairs", "Maintenance", "Network Setup"],
+      tagsLabel: "Core Services",
       imageUrl: "./assets/images/services/hardware-repairs.jpg",
       imageAlt: "Technician repairing computer hardware on a workbench.",
       ctaLabel: "Discuss this service",
@@ -168,18 +172,19 @@ export const siteContent = {
     {
       id: "video-editing",
       title: "Video Editing",
-      summary: "I edit clear, engaging videos for social media, campaigns, and branded communication.",
+      summary: "I create clean, engaging videos that communicate your message clearly and keep your audience watching.",
       forWho: [
-        "Personal brands and creators publishing regular content",
-        "Businesses needing clean promo or explainer videos"
+        "Content creators and personal brands",
+        "Businesses running campaigns or promotions"
       ],
       deliverables: [
-        "Structured edit with pacing, transitions, and polish",
-        "Captions or text overlays based on content goals",
-        "Platform-ready exports for web and social channels"
+        "Structured edits with clean pacing and flow",
+        "Text overlays, captions, and visual polish",
+        "Export optimized for social and web platforms"
       ],
-      outcome: "Sharper, more engaging video content that communicates clearly.",
-      tags: ["Cuts", "Motion", "Export"],
+      outcome: "Professional, engaging videos that hold attention and communicate effectively.",
+      tags: ["Cuts", "Motion", "Social Exports"],
+      tagsLabel: "Focus Areas",
       imageUrl: "./assets/images/services/video-editing.jpg",
       imageAlt: "Video editor timeline on screen with color grading and clip cuts.",
       ctaLabel: "Discuss this service",
@@ -188,19 +193,20 @@ export const siteContent = {
     },
     {
       id: "graphics-design",
-      title: "Graphics Design",
-      summary: "I design practical, consistent visuals for campaigns, brand presence, and everyday communication.",
+      title: "Graphic Design",
+      summary: "I design clear, consistent visuals that strengthen your brand and make your communication more effective.",
       forWho: [
-        "Founders and teams building consistent visual identity",
-        "Organizations running campaigns and social promotions"
+        "Founders building a brand identity",
+        "Teams running campaigns or social media"
       ],
       deliverables: [
-        "Social media and campaign-ready graphic assets",
-        "Brand-consistent layouts for digital communication",
-        "Reusable templates for ongoing content output"
+        "Social media graphics and campaign assets",
+        "Clean, consistent design layouts",
+        "Reusable templates for ongoing content"
       ],
-      outcome: "Stronger visual communication that improves brand clarity and consistency.",
+      outcome: "Stronger brand presence and clearer visual communication.",
       tags: ["Brand Assets", "Posters", "Social Media"],
+      tagsLabel: "Focus Areas",
       imageUrl: "./assets/images/services/graphics-design.jpg",
       imageAlt: "Designer workspace showing brand colors, typography, and graphic layouts.",
       ctaLabel: "Discuss this service",
@@ -209,19 +215,19 @@ export const siteContent = {
     },
     {
       id: "consultancy",
-      title: "Consultancy",
-      summary: "I provide practical technical guidance on what to build, how to set it up, and how to run it effectively.",
+      title: "Technical Consultancy",
+      summary: "I help you make the right technical decisions: what to build, how to build it, and how to run it effectively.",
       forWho: [
-        "Teams making technology and implementation decisions",
-        "Individuals planning system setup or process improvements"
+        "Teams planning systems or digital products",
+        "Individuals improving workflows or infrastructure"
       ],
       deliverables: [
-        "Technical advisory sessions with clear recommendations",
-        "Implementation roadmap with realistic phased priorities",
-        "Setup and process guidance tailored to current constraints"
+        "Clear, practical technical advice",
+        "Step-by-step implementation roadmap",
+        "Guidance tailored to your resources and constraints"
       ],
-      outcome: "Better technical decisions and a clearer path from idea to execution.",
-      tags: ["Advisory", "Planning", "Implementation"],
+      outcome: "Better decisions, less guesswork, and a clear path to execution.",
+      tags: [],
       imageUrl: "./assets/images/services/consultancy.jpg",
       imageAlt: "Professional consultancy session discussing technical implementation strategy.",
       ctaLabel: "Discuss this service",
