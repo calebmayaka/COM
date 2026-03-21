@@ -88,11 +88,13 @@ function renderProfile() {
   setText("profile-summary", profile.summary);
   setText("contact-copy", profile.contactPitch);
   setText("consultancy-copy", profile.consultancyPitch);
+  setText("contact-response-note", profile.responseTimeNote);
   setLink("resume-link", profile.resumeUrl);
   setLink("hero-email", `mailto:${profile.email}`);
   setLink("hero-github", profile.githubUrl);
   setLink("hero-linkedin", profile.linkedinUrl);
   setLink("hero-twitter", profile.twitterUrl);
+  setLink("contact-primary-cta", `mailto:${profile.email}`, profile.primaryCtaLabel || "Email me");
   setLink("contact-email", `mailto:${profile.email}`);
   setLink("contact-github", profile.githubUrl);
   setLink("contact-linkedin", profile.linkedinUrl);
@@ -101,6 +103,17 @@ function renderProfile() {
   document.getElementById("focus-list").innerHTML = profile.focusAreas
     .map((item) => `<span class="focus-pill">${item}</span>`)
     .join("");
+
+  const proofStrip = document.getElementById("why-work-with-me");
+  if (proofStrip) {
+    proofStrip.innerHTML = (profile.whyWorkWithMe || [])
+      .map((item) => `<p class="proof-strip__item">${item}</p>`)
+      .join("");
+  }
+}
+
+function renderListItems(items) {
+  return (items || []).map((item) => `<li>${item}</li>`).join("");
 }
 
 function renderConsultancyServices() {
@@ -117,6 +130,8 @@ function renderConsultancyServices() {
       const tagsMarkup = (service.tags || [])
         .map((tag) => `<span class="tag-list__item">${tag}</span>`)
         .join("");
+      const forWhoPreview = (service.forWho || []).slice(0, 2);
+      const deliverablesPreview = (service.deliverables || []).slice(0, 2);
 
       return `
         <article class="side-card service-card">
@@ -126,6 +141,22 @@ function renderConsultancyServices() {
             </button>
           </h3>
           <p>${service.summary}</p>
+          <div class="service-card__block">
+            <p class="meta-label">Who it's for</p>
+            <ul class="service-card__list">
+              ${renderListItems(forWhoPreview)}
+            </ul>
+          </div>
+          <div class="service-card__block">
+            <p class="meta-label">Deliverables</p>
+            <ul class="service-card__list">
+              ${renderListItems(deliverablesPreview)}
+            </ul>
+          </div>
+          <div class="service-card__outcome">
+            <p class="meta-label">Expected result</p>
+            <p>${service.outcome || ""}</p>
+          </div>
           <div class="tag-list">${tagsMarkup}</div>
         </article>
       `;
@@ -168,18 +199,38 @@ function buildConsultancyDeepDiveMarkup() {
     <div class="deep-dive-grid">
       ${services
         .map(
-          (service) => `
-            <article class="timeline-card">
-              <h3>${service.title}</h3>
-              <p class="timeline-card__summary">${service.summary}</p>
-              <div class="tag-list">
-                ${(service.tags || []).map((tag) => `<span class="tag-list__item">${tag}</span>`).join("")}
-              </div>
-            </article>
-          `
+          (service) => buildServiceDetailCardMarkup(service)
         )
         .join("")}
     </div>
+  `;
+}
+
+function buildServiceDetailCardMarkup(service) {
+  return `
+    <article class="timeline-card">
+      <h3>${service.title}</h3>
+      <p class="timeline-card__summary">${service.summary}</p>
+      <div class="service-card__block">
+        <p class="meta-label">Who it's for</p>
+        <ul class="timeline-card__list">
+          ${renderListItems(service.forWho)}
+        </ul>
+      </div>
+      <div class="service-card__block">
+        <p class="meta-label">Deliverables</p>
+        <ul class="timeline-card__list">
+          ${renderListItems(service.deliverables)}
+        </ul>
+      </div>
+      <div class="service-card__outcome">
+        <p class="meta-label">Expected result</p>
+        <p>${service.outcome || ""}</p>
+      </div>
+      <div class="tag-list">
+        ${(service.tags || []).map((tag) => `<span class="tag-list__item">${tag}</span>`).join("")}
+      </div>
+    </article>
   `;
 }
 
@@ -188,13 +239,7 @@ function buildSoftwareServiceDeepDiveMarkup(service) {
 
   return `
     <div class="deep-dive-grid">
-      <article class="timeline-card">
-        <h3>${service.title}</h3>
-        <p class="timeline-card__summary">${service.summary}</p>
-        <div class="tag-list">
-          ${(service.tags || []).map((tag) => `<span class="tag-list__item">${tag}</span>`).join("")}
-        </div>
-      </article>
+      ${buildServiceDetailCardMarkup(service)}
       ${projects
         .map(
           (project) => `
@@ -231,15 +276,7 @@ function buildSingleServiceDeepDiveMarkup(service) {
     return buildSoftwareServiceDeepDiveMarkup(service);
   }
 
-  return `
-    <article class="timeline-card">
-      <h3>${service.title}</h3>
-      <p class="timeline-card__summary">${service.summary}</p>
-      <div class="tag-list">
-        ${(service.tags || []).map((tag) => `<span class="tag-list__item">${tag}</span>`).join("")}
-      </div>
-    </article>
-  `;
+  return buildServiceDetailCardMarkup(service);
 }
 
 function setupDeepDive() {

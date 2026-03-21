@@ -155,9 +155,8 @@ ul {
 
 .site-footer p {
   text-align: center;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
   color: var(--color-text-muted);
 }
 
@@ -570,6 +569,22 @@ html[data-active-tab="contact"] .section-copy {
   gap: 1rem;
 }
 
+.proof-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.proof-strip__item {
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  padding: 0.7rem 0.85rem;
+  color: var(--color-text-soft);
+  line-height: 1.5;
+  font-size: 0.92rem;
+}
+
 .service-card {
   display: grid;
   gap: 0.85rem;
@@ -596,6 +611,47 @@ html[data-active-tab="contact"] .section-copy {
 .service-card__trigger:hover,
 .service-card__trigger:focus-visible {
   color: var(--color-accent);
+}
+
+.service-card__block {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.service-card__list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.service-card__list li {
+  position: relative;
+  padding-left: 0.95rem;
+  color: var(--color-text-soft);
+  line-height: 1.6;
+}
+
+.service-card__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7rem;
+  width: 0.34rem;
+  height: 0.34rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+}
+
+.service-card__outcome {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel) 82%, transparent);
+}
+
+.service-card__outcome p:last-child {
+  color: var(--color-text-soft);
+  line-height: 1.6;
 }
 
 .feature-card,
@@ -776,6 +832,29 @@ html[data-active-tab="contact"] .section-copy {
 
 .contact-panel--simple .section-copy {
   max-width: 34rem;
+}
+
+.contact-primary-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.62rem 1.1rem;
+  border: 1px solid var(--color-line-strong);
+  background: var(--color-panel);
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.contact-primary-cta:hover,
+.contact-primary-cta:focus-visible {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.contact-response-note {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .contact-icons {
@@ -983,6 +1062,7 @@ html[data-active-tab="contact"] .section-copy {
   }
 
   .services-grid,
+  .proof-strip,
   .deep-dive-grid--two {
     grid-template-columns: 1fr;
   }

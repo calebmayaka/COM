@@ -1,7 +1,12 @@
 export const siteContent = {
   profile: {
     name: "Caleb Mayaka",
+    siteUrl: "https://www.calebmayaka.com/",
     roleLine: "Software Engineer",
+    seoTitle: "Caleb Mayaka | Software Engineer & Technical Services",
+    seoDescription:
+      "Caleb Mayaka is a Software Engineer providing dependable software development and practical technical services including hardware support, video editing, and graphics design.",
+    ogImageUrl: "https://www.calebmayaka.com/assets/images/og-calebmayaka-1200x630.png",
     headline: "Software engineer building dependable digital experiences.",
     subheadline:
       "I build dependable software shaped by hands-on system admin experience and a practical understanding of how systems are used every day.",
@@ -13,9 +18,16 @@ export const siteContent = {
     experienceCopy:
       "Across internships and field support roles, I have worked across software delivery, technical support, infrastructure setup, and day-to-day problem solving in real operational environments.",
     contactPitch:
-      "If you are looking for someone who can contribute to software work while understanding the systems and support reality around it, I would love to connect.",
+      "If you need reliable technical support with clear communication and practical execution, I would love to work with you.",
     consultancyPitch:
-      "I offer practical digital and technical services for individuals, teams, and small businesses.",
+      "I deliver practical services that help individuals and teams move faster, reduce technical friction, and get dependable results.",
+    primaryCtaLabel: "Email me",
+    responseTimeNote: "Typical response within 24 hours.",
+    whyWorkWithMe: [
+      "Outcome-focused delivery with clear timelines and practical scope.",
+      "Strong mix of software engineering and hands-on technical troubleshooting.",
+      "Reliable communication from first discussion to final handoff."
+    ],
     strengths: [
       "Builds software with a practical eye for reliability and user needs.",
       "Moves comfortably between product work, troubleshooting, and technical support.",
@@ -111,31 +123,81 @@ export const siteContent = {
     {
       id: "software-development",
       title: "Software Development",
-      summary: "Custom web solutions, workflow tools, and system features built with maintainability in mind.",
+      summary: "I build dependable web products and internal tools that remove manual work and support growth.",
+      forWho: [
+        "Startups and small teams building MVPs or internal platforms",
+        "Organizations improving inefficient manual workflows"
+      ],
+      deliverables: [
+        "Web application features and workflow automation",
+        "Backend/API endpoints and role-based business logic",
+        "Deployment-ready codebase with clean structure"
+      ],
+      outcome: "A stable, maintainable software solution that solves real operational problems.",
       tags: ["Web Apps", "APIs", "Automation"]
     },
     {
       id: "hardware-maintenance-repairs",
       title: "Hardware Maintenance and Repairs",
-      summary: "Device diagnostics, troubleshooting, repair, and preventive maintenance for reliable day-to-day use.",
+      summary: "I keep devices and office hardware running reliably through diagnostics, repair, and preventive care.",
+      forWho: [
+        "Small offices and teams with recurring hardware downtime",
+        "Individuals needing reliable repair and maintenance support"
+      ],
+      deliverables: [
+        "Hardware diagnostics and fault isolation",
+        "Repair, replacement, and optimization recommendations",
+        "Preventive maintenance checklist and support guidance"
+      ],
+      outcome: "Reduced downtime and longer device usability for daily operations.",
       tags: ["Diagnostics", "Repairs", "Maintenance"]
     },
     {
       id: "video-editing",
       title: "Video Editing",
-      summary: "Clean and engaging edits for personal brands, events, and digital content needs.",
+      summary: "I edit clear, engaging videos for social media, campaigns, and branded communication.",
+      forWho: [
+        "Personal brands and creators publishing regular content",
+        "Businesses needing clean promo or explainer videos"
+      ],
+      deliverables: [
+        "Structured edit with pacing, transitions, and polish",
+        "Captions or text overlays based on content goals",
+        "Platform-ready exports for web and social channels"
+      ],
+      outcome: "Sharper, more engaging video content that communicates clearly.",
       tags: ["Cuts", "Motion", "Export"]
     },
     {
       id: "graphics-design",
       title: "Graphics Design",
-      summary: "Visual assets for social media, branding, and promotional communication.",
+      summary: "I design practical, consistent visuals for campaigns, brand presence, and everyday communication.",
+      forWho: [
+        "Founders and teams building consistent visual identity",
+        "Organizations running campaigns and social promotions"
+      ],
+      deliverables: [
+        "Social media and campaign-ready graphic assets",
+        "Brand-consistent layouts for digital communication",
+        "Reusable templates for ongoing content output"
+      ],
+      outcome: "Stronger visual communication that improves brand clarity and consistency.",
       tags: ["Brand Assets", "Posters", "Social Media"]
     },
     {
       id: "consultancy",
       title: "Consultancy",
-      summary: "Guidance on technology decisions, system setup, and practical implementation paths.",
+      summary: "I provide practical technical guidance on what to build, how to set it up, and how to run it effectively.",
+      forWho: [
+        "Teams making technology and implementation decisions",
+        "Individuals planning system setup or process improvements"
+      ],
+      deliverables: [
+        "Technical advisory sessions with clear recommendations",
+        "Implementation roadmap with realistic phased priorities",
+        "Setup and process guidance tailored to current constraints"
+      ],
+      outcome: "Better technical decisions and a clearer path from idea to execution.",
       tags: ["Advisory", "Planning", "Implementation"]
     }
   ],
