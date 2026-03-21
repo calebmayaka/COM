@@ -45,6 +45,66 @@ function setLink(id, href, label) {
   }
 }
 
+function getToolIconSvg(iconKey) {
+  const icons = {
+    python:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.4c3.8 0 3.6 1.6 3.6 1.6v2H8.4c-2.4 0-2.8 2-2.8 2v3.2H3.4S2 10.4 2 8.8c0-1.6 1.2-5.4 6-5.4H12Zm-4 2.1a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4Zm4 15.1c-3.8 0-3.6-1.6-3.6-1.6v-2h7.2c2.4 0 2.8-2 2.8-2v-3.2h2.2s1.4 1.8 1.4 3.4c0 1.6-1.2 5.4-6 5.4H12Zm4-2.1a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4Z"/></svg>',
+    framework:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v6H4V4Zm0 10h10v6H4v-6Zm12 0h4v6h-4v-6Z"/></svg>',
+    api:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 6a2.8 2.8 0 1 1 0 5.6A2.8 2.8 0 0 1 7.8 6ZM16.2 12.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6ZM9.9 9.8l4.2 2.3m0 0-1.2 2.1"/></svg>',
+    git:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6m-3-8 6 6m-9 2 6 6M5.5 8.5 8.5 5.5l10 10-3 3-10-10Z"/></svg>',
+    docker:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10h2v2H5v-2Zm3 0h2v2H8v-2Zm3 0h2v2h-2v-2Zm-6 3h10c-.4 2.8-2.5 4.5-5.6 4.5C6.2 17.5 5 15.8 5 13Zm12.3-3c.6-1.7 2.2-1.8 2.2-1.8s.1 1.8-1.2 2.8"/></svg>',
+    os:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5.5h17v5h-17v-5Zm0 8h8v5h-8v-5Zm10 0h7v5h-7v-5Z"/></svg>',
+    server:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v4H4V5Zm0 5.5h16v4H4v-4ZM4 16h16v3H4v-3Zm2-9.5h1.5M6 12h1.5M6 17.5h1.5"/></svg>',
+    design:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5A8.5 8.5 0 1 0 20.5 12c0 1.9-1.6 2.2-2.3 2.2h-2.7a1.5 1.5 0 0 0-1.5 1.5c0 .7.3 1.4.3 2.1A2.8 2.8 0 0 1 11.5 21 8.5 8.5 0 0 1 12 3.5Zm-3.3 6.7a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2Zm6.7 0a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2Zm-3.3-2a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2Z"/></svg>',
+    video:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h11v12H4V6Zm13 4 3-2v8l-3-2v-4Z"/></svg>',
+    motion:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h5m2 0h4m2 0h3M6 8l-2 4 2 4m12-8 2 4-2 4"/></svg>',
+    figma:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3.5h6a3 3 0 0 1 0 6H9v-6Zm0 6h6a3 3 0 1 1 0 6H9v-6Zm0 6h3a3 3 0 1 1-3 3v-3Zm0-12a3 3 0 1 0 0 6h3v-6H9Z"/></svg>',
+    uiux:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4V5Zm2.5 3h5M6.5 11h4m5-3v8"/></svg>',
+    javascript:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5V4Zm7.2 12.2c.6.9 1.4 1.4 2.7 1.4 1.4 0 2.4-.7 2.4-2 0-1.1-.7-1.6-2-2.1l-.7-.3c-.7-.3-1-.5-1-.9 0-.4.3-.7.9-.7.6 0 .9.2 1.2.7l1.6-1c-.7-1.1-1.7-1.6-2.8-1.6-1.8 0-3.1 1-3.1 2.5 0 1.4.8 2.1 2.2 2.7l.7.3c.8.3 1.2.6 1.2 1.1 0 .6-.5.9-1.2.9-.8 0-1.3-.4-1.8-1l-1.3 1Zm-5.8.3c.4.7 1.1 1.1 2.1 1.1 1.4 0 2.4-.8 2.4-2.5V9.7H8.8v5.4c0 .7-.3 1-.8 1-.4 0-.6-.1-.9-.4l-.7 1Z"/></svg>',
+    css:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h14l-1.2 14.2L12 20.5l-5.8-2.8L5 3.5Zm3 3 .2 2.4h7.6l.2-2.4H8Zm.4 4.4.2 2.3h4.9l-.2 2-1.3.6-1.3-.6-.1-1h-2.2l.2 2.4 3.4 1.6 3.4-1.6.5-5.7H8.4Z"/></svg>'
+  };
+
+  return icons[iconKey] || '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 4 8.5v7L12 20l8-4.5v-7L12 4Zm0 2.2 5.6 3.1-5.6 3.1-5.6-3.1L12 6.2Zm-6 4.8 5 2.8v4.8l-5-2.8V11Zm7 7.6v-4.8l5-2.8v4.8l-5 2.8Z"/></svg>';
+}
+
+function renderProfileTools(profile) {
+  const labelNode = document.getElementById("profile-tools-label");
+  const listNode = document.getElementById("profile-tools-list");
+  const tools = profile.tools || [];
+
+  if (labelNode) {
+    labelNode.textContent = profile.toolsLabel || "Tools I Work With";
+  }
+
+  if (!listNode) {
+    return;
+  }
+
+  listNode.innerHTML = tools
+    .map(
+      (tool) => `
+        <span class="tool-chip">
+          <span class="tool-chip__icon" aria-hidden="true">${getToolIconSvg(tool.iconKey)}</span>
+          <span class="tool-chip__text">${tool.name}</span>
+        </span>
+      `
+    )
+    .join("");
+}
+
 function renderProjectLinks(project) {
   if (!project.liveUrl && !project.repoUrl) {
     return "";
@@ -99,10 +159,7 @@ function renderProfile() {
   setLink("contact-github", profile.githubUrl);
   setLink("contact-linkedin", profile.linkedinUrl);
   setLink("contact-twitter", profile.twitterUrl);
-
-  document.getElementById("focus-list").innerHTML = profile.focusAreas
-    .map((item) => `<span class="focus-pill">${item}</span>`)
-    .join("");
+  renderProfileTools(profile);
 
 }
 

@@ -496,21 +496,61 @@ html[data-active-tab="contact"] .section-copy {
   color: var(--color-text-muted);
 }
 
-.focus-list {
-  display: flex;
-  flex-wrap: wrap;
+.profile-tools {
+  display: grid;
   gap: 0.65rem;
   margin-top: 0.2rem;
+  justify-items: center;
+}
+
+.profile-tools__label {
+  text-align: center;
+}
+
+.tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55rem;
+  max-width: 36rem;
+}
+
+.tool-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.35rem 0.62rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-panel) 90%, transparent);
+  color: var(--color-text-soft);
+  line-height: 1;
+}
+
+.tool-chip__icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
 }
 
-.focus-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.45rem 0.8rem;
-  border: 1px solid var(--color-line);
-  color: var(--color-text-soft);
-  font-size: 0.92rem;
+.tool-chip__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tool-chip__icon svg path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tool-chip__text {
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
 }
 
 .panel-actions {
@@ -1241,6 +1281,18 @@ html[data-active-tab="contact"] .section-copy {
 
   .quick-links {
     gap: 0.75rem;
+  }
+
+  .tools-row {
+    gap: 0.48rem;
+  }
+
+  .tool-chip {
+    padding: 0.32rem 0.56rem;
+  }
+
+  .tool-chip__text {
+    font-size: 0.76rem;
   }
 
   .services-grid {

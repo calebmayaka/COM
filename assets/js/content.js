@@ -36,6 +36,23 @@ export const siteContent = {
       "Communicates clearly with both technical teammates and everyday users.",
       "Learns quickly and stays grounded in solving the actual problem."
     ],
+    toolsLabel: "Tools I Work With",
+    tools: [
+      { name: "Python", iconKey: "python" },
+      { name: "Django", iconKey: "framework" },
+      { name: "REST APIs", iconKey: "api" },
+      { name: "Git", iconKey: "git" },
+      { name: "Docker", iconKey: "docker" },
+      { name: "Linux/Windows", iconKey: "os" },
+      { name: "Proxmox", iconKey: "server" },
+      { name: "Adobe Photoshop", iconKey: "design" },
+      { name: "Adobe Premiere Pro", iconKey: "video" },
+      { name: "Adobe After Effects", iconKey: "motion" },
+      { name: "Figma", iconKey: "figma" },
+      { name: "Adobe XD", iconKey: "uiux" },
+      { name: "JavaScript", iconKey: "javascript" },
+      { name: "Tailwind CSS", iconKey: "css" }
+    ],
     focusAreas: ["Django", "System Admin", "Workflow Automation"],
     email: "mayakaombogo254@gmail.com",
     githubUrl: "https://www.github.com/calebmayaka",
