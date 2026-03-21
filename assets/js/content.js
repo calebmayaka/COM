@@ -135,7 +135,12 @@ export const siteContent = {
         "Deployment-ready codebase with clean structure"
       ],
       outcome: "A stable, maintainable software solution that solves real operational problems.",
-      tags: ["Web Apps", "APIs", "Automation"]
+      tags: ["Web Apps", "APIs", "Automation"],
+      imageUrl: "./assets/images/services/software-development.jpg",
+      imageAlt: "Developer working on software architecture and code on multiple screens.",
+      ctaLabel: "Discuss this service",
+      ctaSubject: "Software Development Inquiry",
+      ctaBody: "Hi Caleb, I would like to discuss your Software Development service."
     },
     {
       id: "hardware-maintenance-repairs",
@@ -151,7 +156,12 @@ export const siteContent = {
         "Preventive maintenance checklist and support guidance"
       ],
       outcome: "Reduced downtime and longer device usability for daily operations.",
-      tags: ["Diagnostics", "Repairs", "Maintenance"]
+      tags: ["Diagnostics", "Repairs", "Maintenance"],
+      imageUrl: "./assets/images/services/hardware-repairs.jpg",
+      imageAlt: "Technician repairing computer hardware on a workbench.",
+      ctaLabel: "Discuss this service",
+      ctaSubject: "Hardware Maintenance & Repair Inquiry",
+      ctaBody: "Hi Caleb, I would like to discuss your Hardware Maintenance and Repairs service."
     },
     {
       id: "video-editing",
@@ -167,7 +177,12 @@ export const siteContent = {
         "Platform-ready exports for web and social channels"
       ],
       outcome: "Sharper, more engaging video content that communicates clearly.",
-      tags: ["Cuts", "Motion", "Export"]
+      tags: ["Cuts", "Motion", "Export"],
+      imageUrl: "./assets/images/services/video-editing.jpg",
+      imageAlt: "Video editor timeline on screen with color grading and clip cuts.",
+      ctaLabel: "Discuss this service",
+      ctaSubject: "Video Editing Inquiry",
+      ctaBody: "Hi Caleb, I would like to discuss your Video Editing service."
     },
     {
       id: "graphics-design",
@@ -183,7 +198,12 @@ export const siteContent = {
         "Reusable templates for ongoing content output"
       ],
       outcome: "Stronger visual communication that improves brand clarity and consistency.",
-      tags: ["Brand Assets", "Posters", "Social Media"]
+      tags: ["Brand Assets", "Posters", "Social Media"],
+      imageUrl: "./assets/images/services/graphics-design.jpg",
+      imageAlt: "Designer workspace showing brand colors, typography, and graphic layouts.",
+      ctaLabel: "Discuss this service",
+      ctaSubject: "Graphics Design Inquiry",
+      ctaBody: "Hi Caleb, I would like to discuss your Graphics Design service."
     },
     {
       id: "consultancy",
@@ -199,7 +219,12 @@ export const siteContent = {
         "Setup and process guidance tailored to current constraints"
       ],
       outcome: "Better technical decisions and a clearer path from idea to execution.",
-      tags: ["Advisory", "Planning", "Implementation"]
+      tags: ["Advisory", "Planning", "Implementation"],
+      imageUrl: "./assets/images/services/consultancy.jpg",
+      imageAlt: "Professional consultancy session discussing technical implementation strategy.",
+      ctaLabel: "Discuss this service",
+      ctaSubject: "Technical Consultancy Inquiry",
+      ctaBody: "Hi Caleb, I would like to discuss your Consultancy service."
     }
   ],
   experience: [

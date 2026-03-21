@@ -116,9 +116,47 @@ function renderListItems(items) {
   return (items || []).map((item) => `<li>${item}</li>`).join("");
 }
 
+function buildServiceMailtoHref(service, email) {
+  const params = new URLSearchParams();
+  if (service.ctaSubject) {
+    params.set("subject", service.ctaSubject);
+  }
+  if (service.ctaBody) {
+    params.set("body", service.ctaBody);
+  }
+
+  const query = params.toString();
+  return `mailto:${email}${query ? `?${query}` : ""}`;
+}
+
+function buildSoftwareProofMarkup() {
+  const linkedProjects = (siteContent.projects || [])
+    .filter((project) => project.liveUrl || project.repoUrl)
+    .slice(0, 4);
+
+  if (!linkedProjects.length) {
+    return "";
+  }
+
+  return `
+    <div class="service-story__proof">
+      <p class="meta-label">Project proof</p>
+      <div class="service-story__proof-links">
+        ${linkedProjects
+          .map((project) => {
+            const href = project.liveUrl || project.repoUrl;
+            return `<a href="${href}" rel="noreferrer" target="_blank">${project.title}</a>`;
+          })
+          .join("")}
+      </div>
+    </div>
+  `;
+}
+
 function renderConsultancyServices() {
   const container = document.getElementById("consultancy-services");
   const services = siteContent.services || [];
+  const email = siteContent.profile?.email || "";
 
   if (!container) {
     return;
@@ -127,37 +165,46 @@ function renderConsultancyServices() {
   container.innerHTML = services
     .map((service, index) => {
       const serviceKey = service.id || `service-${index}`;
+      const ctaHref = buildServiceMailtoHref(service, email);
       const tagsMarkup = (service.tags || [])
         .map((tag) => `<span class="tag-list__item">${tag}</span>`)
         .join("");
-      const forWhoPreview = (service.forWho || []).slice(0, 2);
-      const deliverablesPreview = (service.deliverables || []).slice(0, 2);
+      const forWhoPreview = (service.forWho || []).slice(0, 3);
+      const deliverablesPreview = (service.deliverables || []).slice(0, 3);
+      const softwareProof = service.id === "software-development" ? buildSoftwareProofMarkup() : "";
 
       return `
-        <article class="side-card service-card">
-          <h3>
-            <button class="service-card__trigger" data-open-service="${serviceKey}" type="button">
-              ${service.title}
-            </button>
-          </h3>
-          <p>${service.summary}</p>
-          <div class="service-card__block">
-            <p class="meta-label">Who it's for</p>
-            <ul class="service-card__list">
-              ${renderListItems(forWhoPreview)}
-            </ul>
+        <article class="service-story" data-service-reveal>
+          <div class="service-story__media-wrap">
+            <img class="service-story__image" src="${service.imageUrl}" alt="${service.imageAlt || service.title}" loading="lazy" decoding="async" />
           </div>
-          <div class="service-card__block">
-            <p class="meta-label">Deliverables</p>
-            <ul class="service-card__list">
-              ${renderListItems(deliverablesPreview)}
-            </ul>
+          <div class="side-card service-story__content">
+            <h3>
+              <button class="service-card__trigger" data-open-service="${serviceKey}" type="button">
+                ${service.title}
+              </button>
+            </h3>
+            <p>${service.summary}</p>
+            <div class="service-card__block">
+              <p class="meta-label">Who it's for</p>
+              <ul class="service-card__list">
+                ${renderListItems(forWhoPreview)}
+              </ul>
+            </div>
+            <div class="service-card__block">
+              <p class="meta-label">Deliverables</p>
+              <ul class="service-card__list">
+                ${renderListItems(deliverablesPreview)}
+              </ul>
+            </div>
+            <div class="service-card__outcome">
+              <p class="meta-label">Expected result</p>
+              <p>${service.outcome || ""}</p>
+            </div>
+            ${softwareProof}
+            <div class="tag-list">${tagsMarkup}</div>
+            <a class="hero-link hero-link--service" href="${ctaHref}">${service.ctaLabel || "Discuss this service"}</a>
           </div>
-          <div class="service-card__outcome">
-            <p class="meta-label">Expected result</p>
-            <p>${service.outcome || ""}</p>
-          </div>
-          <div class="tag-list">${tagsMarkup}</div>
         </article>
       `;
     })
@@ -277,6 +324,47 @@ function buildSingleServiceDeepDiveMarkup(service) {
   }
 
   return buildServiceDetailCardMarkup(service);
+}
+
+function setupServiceRevealObserver() {
+  const serviceNodes = document.querySelectorAll("[data-service-reveal]");
+  if (!serviceNodes.length) {
+    return;
+  }
+
+  serviceNodes.forEach((node) => node.classList.add("is-reveal-ready"));
+  const revealAll = () => {
+    serviceNodes.forEach((node) => node.classList.add("is-visible"));
+  };
+
+  if (motionQuery.matches) {
+    revealAll();
+    return;
+  }
+
+  const failSafeTimer = window.setTimeout(revealAll, 2400);
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+
+      const allVisible = Array.from(serviceNodes).every((node) => node.classList.contains("is-visible"));
+      if (allVisible) {
+        window.clearTimeout(failSafeTimer);
+      }
+    },
+    {
+      threshold: 0.24,
+      rootMargin: "0px 0px -60px 0px"
+    }
+  );
+
+  serviceNodes.forEach((node) => observer.observe(node));
 }
 
 function setupDeepDive() {
@@ -618,6 +706,7 @@ function setupProfileAnimations() {
 function init() {
   renderProfile();
   renderConsultancyServices();
+  setupServiceRevealObserver();
   setupProfileAnimations();
   setupDeepDive();
   setupThemeToggle();
