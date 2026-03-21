@@ -104,12 +104,6 @@ function renderProfile() {
     .map((item) => `<span class="focus-pill">${item}</span>`)
     .join("");
 
-  const proofStrip = document.getElementById("why-work-with-me");
-  if (proofStrip) {
-    proofStrip.innerHTML = (profile.whyWorkWithMe || [])
-      .map((item) => `<p class="proof-strip__item">${item}</p>`)
-      .join("");
-  }
 }
 
 function renderListItems(items) {
