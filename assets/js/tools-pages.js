@@ -939,6 +939,201 @@ function setupPomodoroTimer() {
   setStatus("Ready to start your first focus session.");
 }
 
+function setupQrCodeGenerator() {
+  const inputNode = document.getElementById("qr-input");
+  const sizeInput = document.getElementById("qr-size");
+  const sizeValueNode = document.getElementById("qr-size-value");
+  const levelSelect = document.getElementById("qr-level");
+  const generateButton = document.getElementById("qr-generate");
+  const downloadButton = document.getElementById("qr-download");
+  const clearButton = document.getElementById("qr-clear");
+  const outputNode = document.getElementById("qr-output");
+  const statusNode = document.getElementById("qr-status");
+
+  if (
+    !inputNode ||
+    !sizeInput ||
+    !sizeValueNode ||
+    !levelSelect ||
+    !generateButton ||
+    !downloadButton ||
+    !clearButton ||
+    !outputNode ||
+    !statusNode
+  ) {
+    return;
+  }
+
+  const qrcodeApi = window.QRCode;
+  let regenerateTimer = 0;
+
+  const setStatus = (message, type = "") => {
+    statusNode.textContent = message;
+    statusNode.classList.remove("is-error", "is-success", "is-warning");
+    if (type) {
+      statusNode.classList.add(`is-${type}`);
+    }
+  };
+
+  const setDownloadEnabled = (enabled) => {
+    downloadButton.disabled = !enabled;
+  };
+
+  const updateSizeLabel = () => {
+    sizeValueNode.textContent = `${sizeInput.value}px`;
+  };
+
+  const clearQrOutput = () => {
+    outputNode.innerHTML = "";
+  };
+
+  const getCorrectLevel = () => {
+    if (!qrcodeApi || !qrcodeApi.CorrectLevel) {
+      return null;
+    }
+
+    const levels = {
+      L: qrcodeApi.CorrectLevel.L,
+      M: qrcodeApi.CorrectLevel.M,
+      Q: qrcodeApi.CorrectLevel.Q,
+      H: qrcodeApi.CorrectLevel.H
+    };
+
+    return levels[levelSelect.value] || qrcodeApi.CorrectLevel.M;
+  };
+
+  const renderQrCode = () => {
+    if (!qrcodeApi || !qrcodeApi.CorrectLevel) {
+      generateButton.disabled = true;
+      setDownloadEnabled(false);
+      clearQrOutput();
+      setStatus("QR library did not load. Refresh this page to try again.", "warning");
+      return false;
+    }
+
+    const text = inputNode.value.trim();
+    if (!text) {
+      clearQrOutput();
+      setDownloadEnabled(false);
+      setStatus("Enter text or a URL to generate a QR code.", "error");
+      return false;
+    }
+
+    const size = clampNumber(sizeInput.value, 128, 512, 256);
+    const correctLevel = getCorrectLevel();
+
+    clearQrOutput();
+
+    try {
+      new qrcodeApi(outputNode, {
+        text,
+        width: size,
+        height: size,
+        colorDark: "#111111",
+        colorLight: "#ffffff",
+        correctLevel
+      });
+
+      const hasGraphic = Boolean(outputNode.querySelector("canvas, img"));
+      if (!hasGraphic) {
+        throw new Error("QR render failed");
+      }
+
+      setDownloadEnabled(true);
+      setStatus("QR code ready.", "success");
+      return true;
+    } catch (error) {
+      clearQrOutput();
+      setDownloadEnabled(false);
+      setStatus("Unable to generate QR code with the current input.", "error");
+      return false;
+    }
+  };
+
+  const scheduleRender = () => {
+    window.clearTimeout(regenerateTimer);
+    regenerateTimer = window.setTimeout(() => {
+      renderQrCode();
+    }, 140);
+  };
+
+  const downloadQrCode = () => {
+    const canvas = outputNode.querySelector("canvas");
+    const image = outputNode.querySelector("img");
+    let dataUrl = "";
+
+    if (canvas && typeof canvas.toDataURL === "function") {
+      dataUrl = canvas.toDataURL("image/png");
+    } else if (image) {
+      const source = image.getAttribute("src") || "";
+      if (source.startsWith("data:image")) {
+        dataUrl = source;
+      }
+    }
+
+    if (!dataUrl) {
+      setStatus("Generate a QR code before downloading.", "error");
+      setDownloadEnabled(false);
+      return;
+    }
+
+    const linkNode = document.createElement("a");
+    linkNode.href = dataUrl;
+    linkNode.download = "caleb-qr-code.png";
+    document.body.appendChild(linkNode);
+    linkNode.click();
+    document.body.removeChild(linkNode);
+    setStatus("QR code downloaded.", "success");
+  };
+
+  const clearInputs = () => {
+    inputNode.value = "";
+    clearQrOutput();
+    setDownloadEnabled(false);
+    setStatus("Cleared. Enter new text to generate another QR code.");
+    inputNode.focus();
+  };
+
+  inputNode.addEventListener("input", () => {
+    if (!inputNode.value.trim()) {
+      clearQrOutput();
+      setDownloadEnabled(false);
+      setStatus("Enter text or a URL to generate a QR code.");
+      return;
+    }
+
+    scheduleRender();
+  });
+
+  sizeInput.addEventListener("input", () => {
+    updateSizeLabel();
+    if (inputNode.value.trim()) {
+      scheduleRender();
+    }
+  });
+
+  levelSelect.addEventListener("change", () => {
+    if (inputNode.value.trim()) {
+      scheduleRender();
+    }
+  });
+
+  generateButton.addEventListener("click", renderQrCode);
+  downloadButton.addEventListener("click", downloadQrCode);
+  clearButton.addEventListener("click", clearInputs);
+
+  updateSizeLabel();
+  setDownloadEnabled(false);
+
+  if (!qrcodeApi || !qrcodeApi.CorrectLevel) {
+    generateButton.disabled = true;
+    setStatus("QR library did not load. Refresh this page to try again.", "warning");
+    return;
+  }
+
+  renderQrCode();
+}
+
 function setupTypingTest() {
   const promptNode = document.getElementById("typing-prompt");
   const inputNode = document.getElementById("typing-input");
@@ -1218,6 +1413,7 @@ function initToolPages() {
   setupThemeToggle();
   setupPasswordGenerator();
   setupPomodoroTimer();
+  setupQrCodeGenerator();
   setupTypingTest();
 }
 

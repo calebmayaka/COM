@@ -165,10 +165,17 @@ export const siteContent = {
         category: "Focus Utility",
         url: "./tools/pomodoro-timer.html",
         ctaLabel: "Open tool"
+      },
+      {
+        id: "qr-code-generator",
+        title: "QR Code Generator",
+        summary: "Generate clean QR codes from text or URLs, then download as PNG in one click.",
+        category: "Sharing Utility",
+        url: "./tools/qr-code-generator.html",
+        ctaLabel: "Open tool"
       }
     ],
     planned: [
-      { title: "QR Code Generator", category: "Utility" },
       { title: "Unit Converter", category: "Utility" },
       { title: "Markdown Previewer", category: "Productivity" },
       { title: "Memory Match", category: "Mini game" },
