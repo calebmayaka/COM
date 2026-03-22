@@ -139,6 +139,42 @@ export const siteContent = {
       status: "Course project"
     }
   ],
+  toolbox: {
+    heading: "Mini tools and games",
+    live: [
+      {
+        id: "password-generator",
+        title: "Password Generator",
+        summary: "Generate strong passwords with adjustable length and character sets, then copy in one click.",
+        category: "Security Utility",
+        url: "./tools/password-generator.html",
+        ctaLabel: "Open tool"
+      },
+      {
+        id: "typing-test",
+        title: "Typing Test",
+        summary: "Measure your speed and accuracy with timed passages, live metrics, and instant feedback.",
+        category: "Productivity Game",
+        url: "./tools/typing-test.html",
+        ctaLabel: "Open tool"
+      },
+      {
+        id: "pomodoro-timer",
+        title: "Pomodoro Timer",
+        summary: "Run focused work sessions with short and long breaks, cycle tracking, and clear timer controls.",
+        category: "Focus Utility",
+        url: "./tools/pomodoro-timer.html",
+        ctaLabel: "Open tool"
+      }
+    ],
+    planned: [
+      { title: "QR Code Generator", category: "Utility" },
+      { title: "Unit Converter", category: "Utility" },
+      { title: "Markdown Previewer", category: "Productivity" },
+      { title: "Memory Match", category: "Mini game" },
+      { title: "Color Palette Generator", category: "Design" }
+    ]
+  },
   services: [
     {
       id: "software-development",

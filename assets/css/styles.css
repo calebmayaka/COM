@@ -460,7 +460,8 @@ html[data-theme="light"] .theme-toggle__thumb {
 }
 
 html[data-active-tab="consultancy"] .section-heading,
-html[data-active-tab="contact"] .section-heading {
+html[data-active-tab="contact"] .section-heading,
+html[data-active-tab="tools"] .section-heading {
   margin-bottom: 1.2rem;
 }
 
@@ -472,7 +473,8 @@ html[data-active-tab="contact"] .section-heading {
 }
 
 html[data-active-tab="consultancy"] .section-title,
-html[data-active-tab="contact"] .section-title {
+html[data-active-tab="contact"] .section-title,
+html[data-active-tab="tools"] .section-title {
   max-width: 22ch;
 }
 
@@ -481,7 +483,8 @@ html[data-active-tab="consultancy"] .section-title {
 }
 
 html[data-active-tab="consultancy"] .section-copy,
-html[data-active-tab="contact"] .section-copy {
+html[data-active-tab="contact"] .section-copy,
+html[data-active-tab="tools"] .section-copy {
   max-width: 52rem;
 }
 
@@ -1051,6 +1054,842 @@ html[data-active-tab="contact"] .section-copy {
   border-color: var(--color-line-strong);
 }
 
+.tools-hub {
+  display: grid;
+  gap: 1rem;
+}
+
+.tools-hub--catalog {
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 21rem);
+  align-items: start;
+}
+
+.tools-hub--catalog .tools-overview {
+  grid-column: 1 / -1;
+}
+
+.toolbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 0.85rem;
+}
+
+.toolbox-card {
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  padding: 1rem;
+  display: grid;
+  gap: 0.72rem;
+  align-content: start;
+}
+
+.toolbox-card h3 {
+  font-size: 1.1rem;
+  line-height: 1.24;
+}
+
+.toolbox-card p {
+  color: var(--color-text-soft);
+  line-height: 1.6;
+}
+
+.toolbox-card .hero-link--service {
+  margin-top: 0.1rem;
+}
+
+.tools-overview {
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  padding: 1rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.tools-overview__copy {
+  color: var(--color-text-soft);
+  line-height: 1.65;
+}
+
+.tools-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.tools-metric {
+  border: 1px solid var(--color-line);
+  padding: 0.6rem 0.7rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.tools-metric strong {
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.tools-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 21rem);
+  gap: 1rem;
+  align-items: start;
+}
+
+.tools-live {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.tools-live__header {
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  padding: 0.9rem 1rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.tools-live__header h3,
+.tools-roadmap h3 {
+  font-size: 1.12rem;
+  line-height: 1.2;
+}
+
+.tools-live__header p {
+  color: var(--color-text-soft);
+  line-height: 1.6;
+}
+
+.tools-live__list {
+  display: grid;
+  gap: 1rem;
+}
+
+.tool-card {
+  width: 100%;
+}
+
+.tools-roadmap {
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  padding: 1rem;
+  display: grid;
+  gap: 0.8rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.tool-page .page-shell {
+  min-height: 100svh;
+  height: auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.tool-page-main {
+  padding-block: 1.45rem 2rem;
+}
+
+.tool-page-layout {
+  max-width: 56rem;
+  margin-inline: auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.tool-page-head {
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  padding: 1rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.tool-page-head p {
+  color: var(--color-text-soft);
+  line-height: 1.6;
+}
+
+.tool-page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tool-page-nav .hero-link {
+  text-underline-offset: 0.18em;
+}
+
+.tools-roadmap__list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.tools-roadmap__item {
+  border: 1px dashed var(--color-line-strong);
+  padding: 0.6rem 0.65rem;
+  display: grid;
+  gap: 0.22rem;
+}
+
+.tools-roadmap__item p {
+  color: var(--color-text);
+  line-height: 1.35;
+}
+
+.tools-roadmap__item span {
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.password-tool {
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  padding: 1.25rem;
+  display: grid;
+  gap: 1.05rem;
+}
+
+.password-tool__header {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.password-tool__header h2,
+.password-tool__header h3 {
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.password-tool__header p {
+  color: var(--color-text-soft);
+  line-height: 1.6;
+}
+
+.password-tool__mode-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.password-tool__mode,
+.password-tool__preset {
+  padding: 0.45rem 0.72rem;
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel) 90%, transparent);
+  color: var(--color-text-soft);
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.password-tool__mode:hover,
+.password-tool__mode:focus-visible,
+.password-tool__preset:hover,
+.password-tool__preset:focus-visible {
+  color: var(--color-accent);
+  border-color: var(--color-line-strong);
+}
+
+.password-tool__mode.is-active,
+.password-tool__preset.is-active {
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
+.password-tool__result {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.password-tool__result-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.55rem;
+}
+
+.password-tool__result-row input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-bg) 74%, transparent);
+  color: var(--color-text);
+  padding: 0.56rem 0.72rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.95rem;
+}
+
+.password-tool__controls {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.password-tool__controls--passphrase {
+  max-width: 24rem;
+}
+
+.password-tool__presets {
+  border: 1px solid var(--color-line);
+  padding: 0.75rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.password-tool__preset-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.password-tool__length {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.password-tool__length span:last-child {
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+}
+
+#password-length {
+  width: 100%;
+  accent-color: var(--color-accent);
+}
+
+#passphrase-word-count {
+  width: 100%;
+  accent-color: var(--color-accent);
+}
+
+.password-tool__options {
+  border: 1px solid var(--color-line);
+  padding: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.password-tool__options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--color-text-soft);
+}
+
+.password-tool__options input[type="checkbox"] {
+  accent-color: var(--color-accent);
+}
+
+.password-tool__toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  color: var(--color-text-soft);
+  line-height: 1.55;
+}
+
+.password-tool__toggle input[type="checkbox"] {
+  margin-top: 0.2rem;
+  accent-color: var(--color-accent);
+}
+
+.password-tool__field {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.password-tool__field input,
+.password-tool__field select {
+  width: 100%;
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-bg) 74%, transparent);
+  color: var(--color-text);
+  padding: 0.56rem 0.72rem;
+  font: inherit;
+}
+
+.password-tool__mins {
+  border: 1px solid var(--color-line);
+  padding: 0.75rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.password-tool__mins-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.password-tool__mins-grid label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.62rem;
+  color: var(--color-text-soft);
+}
+
+.password-tool__mins-grid input {
+  width: 4.3rem;
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-bg) 74%, transparent);
+  color: var(--color-text);
+  padding: 0.38rem 0.45rem;
+  font: inherit;
+}
+
+.password-tool__mins-grid input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.password-tool__footer {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.password-tool__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.52rem 0.92rem;
+  border: 1px solid var(--color-line-strong);
+  background: color-mix(in srgb, var(--color-panel) 90%, transparent);
+  color: var(--color-text);
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.password-tool__action:hover,
+.password-tool__action:focus-visible {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.password-tool__action:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.password-tool__action--primary {
+  width: fit-content;
+}
+
+.password-tool__strength-wrap {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.password-tool__strength,
+.password-tool__status,
+.password-tool__guidance {
+  color: var(--color-text-soft);
+  line-height: 1.5;
+}
+
+.password-tool__meter {
+  width: 100%;
+  height: 0.46rem;
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel) 88%, transparent);
+  overflow: hidden;
+}
+
+.password-tool__meter-bar {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #f08c8c 0%, #e6bf6b 45%, #75c294 100%);
+  transition: width 180ms ease;
+}
+
+.password-tool__guidance {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.password-tool__status {
+  min-height: 1.4em;
+}
+
+.password-tool__status.is-error {
+  color: #f08c8c;
+}
+
+.password-tool__status.is-success {
+  color: #75c294;
+}
+
+.password-tool__status.is-warning {
+  color: #e6bf6b;
+}
+
+.typing-tool {
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.typing-tool__header {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.typing-tool__header h3 {
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.typing-tool__header p {
+  color: var(--color-text-soft);
+  line-height: 1.6;
+}
+
+.typing-tool__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.typing-tool__durations,
+.typing-tool__actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.typing-tool__duration {
+  padding: 0.45rem 0.72rem;
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel) 90%, transparent);
+  color: var(--color-text-soft);
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.typing-tool__duration:hover,
+.typing-tool__duration:focus-visible {
+  color: var(--color-accent);
+  border-color: var(--color-line-strong);
+}
+
+.typing-tool__duration.is-active {
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
+.typing-tool__stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.typing-tool__stats p {
+  border: 1px solid var(--color-line);
+  padding: 0.55rem 0.65rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.typing-tool__stats strong {
+  font-size: 1.08rem;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.typing-tool__prompt {
+  border: 1px solid var(--color-line);
+  padding: 0.75rem;
+  min-height: 8.4rem;
+  line-height: 1.72;
+  color: var(--color-text-soft);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.typing-char {
+  white-space: pre;
+}
+
+.typing-char.is-correct {
+  color: #75c294;
+}
+
+.typing-char.is-incorrect {
+  color: #f08c8c;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.15em;
+}
+
+.typing-char.is-current {
+  background: color-mix(in srgb, var(--color-accent) 28%, transparent);
+  color: var(--color-text);
+}
+
+.typing-tool__label {
+  margin-top: -0.2rem;
+}
+
+#typing-input {
+  width: 100%;
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-bg) 74%, transparent);
+  color: var(--color-text);
+  padding: 0.65rem 0.72rem;
+  font: inherit;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+#typing-input:focus-visible,
+.password-tool__result-row input:focus-visible,
+#password-length:focus-visible,
+#passphrase-word-count:focus-visible,
+.password-tool__mode:focus-visible,
+.password-tool__preset:focus-visible,
+.password-tool__field input:focus-visible,
+.password-tool__field select:focus-visible,
+.password-tool__mins-grid input:focus-visible,
+.pomodoro-tool__phase:focus-visible,
+.pomodoro-tool__focus-preset:focus-visible,
+.pomodoro-tool__settings-grid input:focus-visible,
+.pomodoro-tool__advanced > summary:focus-visible,
+.typing-tool__duration:focus-visible,
+.password-tool__action:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-accent) 82%, transparent);
+  outline-offset: 2px;
+}
+
+.typing-tool__status {
+  min-height: 1.4em;
+  color: var(--color-text-soft);
+}
+
+.typing-tool__status.is-error {
+  color: #f08c8c;
+}
+
+.typing-tool__status.is-success {
+  color: #75c294;
+}
+
+.pomodoro-tool {
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.pomodoro-tool__header {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.pomodoro-tool__header h2 {
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.pomodoro-tool__phase-switch {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pomodoro-tool__phase {
+  padding: 0.45rem 0.72rem;
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel) 90%, transparent);
+  color: var(--color-text-soft);
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.pomodoro-tool__phase:hover,
+.pomodoro-tool__phase:focus-visible {
+  color: var(--color-accent);
+  border-color: var(--color-line-strong);
+}
+
+.pomodoro-tool__phase.is-active {
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
+.pomodoro-tool__focus-presets {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pomodoro-tool__focus-preset {
+  padding: 0.4rem 0.66rem;
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel) 90%, transparent);
+  color: var(--color-text-soft);
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.pomodoro-tool__focus-preset:hover,
+.pomodoro-tool__focus-preset:focus-visible {
+  color: var(--color-accent);
+  border-color: var(--color-line-strong);
+}
+
+.pomodoro-tool__focus-preset.is-active {
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
+.pomodoro-tool__clock {
+  position: relative;
+  width: min(100%, 18rem);
+  aspect-ratio: 1 / 1;
+  margin-inline: auto;
+  display: grid;
+  place-items: center;
+}
+
+.pomodoro-tool__clock-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.pomodoro-tool__clock-track {
+  fill: none;
+  stroke: color-mix(in srgb, var(--color-line) 88%, transparent);
+  stroke-width: 8;
+}
+
+.pomodoro-tool__clock-progress {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 220ms linear;
+  will-change: stroke-dashoffset;
+}
+
+.pomodoro-tool__clock-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: 0.35rem;
+}
+
+.pomodoro-tool__time {
+  font-size: clamp(2.2rem, 8vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.03em;
+}
+
+.pomodoro-tool__meta {
+  margin: 0;
+  color: var(--color-text-soft);
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.pomodoro-tool__meta strong {
+  color: var(--color-text);
+}
+
+.pomodoro-tool__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.pomodoro-tool__advanced {
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel) 90%, transparent);
+}
+
+.pomodoro-tool__advanced > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.68rem 0.75rem;
+}
+
+.pomodoro-tool__advanced > summary::-webkit-details-marker {
+  display: none;
+}
+
+.pomodoro-tool__advanced[open] > summary {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.pomodoro-tool__advanced-body {
+  padding: 0.75rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.pomodoro-tool__advanced-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.pomodoro-tool__settings {
+  border: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.pomodoro-tool__settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.pomodoro-tool__settings-grid label {
+  display: grid;
+  gap: 0.42rem;
+  color: var(--color-text-soft);
+}
+
+.pomodoro-tool__settings-grid input {
+  width: 100%;
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-bg) 74%, transparent);
+  color: var(--color-text);
+  padding: 0.52rem 0.62rem;
+  font: inherit;
+}
+
+.pomodoro-tool__autostart {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-soft);
+}
+
+.pomodoro-tool__autostart input[type="checkbox"] {
+  accent-color: var(--color-accent);
+}
+
+.pomodoro-tool__status {
+  min-height: 1.4em;
+  color: var(--color-text-soft);
+}
+
+.pomodoro-tool__status.is-success {
+  color: #75c294;
+}
+
+.pomodoro-tool__status.is-warning {
+  color: #e6bf6b;
+}
+
 .deep-dive {
   position: fixed;
   inset: 0;
@@ -1248,6 +2087,18 @@ html[data-active-tab="contact"] .section-copy {
     min-height: clamp(13.5rem, 42vw, 18rem);
   }
 
+  .tools-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .tools-hub--catalog {
+    grid-template-columns: 1fr;
+  }
+
+  .tools-roadmap {
+    position: static;
+  }
+
   body {
     overflow: auto;
   }
@@ -1295,6 +2146,125 @@ html[data-active-tab="contact"] .section-copy {
     font-size: 0.76rem;
   }
 
+  .tools-overview,
+  .tools-live__header,
+  .tools-roadmap {
+    padding: 0.85rem;
+  }
+
+  .tools-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .password-tool {
+    padding: 1rem;
+  }
+
+  .password-tool__mode-switch,
+  .password-tool__preset-list {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .password-tool__mode,
+  .password-tool__preset {
+    width: 100%;
+    text-align: center;
+  }
+
+  .typing-tool {
+    padding: 1rem;
+  }
+
+  .pomodoro-tool {
+    padding: 1rem;
+  }
+
+  .typing-tool__controls {
+    align-items: stretch;
+  }
+
+  .typing-tool__durations,
+  .typing-tool__actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .typing-tool__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .password-tool__result-row {
+    grid-template-columns: 1fr;
+  }
+
+  .password-tool__action--primary,
+  .password-tool__result-row .password-tool__action {
+    width: 100%;
+  }
+
+  .password-tool__options {
+    grid-template-columns: 1fr;
+  }
+
+  .password-tool__mins-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .password-tool__mins-grid label {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.42rem;
+  }
+
+  .password-tool__mins-grid input {
+    width: 100%;
+  }
+
+  .typing-tool__actions .password-tool__action {
+    width: 100%;
+  }
+
+  .pomodoro-tool__phase-switch {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .pomodoro-tool__phase {
+    width: 100%;
+  }
+
+  .pomodoro-tool__focus-presets {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .pomodoro-tool__focus-preset {
+    width: 100%;
+    text-align: center;
+  }
+
+  .pomodoro-tool__clock {
+    width: min(100%, 15rem);
+  }
+
+  .pomodoro-tool__actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pomodoro-tool__actions .password-tool__action {
+    width: 100%;
+  }
+
+  .pomodoro-tool__advanced-body {
+    padding: 0.65rem;
+  }
+
+  .pomodoro-tool__settings-grid {
+    grid-template-columns: 1fr;
+  }
+
   .services-grid {
     gap: 1rem;
   }
@@ -1307,6 +2277,10 @@ html[data-active-tab="contact"] .section-copy {
 @media (min-width: 1081px) {
   body {
     overflow: hidden;
+  }
+
+  body.tool-page {
+    overflow: auto;
   }
 }
 

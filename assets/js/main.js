@@ -1,6 +1,6 @@
 import { siteContent } from "./content.js";
 
-const tabIds = ["profile", "consultancy", "contact"];
+const tabIds = ["profile", "consultancy", "tools", "contact"];
 const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 const panelTimers = new Map();
 
@@ -165,6 +165,42 @@ function renderProfile() {
 
 function renderListItems(items) {
   return (items || []).map((item) => `<li>${item}</li>`).join("");
+}
+
+function renderToolsHub() {
+  const liveListNode = document.getElementById("tools-live-list");
+  const plannedListNode = document.getElementById("tools-planned-list");
+  const toolbox = siteContent.toolbox || {};
+  const liveTools = toolbox.live || [];
+  const plannedTools = toolbox.planned || [];
+
+  if (liveListNode) {
+    liveListNode.innerHTML = liveTools
+      .map(
+        (tool) => `
+          <article class="toolbox-card tool-card" data-tool-card>
+            <p class="meta-label">${tool.category || "Tool"}</p>
+            <h3>${tool.title}</h3>
+            <p>${tool.summary || ""}</p>
+            <a class="hero-link hero-link--service" href="${tool.url}">${tool.ctaLabel || "Open tool"}</a>
+          </article>
+        `
+      )
+      .join("");
+  }
+
+  if (plannedListNode) {
+    plannedListNode.innerHTML = plannedTools
+      .map(
+        (tool) => `
+          <li class="tools-roadmap__item" data-tool-roadmap>
+            <p>${tool.title}</p>
+            <span>${tool.category || "Planned"}</span>
+          </li>
+        `
+      )
+      .join("");
+  }
 }
 
 function buildServiceMailtoHref(service, email) {
@@ -777,6 +813,7 @@ function setupProfileAnimations() {
 function init() {
   renderProfile();
   renderConsultancyServices();
+  renderToolsHub();
   setupServiceRevealObserver();
   setupProfileAnimations();
   setupDeepDive();

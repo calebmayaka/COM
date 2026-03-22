@@ -143,6 +143,16 @@
               Work with me
             </button>
             <button
+              aria-controls="panel-tools"
+              class="site-nav__link"
+              data-tab-trigger="tools"
+              id="tab-tools"
+              role="tab"
+              type="button"
+            >
+              Tools
+            </button>
+            <button
               aria-controls="panel-contact"
               class="site-nav__link"
               data-tab-trigger="contact"
@@ -237,6 +247,28 @@
                 </div>
 
                 <div class="services-grid" id="consultancy-services"></div>
+              </section>
+
+              <section
+                aria-labelledby="tab-tools"
+                class="tab-panel"
+                data-tab-panel="tools"
+                id="panel-tools"
+                role="tabpanel"
+                hidden
+              >
+                <div class="section-heading">
+                  <p class="eyebrow">Tools</p>
+                </div>
+
+                <div class="tools-hub tools-hub--catalog">
+                  <div class="toolbox-grid" id="tools-live-list"></div>
+
+                  <aside class="tools-roadmap">
+                    <h3>Planned next</h3>
+                    <ul class="tools-roadmap__list" id="tools-planned-list"></ul>
+                  </aside>
+                </div>
               </section>
 
               <section
