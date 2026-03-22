@@ -2654,6 +2654,8 @@ function setupTypingTest() {
   const durationButtons = Array.from(document.querySelectorAll("[data-typing-duration]"));
   const newTextButton = document.getElementById("typing-new-text");
   const restartButton = document.getElementById("typing-restart");
+  const leaderboardListNode = document.getElementById("typing-leaderboard-list");
+  const clearScoresButton = document.getElementById("typing-clear-scores");
 
   if (
     !promptNode ||
@@ -2666,10 +2668,16 @@ function setupTypingTest() {
     !statusNode ||
     !durationButtons.length ||
     !newTextButton ||
-    !restartButton
+    !restartButton ||
+    !leaderboardListNode ||
+    !clearScoresButton
   ) {
     return;
   }
+
+  const LEADERBOARD_KEY = "typingLeaderboardV1";
+  const MAX_LEADERBOARD_ENTRIES = 10;
+  const VALID_DURATIONS = new Set([30, 60, 120]);
 
   const state = {
     difficulty: "medium",
@@ -2681,7 +2689,8 @@ function setupTypingTest() {
     startTimestamp: 0,
     stopTimestamp: 0,
     endTimestamp: 0,
-    passage: ""
+    passage: "",
+    leaderboard: []
   };
 
   const getDifficultyLabel = (difficulty) => {
@@ -2709,6 +2718,155 @@ function setupTypingTest() {
     return source[index];
   };
 
+  const sortLeaderboard = (left, right) => {
+    if (right.wpm !== left.wpm) {
+      return right.wpm - left.wpm;
+    }
+
+    if (right.accuracy !== left.accuracy) {
+      return right.accuracy - left.accuracy;
+    }
+
+    if (left.errors !== right.errors) {
+      return left.errors - right.errors;
+    }
+
+    if (right.cpm !== left.cpm) {
+      return right.cpm - left.cpm;
+    }
+
+    return left.timestamp - right.timestamp;
+  };
+
+  const normalizeLeaderboardEntry = (entry) => {
+    if (!entry || typeof entry !== "object") {
+      return null;
+    }
+
+    const difficulty = typeof entry.difficulty === "string" && TYPING_TEST_PASSAGES[entry.difficulty] ? entry.difficulty : "medium";
+    const parsedDuration = Number.parseInt(`${entry.duration || ""}`, 10);
+    const duration = VALID_DURATIONS.has(parsedDuration) ? parsedDuration : 30;
+    const parsedTimestamp = Number.parseInt(`${entry.timestamp || ""}`, 10);
+    const timestamp = Number.isFinite(parsedTimestamp) && parsedTimestamp > 0 ? parsedTimestamp : Date.now();
+
+    return {
+      wpm: clampNumber(entry.wpm, 0, 600, 0),
+      accuracy: clampNumber(entry.accuracy, 0, 100, 100),
+      cpm: clampNumber(entry.cpm, 0, 3000, 0),
+      errors: clampNumber(entry.errors, 0, 9999, 0),
+      difficulty,
+      duration,
+      timestamp
+    };
+  };
+
+  const readLeaderboard = () => {
+    try {
+      const raw = localStorage.getItem(LEADERBOARD_KEY);
+      if (!raw) {
+        return [];
+      }
+
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) {
+        return [];
+      }
+
+      return parsed.map(normalizeLeaderboardEntry).filter(Boolean);
+    } catch (error) {
+      return [];
+    }
+  };
+
+  const writeLeaderboard = (entries) => {
+    try {
+      localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(entries));
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const formatEntryDate = (timestamp) => {
+    if (!Number.isFinite(timestamp)) {
+      return "";
+    }
+
+    try {
+      return new Intl.DateTimeFormat(undefined, {
+        month: "short",
+        day: "numeric"
+      }).format(new Date(timestamp));
+    } catch (error) {
+      return "";
+    }
+  };
+
+  const renderLeaderboard = (entries) => {
+    leaderboardListNode.innerHTML = "";
+
+    if (!entries.length) {
+      const emptyNode = document.createElement("li");
+      emptyNode.className = "typing-tool__leaderboard-empty";
+      emptyNode.textContent = "No scores yet. Finish a test to create your first record.";
+      leaderboardListNode.appendChild(emptyNode);
+      return;
+    }
+
+    entries.forEach((entry, index) => {
+      const itemNode = document.createElement("li");
+      itemNode.className = "typing-tool__leaderboard-item";
+
+      if (entry.difficulty === state.difficulty && entry.duration === state.duration) {
+        itemNode.classList.add("is-current-mode");
+      }
+
+      const rankNode = document.createElement("span");
+      rankNode.className = "typing-tool__leaderboard-rank";
+      rankNode.textContent = `#${index + 1}`;
+
+      const detailNode = document.createElement("div");
+      detailNode.className = "typing-tool__leaderboard-detail";
+      const scoreNode = document.createElement("strong");
+      scoreNode.textContent = `${entry.wpm} WPM`;
+      const metaNode = document.createElement("span");
+      metaNode.textContent = `${entry.accuracy}% accuracy - ${getDifficultyLabel(entry.difficulty)} - ${entry.duration}s`;
+      detailNode.append(scoreNode, metaNode);
+
+      const dateNode = document.createElement("span");
+      dateNode.className = "typing-tool__leaderboard-date";
+      dateNode.textContent = formatEntryDate(entry.timestamp);
+
+      itemNode.append(rankNode, detailNode, dateNode);
+      leaderboardListNode.appendChild(itemNode);
+    });
+  };
+
+  const loadLeaderboard = () => {
+    state.leaderboard = readLeaderboard().sort(sortLeaderboard).slice(0, MAX_LEADERBOARD_ENTRIES);
+    renderLeaderboard(state.leaderboard);
+  };
+
+  const saveScore = (metrics) => {
+    if (!state.started || metrics.typedChars < 20 || metrics.wpm <= 0) {
+      return;
+    }
+
+    const entry = {
+      wpm: metrics.wpm,
+      accuracy: metrics.accuracy,
+      cpm: metrics.cpm,
+      errors: metrics.errors,
+      difficulty: state.difficulty,
+      duration: state.duration,
+      timestamp: Date.now()
+    };
+
+    state.leaderboard = [...state.leaderboard, entry].sort(sortLeaderboard).slice(0, MAX_LEADERBOARD_ENTRIES);
+    renderLeaderboard(state.leaderboard);
+    writeLeaderboard(state.leaderboard);
+  };
+
   const setStatus = (message, type = "") => {
     statusNode.textContent = message;
     statusNode.classList.remove("is-error", "is-success");
@@ -2723,6 +2881,7 @@ function setupTypingTest() {
     durationButtons.forEach((button) => {
       button.classList.toggle("is-active", Number.parseInt(button.dataset.typingDuration, 10) === duration);
     });
+    renderLeaderboard(state.leaderboard);
   };
 
   const setDifficulty = (difficulty) => {
@@ -2736,6 +2895,7 @@ function setupTypingTest() {
     difficultyButtons.forEach((button) => {
       button.classList.toggle("is-active", button.dataset.typingDifficulty === difficulty);
     });
+    renderLeaderboard(state.leaderboard);
   };
 
   const stopTimer = () => {
@@ -2813,6 +2973,7 @@ function setupTypingTest() {
 
     const metrics = computeMetrics();
     setStatus(`${reason} ${metrics.wpm} WPM - ${metrics.accuracy}% accuracy.`, "success");
+    saveScore(metrics);
   };
 
   const startTimer = () => {
@@ -2894,6 +3055,18 @@ function setupTypingTest() {
     inputNode.focus();
   });
 
+  clearScoresButton.addEventListener("click", () => {
+    state.leaderboard = [];
+    renderLeaderboard(state.leaderboard);
+
+    try {
+      localStorage.removeItem(LEADERBOARD_KEY);
+      setStatus("Leaderboard cleared.");
+    } catch (error) {
+      setStatus("Could not clear leaderboard right now.", "error");
+    }
+  });
+
   inputNode.addEventListener("input", () => {
     if (state.ended) {
       return;
@@ -2913,6 +3086,7 @@ function setupTypingTest() {
 
   setDifficulty(state.difficulty);
   setDuration(state.duration);
+  loadLeaderboard();
   resetTest(true);
 }
 

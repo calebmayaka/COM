@@ -1598,6 +1598,107 @@ html[data-active-tab="tools"] .section-copy {
   color: var(--color-text);
 }
 
+.typing-tool__leaderboard {
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel) 92%, transparent);
+  padding: 0.82rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.typing-tool__leaderboard-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.typing-tool__leaderboard-head h3 {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.typing-tool__clear {
+  border: 1px solid var(--color-line);
+  background: transparent;
+  color: var(--color-text-soft);
+  padding: 0.32rem 0.62rem;
+  font: inherit;
+  font-size: 0.82rem;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.typing-tool__clear:hover,
+.typing-tool__clear:focus-visible {
+  color: var(--color-accent);
+  border-color: var(--color-line-strong);
+}
+
+.typing-tool__leaderboard-note {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+.typing-tool__leaderboard-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.typing-tool__leaderboard-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-line) 72%, transparent);
+}
+
+.typing-tool__leaderboard-item:last-child {
+  border-bottom: 0;
+}
+
+.typing-tool__leaderboard-item.is-current-mode {
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+}
+
+.typing-tool__leaderboard-rank {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  min-width: 1.8rem;
+}
+
+.typing-tool__leaderboard-detail {
+  display: grid;
+  gap: 0.12rem;
+}
+
+.typing-tool__leaderboard-detail strong {
+  font-size: 0.94rem;
+  line-height: 1.2;
+}
+
+.typing-tool__leaderboard-detail span {
+  color: var(--color-text-muted);
+  font-size: 0.79rem;
+  line-height: 1.35;
+}
+
+.typing-tool__leaderboard-date {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  text-align: right;
+}
+
+.typing-tool__leaderboard-empty {
+  color: var(--color-text-muted);
+  font-size: 0.86rem;
+  border-bottom: 0;
+  padding: 0.25rem 0;
+}
+
 .typing-tool__prompt {
   border: 1px solid var(--color-line);
   padding: 0.75rem;
@@ -1669,6 +1770,7 @@ html[data-active-tab="tools"] .section-copy {
 .pomodoro-tool__settings-grid input:focus-visible,
 .pomodoro-tool__advanced > summary:focus-visible,
 .typing-tool__duration:focus-visible,
+.typing-tool__clear:focus-visible,
 .password-tool__action:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--color-accent) 82%, transparent);
   outline-offset: 2px;
@@ -2834,6 +2936,16 @@ html[data-active-tab="tools"] .section-copy {
 
   .typing-tool__stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .typing-tool__leaderboard-item {
+    grid-template-columns: auto 1fr;
+  }
+
+  .typing-tool__leaderboard-date {
+    grid-column: 1 / -1;
+    text-align: left;
+    padding-left: 2.5rem;
   }
 
   .password-tool__result-row {

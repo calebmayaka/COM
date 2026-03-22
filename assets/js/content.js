@@ -159,6 +159,14 @@ export const siteContent = {
         ctaLabel: "Open tool"
       },
       {
+        id: "smart-todo-list",
+        title: "Smart To-Do List",
+        summary: "Manage daily tasks with smart sorting, streak tracking, due-date awareness, and local-first persistence.",
+        category: "Productivity Utility",
+        url: "./tools/smart-todo-list.html",
+        ctaLabel: "Open tool"
+      },
+      {
         id: "pomodoro-timer",
         title: "Pomodoro Timer",
         summary: "Run focused work sessions with short and long breaks, cycle tracking, and clear timer controls.",
