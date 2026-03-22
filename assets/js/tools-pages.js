@@ -1134,6 +1134,1412 @@ function setupQrCodeGenerator() {
   renderQrCode();
 }
 
+function setupCalculator() {
+  const displayNode = document.getElementById("calculator-display");
+  const expressionNode = document.getElementById("calculator-expression");
+  const statusNode = document.getElementById("calculator-status");
+  const digitButtons = Array.from(document.querySelectorAll("[data-calc-digit]"));
+  const operatorButtons = Array.from(document.querySelectorAll("[data-calc-operator]"));
+  const actionButtons = Array.from(document.querySelectorAll("[data-calc-action]"));
+
+  if (!displayNode || !expressionNode || !statusNode || !digitButtons.length || !operatorButtons.length || !actionButtons.length) {
+    return;
+  }
+
+  const operatorLabels = {
+    "+": "+",
+    "-": "-",
+    "*": "\u00D7",
+    "/": "\u00F7"
+  };
+
+  const state = {
+    displayValue: "0",
+    expression: "",
+    firstOperand: null,
+    pendingOperator: null,
+    waitingForSecondOperand: false,
+    justEvaluated: false
+  };
+
+  const setStatus = (message, type = "") => {
+    statusNode.textContent = message;
+    statusNode.classList.remove("is-error", "is-success");
+    if (type) {
+      statusNode.classList.add(`is-${type}`);
+    }
+  };
+
+  const formatNumber = (value) => {
+    if (!Number.isFinite(value)) {
+      return "0";
+    }
+
+    const rounded = Number.parseFloat(value.toFixed(12));
+    if (Object.is(rounded, -0)) {
+      return "0";
+    }
+
+    if (Math.abs(rounded) >= 1e12) {
+      return rounded.toExponential(6);
+    }
+
+    return `${rounded}`;
+  };
+
+  const render = () => {
+    displayNode.textContent = state.displayValue;
+    expressionNode.textContent = state.expression;
+  };
+
+  const resetState = () => {
+    state.displayValue = "0";
+    state.expression = "";
+    state.firstOperand = null;
+    state.pendingOperator = null;
+    state.waitingForSecondOperand = false;
+    state.justEvaluated = false;
+  };
+
+  const getDisplayNumber = () => {
+    const value = Number.parseFloat(state.displayValue);
+    if (Number.isNaN(value)) {
+      return 0;
+    }
+
+    return value;
+  };
+
+  const calculate = (leftValue, rightValue, operator) => {
+    if (operator === "+") {
+      return leftValue + rightValue;
+    }
+
+    if (operator === "-") {
+      return leftValue - rightValue;
+    }
+
+    if (operator === "*") {
+      return leftValue * rightValue;
+    }
+
+    if (operator === "/") {
+      if (rightValue === 0) {
+        return null;
+      }
+      return leftValue / rightValue;
+    }
+
+    return rightValue;
+  };
+
+  const applyDigit = (digit) => {
+    if (!digit) {
+      return;
+    }
+
+    if (state.justEvaluated) {
+      resetState();
+    }
+
+    if (state.waitingForSecondOperand) {
+      state.displayValue = digit;
+      state.waitingForSecondOperand = false;
+      render();
+      return;
+    }
+
+    if (state.displayValue === "0") {
+      state.displayValue = digit;
+      render();
+      return;
+    }
+
+    if (state.displayValue.length >= 16) {
+      return;
+    }
+
+    state.displayValue += digit;
+    render();
+  };
+
+  const applyDecimal = () => {
+    if (state.justEvaluated) {
+      resetState();
+    }
+
+    if (state.waitingForSecondOperand) {
+      state.displayValue = "0.";
+      state.waitingForSecondOperand = false;
+      render();
+      return;
+    }
+
+    if (!state.displayValue.includes(".")) {
+      state.displayValue += ".";
+      render();
+    }
+  };
+
+  const applyOperator = (operator) => {
+    if (!operator || !Object.prototype.hasOwnProperty.call(operatorLabels, operator)) {
+      return;
+    }
+
+    const inputValue = getDisplayNumber();
+
+    if (state.pendingOperator && state.waitingForSecondOperand) {
+      state.pendingOperator = operator;
+      state.expression = `${formatNumber(state.firstOperand || 0)} ${operatorLabels[operator]}`;
+      render();
+      return;
+    }
+
+    if (state.firstOperand === null || state.justEvaluated) {
+      state.firstOperand = inputValue;
+    } else if (state.pendingOperator) {
+      const result = calculate(state.firstOperand, inputValue, state.pendingOperator);
+      if (result === null) {
+        resetState();
+        setStatus("Cannot divide by zero.", "error");
+        render();
+        return;
+      }
+
+      state.firstOperand = result;
+      state.displayValue = formatNumber(result);
+    }
+
+    state.pendingOperator = operator;
+    state.waitingForSecondOperand = true;
+    state.justEvaluated = false;
+    state.expression = `${formatNumber(state.firstOperand || 0)} ${operatorLabels[operator]}`;
+    setStatus("");
+    render();
+  };
+
+  const applyEquals = () => {
+    if (!state.pendingOperator || state.waitingForSecondOperand) {
+      return;
+    }
+
+    const rightOperand = getDisplayNumber();
+    const leftOperand = state.firstOperand || 0;
+    const operator = state.pendingOperator;
+    const result = calculate(leftOperand, rightOperand, operator);
+
+    if (result === null) {
+      resetState();
+      setStatus("Cannot divide by zero.", "error");
+      render();
+      return;
+    }
+
+    state.displayValue = formatNumber(result);
+    state.expression = `${formatNumber(leftOperand)} ${operatorLabels[operator]} ${formatNumber(rightOperand)} =`;
+    state.firstOperand = null;
+    state.pendingOperator = null;
+    state.waitingForSecondOperand = false;
+    state.justEvaluated = true;
+    setStatus("Result ready.", "success");
+    render();
+  };
+
+  const applyBackspace = () => {
+    if (state.waitingForSecondOperand || state.justEvaluated) {
+      return;
+    }
+
+    if (state.displayValue.length <= 1 || (state.displayValue.length === 2 && state.displayValue.startsWith("-"))) {
+      state.displayValue = "0";
+    } else {
+      state.displayValue = state.displayValue.slice(0, -1);
+    }
+
+    render();
+  };
+
+  const applyPercent = () => {
+    const current = getDisplayNumber();
+    state.displayValue = formatNumber(current / 100);
+    state.waitingForSecondOperand = false;
+    state.justEvaluated = false;
+    render();
+  };
+
+  const applyToggleSign = () => {
+    if (state.displayValue === "0") {
+      return;
+    }
+
+    state.displayValue = state.displayValue.startsWith("-")
+      ? state.displayValue.slice(1)
+      : `-${state.displayValue}`;
+    render();
+  };
+
+  const clearAll = () => {
+    resetState();
+    setStatus("");
+    render();
+  };
+
+  const handleAction = (action) => {
+    if (!action) {
+      return;
+    }
+
+    if (action === "clear") {
+      clearAll();
+      return;
+    }
+
+    if (action === "decimal") {
+      applyDecimal();
+      return;
+    }
+
+    if (action === "equals") {
+      applyEquals();
+      return;
+    }
+
+    if (action === "backspace") {
+      applyBackspace();
+      return;
+    }
+
+    if (action === "percent") {
+      applyPercent();
+      return;
+    }
+
+    if (action === "toggle-sign") {
+      applyToggleSign();
+      return;
+    }
+  };
+
+  digitButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      setStatus("");
+      applyDigit(button.dataset.calcDigit || "");
+    });
+  });
+
+  operatorButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      applyOperator(button.dataset.calcOperator || "");
+    });
+  });
+
+  actionButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      handleAction(button.dataset.calcAction || "");
+    });
+  });
+
+  window.addEventListener("keydown", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement) {
+      return;
+    }
+
+    if (/^\d$/.test(event.key)) {
+      event.preventDefault();
+      setStatus("");
+      applyDigit(event.key);
+      return;
+    }
+
+    if (event.key === "." || event.key === ",") {
+      event.preventDefault();
+      handleAction("decimal");
+      return;
+    }
+
+    if (event.key === "+" || event.key === "-" || event.key === "*" || event.key === "/") {
+      event.preventDefault();
+      applyOperator(event.key);
+      return;
+    }
+
+    if (event.key === "Enter" || event.key === "=") {
+      event.preventDefault();
+      handleAction("equals");
+      return;
+    }
+
+    if (event.key === "Backspace") {
+      event.preventDefault();
+      handleAction("backspace");
+      return;
+    }
+
+    if (event.key === "Escape" || event.key === "Delete") {
+      event.preventDefault();
+      handleAction("clear");
+      return;
+    }
+
+    if (event.key === "%") {
+      event.preventDefault();
+      handleAction("percent");
+    }
+  });
+
+  render();
+}
+
+function setupColorPaletteGenerator() {
+  const swatchesNode = document.getElementById("palette-swatches");
+  const sizeInput = document.getElementById("palette-size");
+  const sizeValueNode = document.getElementById("palette-size-value");
+  const modeSelect = document.getElementById("palette-mode");
+  const generateButton = document.getElementById("palette-generate");
+  const copyCssButton = document.getElementById("palette-copy-css");
+  const copyJsonButton = document.getElementById("palette-copy-json");
+  const statusNode = document.getElementById("palette-status");
+
+  if (
+    !swatchesNode ||
+    !sizeInput ||
+    !sizeValueNode ||
+    !modeSelect ||
+    !generateButton ||
+    !copyCssButton ||
+    !copyJsonButton ||
+    !statusNode
+  ) {
+    return;
+  }
+
+  const state = {
+    size: clampNumber(sizeInput.value, 3, 8, 5),
+    mode: modeSelect.value || "random",
+    baseHue: getCryptoRandomInt(360),
+    swatches: []
+  };
+
+  const clamp = (value, minimum, maximum) => {
+    return Math.min(maximum, Math.max(minimum, value));
+  };
+
+  const setStatus = (message, type = "") => {
+    statusNode.textContent = message;
+    statusNode.classList.remove("is-error", "is-success");
+    if (type) {
+      statusNode.classList.add(`is-${type}`);
+    }
+  };
+
+  const updateSizeLabel = () => {
+    sizeValueNode.textContent = `${state.size}`;
+  };
+
+  const normalizeHex = (value) => {
+    const raw = `${value || ""}`.trim().replace(/^#/, "");
+    if (!/^[0-9a-fA-F]{6}$/.test(raw)) {
+      return "";
+    }
+
+    return `#${raw.toUpperCase()}`;
+  };
+
+  const hslToHex = (hue, saturation, lightness) => {
+    const h = clamp(hue, 0, 359);
+    const s = clamp(saturation, 0, 100) / 100;
+    const l = clamp(lightness, 0, 100) / 100;
+    const chroma = (1 - Math.abs(2 * l - 1)) * s;
+    const hPrime = h / 60;
+    const x = chroma * (1 - Math.abs((hPrime % 2) - 1));
+    let red = 0;
+    let green = 0;
+    let blue = 0;
+
+    if (hPrime >= 0 && hPrime < 1) {
+      red = chroma;
+      green = x;
+    } else if (hPrime >= 1 && hPrime < 2) {
+      red = x;
+      green = chroma;
+    } else if (hPrime >= 2 && hPrime < 3) {
+      green = chroma;
+      blue = x;
+    } else if (hPrime >= 3 && hPrime < 4) {
+      green = x;
+      blue = chroma;
+    } else if (hPrime >= 4 && hPrime < 5) {
+      red = x;
+      blue = chroma;
+    } else {
+      red = chroma;
+      blue = x;
+    }
+
+    const offset = l - chroma / 2;
+    const toHex = (value) => {
+      const channel = Math.round((value + offset) * 255);
+      return channel.toString(16).padStart(2, "0");
+    };
+
+    return `#${toHex(red)}${toHex(green)}${toHex(blue)}`.toUpperCase();
+  };
+
+  const randomBetween = (minimum, maximum) => {
+    return minimum + getCryptoRandomInt(Math.max(1, maximum - minimum + 1));
+  };
+
+  const buildColor = (index, total) => {
+    if (state.mode === "pastel") {
+      return hslToHex(
+        getCryptoRandomInt(360),
+        randomBetween(42, 70),
+        randomBetween(72, 88)
+      );
+    }
+
+    if (state.mode === "vivid") {
+      return hslToHex(
+        getCryptoRandomInt(360),
+        randomBetween(78, 98),
+        randomBetween(38, 60)
+      );
+    }
+
+    if (state.mode === "monochrome") {
+      const spread = total > 1 ? index / (total - 1) : 0.5;
+      const hue = (state.baseHue + randomBetween(-10, 10) + 360) % 360;
+      const saturation = clamp(56 + randomBetween(-8, 8), 40, 72);
+      const lightness = clamp(Math.round(28 + spread * 56 + randomBetween(-3, 3)), 18, 90);
+      return hslToHex(hue, saturation, lightness);
+    }
+
+    return hslToHex(
+      getCryptoRandomInt(360),
+      randomBetween(44, 92),
+      randomBetween(30, 72)
+    );
+  };
+
+  const renderSwatches = () => {
+    swatchesNode.innerHTML = state.swatches
+      .map((swatch, index) => {
+        const lockLabel = swatch.locked ? "Unlock" : "Lock";
+        const lockClass = swatch.locked ? " is-locked" : "";
+        return `
+          <article class="palette-swatch">
+            <div class="palette-swatch__preview" style="background:${swatch.hex}" aria-hidden="true"></div>
+            <div class="palette-swatch__body">
+              <label class="meta-label" for="palette-hex-${index + 1}">HEX</label>
+              <input
+                class="palette-swatch__input"
+                data-palette-hex-index="${index}"
+                id="palette-hex-${index + 1}"
+                maxlength="7"
+                spellcheck="false"
+                type="text"
+                value="${swatch.hex}"
+              />
+              <div class="palette-swatch__actions">
+                <button class="palette-swatch__btn" data-palette-copy-index="${index}" type="button">Copy</button>
+                <button
+                  aria-pressed="${swatch.locked ? "true" : "false"}"
+                  class="palette-swatch__btn${lockClass}"
+                  data-palette-lock-index="${index}"
+                  type="button"
+                >
+                  ${lockLabel}
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      })
+      .join("");
+  };
+
+  const copyText = async (value) => {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(value);
+        return true;
+      }
+
+      const helper = document.createElement("textarea");
+      helper.value = value;
+      helper.setAttribute("readonly", "");
+      helper.style.position = "absolute";
+      helper.style.left = "-9999px";
+      document.body.appendChild(helper);
+      helper.select();
+      helper.setSelectionRange(0, value.length);
+      const copied = document.execCommand("copy");
+      document.body.removeChild(helper);
+      return copied;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const generatePalette = () => {
+    if (state.mode === "monochrome") {
+      state.baseHue = getCryptoRandomInt(360);
+    }
+
+    state.swatches = Array.from({ length: state.size }, (_, index) => {
+      const existing = state.swatches[index];
+      if (existing && existing.locked) {
+        return existing;
+      }
+
+      return {
+        hex: buildColor(index, state.size),
+        locked: false
+      };
+    });
+
+    renderSwatches();
+  };
+
+  const setPaletteSize = (nextSizeValue) => {
+    const nextSize = clampNumber(nextSizeValue, 3, 8, state.size);
+    if (nextSize === state.size) {
+      updateSizeLabel();
+      return;
+    }
+
+    if (nextSize < state.size) {
+      state.swatches = state.swatches.slice(0, nextSize);
+    } else {
+      const start = state.swatches.length;
+      for (let index = start; index < nextSize; index += 1) {
+        state.swatches.push({
+          hex: buildColor(index, nextSize),
+          locked: false
+        });
+      }
+    }
+
+    state.size = nextSize;
+    updateSizeLabel();
+    renderSwatches();
+  };
+
+  const copyCssPalette = async () => {
+    const cssLines = state.swatches
+      .map((swatch, index) => `  --palette-${index + 1}: ${swatch.hex};`)
+      .join("\n");
+    const payload = `:root {\n${cssLines}\n}`;
+    const copied = await copyText(payload);
+
+    if (!copied) {
+      setStatus("Copy failed. Please try again.", "error");
+      return;
+    }
+
+    setStatus("CSS palette copied.", "success");
+  };
+
+  const copyJsonPalette = async () => {
+    const payload = JSON.stringify(state.swatches.map((swatch) => swatch.hex), null, 2);
+    const copied = await copyText(payload);
+
+    if (!copied) {
+      setStatus("Copy failed. Please try again.", "error");
+      return;
+    }
+
+    setStatus("JSON palette copied.", "success");
+  };
+
+  swatchesNode.addEventListener("click", async (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    const copyButton = target.closest("[data-palette-copy-index]");
+    if (copyButton instanceof HTMLButtonElement) {
+      const index = clampNumber(copyButton.dataset.paletteCopyIndex, 0, state.swatches.length - 1, -1);
+      if (index < 0 || !state.swatches[index]) {
+        return;
+      }
+
+      const copied = await copyText(state.swatches[index].hex);
+      if (!copied) {
+        setStatus("Copy failed. Please try again.", "error");
+        return;
+      }
+
+      setStatus(`${state.swatches[index].hex} copied.`, "success");
+      return;
+    }
+
+    const lockButton = target.closest("[data-palette-lock-index]");
+    if (lockButton instanceof HTMLButtonElement) {
+      const index = clampNumber(lockButton.dataset.paletteLockIndex, 0, state.swatches.length - 1, -1);
+      if (index < 0 || !state.swatches[index]) {
+        return;
+      }
+
+      state.swatches[index].locked = !state.swatches[index].locked;
+      renderSwatches();
+      setStatus(state.swatches[index].locked ? "Swatch locked." : "Swatch unlocked.");
+    }
+  });
+
+  swatchesNode.addEventListener("change", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) {
+      return;
+    }
+
+    const index = clampNumber(target.dataset.paletteHexIndex, 0, state.swatches.length - 1, -1);
+    if (index < 0 || !state.swatches[index]) {
+      return;
+    }
+
+    const normalized = normalizeHex(target.value);
+    if (!normalized) {
+      target.value = state.swatches[index].hex;
+      setStatus("Use a valid 6-digit hex color, for example #1A2B3C.", "error");
+      return;
+    }
+
+    state.swatches[index].hex = normalized;
+    target.value = normalized;
+    renderSwatches();
+    setStatus("Swatch updated.", "success");
+  });
+
+  generateButton.addEventListener("click", () => {
+    generatePalette();
+    setStatus("New palette generated.", "success");
+  });
+
+  copyCssButton.addEventListener("click", copyCssPalette);
+  copyJsonButton.addEventListener("click", copyJsonPalette);
+
+  sizeInput.addEventListener("input", () => {
+    setPaletteSize(sizeInput.value);
+  });
+
+  modeSelect.addEventListener("change", () => {
+    state.mode = modeSelect.value || "random";
+    generatePalette();
+    setStatus("Palette mode updated.", "success");
+  });
+
+  window.addEventListener("keydown", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement) {
+      return;
+    }
+
+    if (event.code === "Space") {
+      event.preventDefault();
+      generatePalette();
+      setStatus("New palette generated.", "success");
+    }
+  });
+
+  updateSizeLabel();
+  generatePalette();
+  setStatus("Palette ready. Press Space to generate new colors.");
+}
+
+function setupSnakeGame() {
+  const canvasNode = document.getElementById("snake-canvas");
+  const scoreNode = document.getElementById("snake-score");
+  const bestNode = document.getElementById("snake-best");
+  const speedNode = document.getElementById("snake-speed");
+  const startButton = document.getElementById("snake-start");
+  const pauseButton = document.getElementById("snake-pause");
+  const resetButton = document.getElementById("snake-reset");
+  const statusNode = document.getElementById("snake-status");
+
+  if (
+    !canvasNode ||
+    !scoreNode ||
+    !bestNode ||
+    !speedNode ||
+    !startButton ||
+    !pauseButton ||
+    !resetButton ||
+    !statusNode
+  ) {
+    return;
+  }
+
+  const context = canvasNode.getContext("2d");
+  if (!context) {
+    return;
+  }
+
+  const GRID_SIZE = 21;
+  const CELL_SIZE = Math.floor(canvasNode.width / GRID_SIZE);
+  const BEST_SCORE_KEY = "snakeBestScore";
+
+  const state = {
+    running: false,
+    ended: false,
+    timerId: null,
+    score: 0,
+    best: 0,
+    intervalMs: clampNumber(speedNode.value, 80, 260, 130),
+    snake: [],
+    direction: { x: 1, y: 0 },
+    queuedDirection: { x: 1, y: 0 },
+    food: { x: 0, y: 0 }
+  };
+
+  const setStatus = (message, type = "") => {
+    statusNode.textContent = message;
+    statusNode.classList.remove("is-error", "is-success");
+    if (type) {
+      statusNode.classList.add(`is-${type}`);
+    }
+  };
+
+  const updateMeta = () => {
+    scoreNode.textContent = `${state.score}`;
+    bestNode.textContent = `${state.best}`;
+  };
+
+  const updateControls = () => {
+    startButton.disabled = state.running;
+    pauseButton.disabled = !state.running;
+  };
+
+  const readBestScore = () => {
+    try {
+      const stored = localStorage.getItem(BEST_SCORE_KEY);
+      const parsed = Number.parseInt(stored || "0", 10);
+      return Number.isNaN(parsed) ? 0 : Math.max(0, parsed);
+    } catch (error) {
+      return 0;
+    }
+  };
+
+  const persistBestScore = () => {
+    if (state.score <= state.best) {
+      return;
+    }
+
+    state.best = state.score;
+    try {
+      localStorage.setItem(BEST_SCORE_KEY, `${state.best}`);
+    } catch (error) {
+      return;
+    }
+  };
+
+  const randomFoodPosition = () => {
+    const occupied = new Set(state.snake.map((part) => `${part.x},${part.y}`));
+    let x = 0;
+    let y = 0;
+    let attempts = 0;
+
+    do {
+      x = getCryptoRandomInt(GRID_SIZE);
+      y = getCryptoRandomInt(GRID_SIZE);
+      attempts += 1;
+    } while (occupied.has(`${x},${y}`) && attempts < GRID_SIZE * GRID_SIZE);
+
+    return { x, y };
+  };
+
+  const drawBoard = () => {
+    const rootStyles = window.getComputedStyle(document.documentElement);
+    const boardColor = rootStyles.getPropertyValue("--color-panel").trim() || "#1d2023";
+    const gridColor = rootStyles.getPropertyValue("--color-line").trim() || "rgba(255,255,255,0.12)";
+    const snakeColor = rootStyles.getPropertyValue("--color-text").trim() || "#f4f2ee";
+    const accentColor = rootStyles.getPropertyValue("--color-accent").trim() || "#f08c8c";
+    const foodColor = accentColor;
+
+    context.clearRect(0, 0, canvasNode.width, canvasNode.height);
+    context.fillStyle = boardColor;
+    context.fillRect(0, 0, canvasNode.width, canvasNode.height);
+
+    context.strokeStyle = gridColor;
+    context.lineWidth = 1;
+    for (let row = 0; row <= GRID_SIZE; row += 1) {
+      const offset = row * CELL_SIZE + 0.5;
+      context.beginPath();
+      context.moveTo(offset, 0);
+      context.lineTo(offset, GRID_SIZE * CELL_SIZE);
+      context.stroke();
+
+      context.beginPath();
+      context.moveTo(0, offset);
+      context.lineTo(GRID_SIZE * CELL_SIZE, offset);
+      context.stroke();
+    }
+
+    context.fillStyle = foodColor;
+    context.beginPath();
+    const foodCenterX = state.food.x * CELL_SIZE + CELL_SIZE / 2;
+    const foodCenterY = state.food.y * CELL_SIZE + CELL_SIZE / 2;
+    context.arc(foodCenterX, foodCenterY, CELL_SIZE * 0.3, 0, Math.PI * 2);
+    context.fill();
+
+    state.snake.forEach((part, index) => {
+      const inset = index === 0 ? 2 : 3;
+      context.fillStyle = index === 0 ? accentColor : snakeColor;
+      context.fillRect(
+        part.x * CELL_SIZE + inset,
+        part.y * CELL_SIZE + inset,
+        CELL_SIZE - inset * 2,
+        CELL_SIZE - inset * 2
+      );
+    });
+  };
+
+  const stopLoop = () => {
+    if (!state.timerId) {
+      return;
+    }
+
+    window.clearInterval(state.timerId);
+    state.timerId = null;
+  };
+
+  const isOutOfBounds = (point) => {
+    return point.x < 0 || point.y < 0 || point.x >= GRID_SIZE || point.y >= GRID_SIZE;
+  };
+
+  const hitsSelf = (head) => {
+    return state.snake.some((part) => part.x === head.x && part.y === head.y);
+  };
+
+  const endGame = () => {
+    stopLoop();
+    state.running = false;
+    state.ended = true;
+    persistBestScore();
+    updateMeta();
+    updateControls();
+    setStatus("Game over. Press Start to play again.", "error");
+  };
+
+  const tick = () => {
+    state.direction = { ...state.queuedDirection };
+    const nextHead = {
+      x: state.snake[0].x + state.direction.x,
+      y: state.snake[0].y + state.direction.y
+    };
+
+    if (isOutOfBounds(nextHead) || hitsSelf(nextHead)) {
+      endGame();
+      drawBoard();
+      return;
+    }
+
+    state.snake.unshift(nextHead);
+
+    if (nextHead.x === state.food.x && nextHead.y === state.food.y) {
+      state.score += 1;
+      persistBestScore();
+      state.food = randomFoodPosition();
+      updateMeta();
+      setStatus("Nice move. Keep going!", "success");
+    } else {
+      state.snake.pop();
+    }
+
+    drawBoard();
+  };
+
+  const startLoop = () => {
+    stopLoop();
+    state.timerId = window.setInterval(tick, state.intervalMs);
+  };
+
+  const resetGameState = () => {
+    stopLoop();
+    state.running = false;
+    state.ended = false;
+    state.score = 0;
+    state.direction = { x: 1, y: 0 };
+    state.queuedDirection = { x: 1, y: 0 };
+    state.snake = [
+      { x: 10, y: 10 },
+      { x: 9, y: 10 },
+      { x: 8, y: 10 }
+    ];
+    state.food = randomFoodPosition();
+    updateMeta();
+    updateControls();
+    drawBoard();
+  };
+
+  const startGame = () => {
+    if (state.running) {
+      return;
+    }
+
+    if (state.ended) {
+      resetGameState();
+    }
+
+    state.running = true;
+    startLoop();
+    updateControls();
+    setStatus("Game started. Use arrow keys or WASD.");
+  };
+
+  const pauseGame = () => {
+    if (!state.running) {
+      return;
+    }
+
+    stopLoop();
+    state.running = false;
+    updateControls();
+    setStatus("Paused. Press Start or Space to continue.");
+  };
+
+  const resetGame = () => {
+    resetGameState();
+    setStatus("Ready. Press Start or Space to begin.");
+  };
+
+  const setDirection = (x, y) => {
+    if (!Number.isInteger(x) || !Number.isInteger(y)) {
+      return;
+    }
+
+    if (x === 0 && y === 0) {
+      return;
+    }
+
+    const activeDirection = state.running ? state.direction : state.queuedDirection;
+    if (x === -activeDirection.x && y === -activeDirection.y) {
+      return;
+    }
+
+    state.queuedDirection = { x, y };
+  };
+
+  const changeSpeed = () => {
+    state.intervalMs = clampNumber(speedNode.value, 80, 260, 130);
+    if (state.running) {
+      startLoop();
+    }
+  };
+
+  window.addEventListener("keydown", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement) {
+      return;
+    }
+
+    const key = event.key.toLowerCase();
+    if (key === "arrowup" || key === "w") {
+      event.preventDefault();
+      setDirection(0, -1);
+      return;
+    }
+
+    if (key === "arrowdown" || key === "s") {
+      event.preventDefault();
+      setDirection(0, 1);
+      return;
+    }
+
+    if (key === "arrowleft" || key === "a") {
+      event.preventDefault();
+      setDirection(-1, 0);
+      return;
+    }
+
+    if (key === "arrowright" || key === "d") {
+      event.preventDefault();
+      setDirection(1, 0);
+      return;
+    }
+
+    if (event.code === "Space") {
+      event.preventDefault();
+      if (state.running) {
+        pauseGame();
+      } else {
+        startGame();
+      }
+    }
+  });
+
+  startButton.addEventListener("click", startGame);
+  pauseButton.addEventListener("click", pauseGame);
+  resetButton.addEventListener("click", resetGame);
+  speedNode.addEventListener("change", changeSpeed);
+
+  state.best = readBestScore();
+  resetGameState();
+  setStatus("Ready. Press Start or Space to begin.");
+}
+
+function setupSudokuGame() {
+  const boardNode = document.getElementById("sudoku-board");
+  const filledNode = document.getElementById("sudoku-filled");
+  const difficultyNode = document.getElementById("sudoku-difficulty");
+  const newButton = document.getElementById("sudoku-new");
+  const checkButton = document.getElementById("sudoku-check");
+  const solveButton = document.getElementById("sudoku-solve");
+  const resetButton = document.getElementById("sudoku-reset");
+  const statusNode = document.getElementById("sudoku-status");
+
+  if (
+    !boardNode ||
+    !filledNode ||
+    !difficultyNode ||
+    !newButton ||
+    !checkButton ||
+    !solveButton ||
+    !resetButton ||
+    !statusNode
+  ) {
+    return;
+  }
+
+  const SIZE = 9;
+  const BLOCK_SIZE = 3;
+  const HOLES_BY_DIFFICULTY = {
+    easy: 40,
+    medium: 50,
+    hard: 56
+  };
+
+  const state = {
+    difficulty: difficultyNode.value || "medium",
+    solution: [],
+    puzzle: [],
+    current: [],
+    cellRefs: []
+  };
+
+  const setStatus = (message, type = "") => {
+    statusNode.textContent = message;
+    statusNode.classList.remove("is-error", "is-success");
+    if (type) {
+      statusNode.classList.add(`is-${type}`);
+    }
+  };
+
+  const createEmptyGrid = () => {
+    return Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+  };
+
+  const copyGrid = (grid) => {
+    return grid.map((row) => row.slice());
+  };
+
+  const updateFilledCount = () => {
+    let filled = 0;
+    state.current.forEach((row) => {
+      row.forEach((value) => {
+        if (value > 0) {
+          filled += 1;
+        }
+      });
+    });
+
+    filledNode.textContent = `${filled}/81`;
+  };
+
+  const shuffleNumbers = () => {
+    const values = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    for (let index = values.length - 1; index > 0; index -= 1) {
+      const swapIndex = getCryptoRandomInt(index + 1);
+      [values[index], values[swapIndex]] = [values[swapIndex], values[index]];
+    }
+    return values;
+  };
+
+  const isValidPlacement = (grid, row, col, value) => {
+    for (let index = 0; index < SIZE; index += 1) {
+      if (grid[row][index] === value) {
+        return false;
+      }
+      if (grid[index][col] === value) {
+        return false;
+      }
+    }
+
+    const blockRowStart = Math.floor(row / BLOCK_SIZE) * BLOCK_SIZE;
+    const blockColStart = Math.floor(col / BLOCK_SIZE) * BLOCK_SIZE;
+    for (let rowOffset = 0; rowOffset < BLOCK_SIZE; rowOffset += 1) {
+      for (let colOffset = 0; colOffset < BLOCK_SIZE; colOffset += 1) {
+        if (grid[blockRowStart + rowOffset][blockColStart + colOffset] === value) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  };
+
+  const fillSolvedGrid = (grid) => {
+    for (let row = 0; row < SIZE; row += 1) {
+      for (let col = 0; col < SIZE; col += 1) {
+        if (grid[row][col] !== 0) {
+          continue;
+        }
+
+        const candidates = shuffleNumbers();
+        for (const candidate of candidates) {
+          if (!isValidPlacement(grid, row, col, candidate)) {
+            continue;
+          }
+
+          grid[row][col] = candidate;
+          if (fillSolvedGrid(grid)) {
+            return true;
+          }
+          grid[row][col] = 0;
+        }
+
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const generateSolvedGrid = () => {
+    const solved = createEmptyGrid();
+    fillSolvedGrid(solved);
+    return solved;
+  };
+
+  const generatePuzzleGrid = (solution, difficulty) => {
+    const puzzle = copyGrid(solution);
+    const targetHoles = HOLES_BY_DIFFICULTY[difficulty] || HOLES_BY_DIFFICULTY.medium;
+    const positions = Array.from({ length: SIZE * SIZE }, (_, index) => index);
+
+    for (let index = positions.length - 1; index > 0; index -= 1) {
+      const swapIndex = getCryptoRandomInt(index + 1);
+      [positions[index], positions[swapIndex]] = [positions[swapIndex], positions[index]];
+    }
+
+    for (let index = 0; index < targetHoles; index += 1) {
+      const position = positions[index];
+      const row = Math.floor(position / SIZE);
+      const col = position % SIZE;
+      puzzle[row][col] = 0;
+    }
+
+    return puzzle;
+  };
+
+  const clearConflictClasses = () => {
+    boardNode.querySelectorAll(".sudoku-cell.is-conflict").forEach((cell) => {
+      cell.classList.remove("is-conflict");
+    });
+  };
+
+  const evaluateBoard = () => {
+    clearConflictClasses();
+    let incorrect = 0;
+    let empty = 0;
+
+    for (let row = 0; row < SIZE; row += 1) {
+      for (let col = 0; col < SIZE; col += 1) {
+        const value = state.current[row][col];
+        if (!value) {
+          empty += 1;
+          continue;
+        }
+
+        if (value !== state.solution[row][col]) {
+          incorrect += 1;
+          const cellNode = state.cellRefs[row]?.[col];
+          if (cellNode) {
+            cellNode.classList.add("is-conflict");
+          }
+        }
+      }
+    }
+
+    return { incorrect, empty };
+  };
+
+  const setCellValue = (row, col, value) => {
+    state.current[row][col] = value;
+    const cellNode = state.cellRefs[row]?.[col];
+    if (!cellNode) {
+      return;
+    }
+
+    if (value && value !== state.solution[row][col]) {
+      cellNode.classList.add("is-conflict");
+    } else {
+      cellNode.classList.remove("is-conflict");
+    }
+  };
+
+  const focusCell = (row, col) => {
+    const safeRow = Math.max(0, Math.min(SIZE - 1, row));
+    const safeCol = Math.max(0, Math.min(SIZE - 1, col));
+    const targetCell = state.cellRefs[safeRow]?.[safeCol];
+    if (targetCell) {
+      targetCell.focus();
+    }
+  };
+
+  const renderBoard = () => {
+    boardNode.innerHTML = "";
+    const refs = Array.from({ length: SIZE }, () => Array(SIZE).fill(null));
+
+    for (let row = 0; row < SIZE; row += 1) {
+      for (let col = 0; col < SIZE; col += 1) {
+        const given = state.puzzle[row][col] !== 0;
+        const value = state.current[row][col] || "";
+        const inputNode = document.createElement("input");
+
+        inputNode.className = "sudoku-cell";
+        inputNode.type = "text";
+        inputNode.inputMode = "numeric";
+        inputNode.maxLength = 1;
+        inputNode.autocomplete = "off";
+        inputNode.spellcheck = false;
+        inputNode.value = `${value}`;
+        inputNode.setAttribute("aria-label", `Row ${row + 1}, Column ${col + 1}`);
+        inputNode.setAttribute("role", "gridcell");
+
+        if (given) {
+          inputNode.readOnly = true;
+          inputNode.classList.add("is-given");
+        }
+
+        if ((col + 1) % BLOCK_SIZE === 0 && col !== SIZE - 1) {
+          inputNode.classList.add("is-subgrid-right");
+        }
+
+        if ((row + 1) % BLOCK_SIZE === 0 && row !== SIZE - 1) {
+          inputNode.classList.add("is-subgrid-bottom");
+        }
+
+        inputNode.addEventListener("focus", () => {
+          inputNode.select();
+        });
+
+        inputNode.addEventListener("input", () => {
+          if (given) {
+            inputNode.value = `${state.puzzle[row][col]}`;
+            return;
+          }
+
+          const sanitized = inputNode.value.replace(/[^1-9]/g, "").slice(-1);
+          inputNode.value = sanitized;
+          const nextValue = sanitized ? Number.parseInt(sanitized, 10) : 0;
+          setCellValue(row, col, nextValue);
+          updateFilledCount();
+
+          if (!nextValue) {
+            setStatus("");
+            return;
+          }
+
+          const { incorrect, empty } = evaluateBoard();
+          if (incorrect === 0 && empty === 0) {
+            setStatus("Puzzle solved. Great work!", "success");
+          } else {
+            setStatus("");
+          }
+        });
+
+        inputNode.addEventListener("keydown", (event) => {
+          if (!given && (event.key === "Backspace" || event.key === "Delete")) {
+            setCellValue(row, col, 0);
+            inputNode.value = "";
+            updateFilledCount();
+            setStatus("");
+            return;
+          }
+
+          let nextRow = row;
+          let nextCol = col;
+          let shouldMove = true;
+
+          if (event.key === "ArrowUp") {
+            nextRow -= 1;
+          } else if (event.key === "ArrowDown") {
+            nextRow += 1;
+          } else if (event.key === "ArrowLeft") {
+            nextCol -= 1;
+          } else if (event.key === "ArrowRight") {
+            nextCol += 1;
+          } else {
+            shouldMove = false;
+          }
+
+          if (!shouldMove) {
+            return;
+          }
+
+          event.preventDefault();
+          focusCell(nextRow, nextCol);
+        });
+
+        refs[row][col] = inputNode;
+        boardNode.appendChild(inputNode);
+      }
+    }
+
+    state.cellRefs = refs;
+  };
+
+  const createPuzzle = () => {
+    state.difficulty = difficultyNode.value || "medium";
+    state.solution = generateSolvedGrid();
+    state.puzzle = generatePuzzleGrid(state.solution, state.difficulty);
+    state.current = copyGrid(state.puzzle);
+    renderBoard();
+    updateFilledCount();
+    setStatus("New puzzle ready.");
+  };
+
+  const checkPuzzle = () => {
+    const { incorrect, empty } = evaluateBoard();
+    if (incorrect === 0 && empty === 0) {
+      setStatus("Puzzle solved. Great work!", "success");
+      return;
+    }
+
+    if (incorrect === 0) {
+      setStatus(`${empty} cells left. Keep going.`);
+      return;
+    }
+
+    const suffix = incorrect === 1 ? "" : "s";
+    setStatus(`${incorrect} incorrect cell${suffix} found.`, "error");
+  };
+
+  const solvePuzzle = () => {
+    state.current = copyGrid(state.solution);
+    renderBoard();
+    updateFilledCount();
+    setStatus("Puzzle solved for you. Start a new one when ready.", "success");
+  };
+
+  const resetPuzzle = () => {
+    state.current = copyGrid(state.puzzle);
+    renderBoard();
+    updateFilledCount();
+    setStatus("Puzzle reset.");
+  };
+
+  newButton.addEventListener("click", createPuzzle);
+  checkButton.addEventListener("click", checkPuzzle);
+  solveButton.addEventListener("click", solvePuzzle);
+  resetButton.addEventListener("click", resetPuzzle);
+  difficultyNode.addEventListener("change", createPuzzle);
+
+  createPuzzle();
+}
+
 function setupTypingTest() {
   const promptNode = document.getElementById("typing-prompt");
   const inputNode = document.getElementById("typing-input");
@@ -1414,6 +2820,10 @@ function initToolPages() {
   setupPasswordGenerator();
   setupPomodoroTimer();
   setupQrCodeGenerator();
+  setupCalculator();
+  setupColorPaletteGenerator();
+  setupSnakeGame();
+  setupSudokuGame();
   setupTypingTest();
 }
 

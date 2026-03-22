@@ -173,13 +173,44 @@ export const siteContent = {
         category: "Sharing Utility",
         url: "./tools/qr-code-generator.html",
         ctaLabel: "Open tool"
+      },
+      {
+        id: "calculator",
+        title: "Calculator",
+        summary: "Run fast day-to-day calculations with keyboard support and clean operator controls.",
+        category: "Math Utility",
+        url: "./tools/calculator.html",
+        ctaLabel: "Open tool"
+      },
+      {
+        id: "color-palette-generator",
+        title: "Color Palette Generator",
+        summary: "Generate polished color palettes, lock favorite swatches, and copy values instantly.",
+        category: "Design Utility",
+        url: "./tools/color-palette-generator.html",
+        ctaLabel: "Open tool"
+      },
+      {
+        id: "snake-game",
+        title: "Snake Game",
+        summary: "Play a clean browser snake game with keyboard controls, score tracking, and best-score memory.",
+        category: "Mini Game",
+        url: "./tools/snake-game.html",
+        ctaLabel: "Open tool"
+      },
+      {
+        id: "sudoku",
+        title: "Sudoku",
+        summary: "Solve generated Sudoku puzzles with difficulty modes, instant checks, and solve support.",
+        category: "Logic Game",
+        url: "./tools/sudoku.html",
+        ctaLabel: "Open tool"
       }
     ],
     planned: [
       { title: "Unit Converter", category: "Utility" },
       { title: "Markdown Previewer", category: "Productivity" },
-      { title: "Memory Match", category: "Mini game" },
-      { title: "Color Palette Generator", category: "Design" }
+      { title: "Memory Match", category: "Mini game" }
     ]
   },
   services: [
