@@ -1858,6 +1858,7 @@ function setupSnakeGame() {
   const pauseButton = document.getElementById("snake-pause");
   const resetButton = document.getElementById("snake-reset");
   const statusNode = document.getElementById("snake-status");
+  const touchButtons = Array.from(document.querySelectorAll("[data-snake-touch]"));
 
   if (
     !canvasNode ||
@@ -1893,6 +1894,9 @@ function setupSnakeGame() {
     queuedDirection: { x: 1, y: 0 },
     food: { x: 0, y: 0 }
   };
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchActive = false;
 
   const setStatus = (message, type = "") => {
     statusNode.textContent = message;
@@ -2086,7 +2090,7 @@ function setupSnakeGame() {
     state.running = true;
     startLoop();
     updateControls();
-    setStatus("Game started. Use arrow keys or WASD.");
+    setStatus("Game started. Use arrow keys, WASD, or touch controls.");
   };
 
   const pauseGame = () => {
@@ -2097,12 +2101,12 @@ function setupSnakeGame() {
     stopLoop();
     state.running = false;
     updateControls();
-    setStatus("Paused. Press Start or Space to continue.");
+    setStatus("Paused. Press Start, Space, or swipe to continue.");
   };
 
   const resetGame = () => {
     resetGameState();
-    setStatus("Ready. Press Start or Space to begin.");
+    setStatus("Ready. Press Start, Space, or swipe to begin.");
   };
 
   const setDirection = (x, y) => {
@@ -2126,6 +2130,44 @@ function setupSnakeGame() {
     state.intervalMs = clampNumber(speedNode.value, 80, 260, 130);
     if (state.running) {
       startLoop();
+    }
+  };
+
+  const applyDirectionByName = (directionName) => {
+    if (directionName === "up") {
+      setDirection(0, -1);
+      return;
+    }
+
+    if (directionName === "down") {
+      setDirection(0, 1);
+      return;
+    }
+
+    if (directionName === "left") {
+      setDirection(-1, 0);
+      return;
+    }
+
+    if (directionName === "right") {
+      setDirection(1, 0);
+    }
+  };
+
+  const handleSwipe = (deltaX, deltaY) => {
+    const SWIPE_THRESHOLD = 18;
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD && Math.abs(deltaY) < SWIPE_THRESHOLD) {
+      return;
+    }
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      applyDirectionByName(deltaX > 0 ? "right" : "left");
+    } else {
+      applyDirectionByName(deltaY > 0 ? "down" : "up");
+    }
+
+    if (!state.running) {
+      startGame();
     }
   };
 
@@ -2170,6 +2212,65 @@ function setupSnakeGame() {
     }
   });
 
+  canvasNode.addEventListener(
+    "touchstart",
+    (event) => {
+      if (!event.touches.length) {
+        return;
+      }
+
+      touchStartX = event.touches[0].clientX;
+      touchStartY = event.touches[0].clientY;
+      touchActive = true;
+    },
+    { passive: true }
+  );
+
+  canvasNode.addEventListener(
+    "touchmove",
+    (event) => {
+      if (!touchActive) {
+        return;
+      }
+
+      event.preventDefault();
+    },
+    { passive: false }
+  );
+
+  canvasNode.addEventListener(
+    "touchend",
+    (event) => {
+      if (!touchActive || !event.changedTouches.length) {
+        touchActive = false;
+        return;
+      }
+
+      const deltaX = event.changedTouches[0].clientX - touchStartX;
+      const deltaY = event.changedTouches[0].clientY - touchStartY;
+      handleSwipe(deltaX, deltaY);
+      touchActive = false;
+    },
+    { passive: true }
+  );
+
+  canvasNode.addEventListener(
+    "touchcancel",
+    () => {
+      touchActive = false;
+    },
+    { passive: true }
+  );
+
+  touchButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      applyDirectionByName(button.dataset.snakeTouch || "");
+      if (!state.running) {
+        startGame();
+      }
+    });
+  });
+
   startButton.addEventListener("click", startGame);
   pauseButton.addEventListener("click", pauseGame);
   resetButton.addEventListener("click", resetGame);
@@ -2177,7 +2278,7 @@ function setupSnakeGame() {
 
   state.best = readBestScore();
   resetGameState();
-  setStatus("Ready. Press Start or Space to begin.");
+  setStatus("Ready. Press Start, Space, or swipe to begin.");
 }
 
 function setupSudokuGame() {

@@ -67,13 +67,13 @@
             <header class="tool-page-head">
               <p class="eyebrow">Toolbox</p>
               <h1 class="section-title">Snake Game</h1>
-              <p>Use arrow keys or WASD to grow the snake, avoid collisions, and beat your high score.</p>
+              <p>Use arrow keys, WASD, or touch swipe controls to grow the snake and beat your high score.</p>
             </header>
 
             <article class="snake-tool">
               <header class="snake-tool__header">
                 <h2>Game board</h2>
-                <p>Press Start or Space to begin. Press Space again to pause and resume.</p>
+                <p>Press Start or Space to begin. On phones, swipe on the board or use the touch pad below.</p>
               </header>
 
               <div class="snake-tool__meta">
@@ -103,6 +103,13 @@
                 <button class="password-tool__action" id="snake-start" type="button">Start</button>
                 <button class="password-tool__action" id="snake-pause" type="button">Pause</button>
                 <button class="password-tool__action" id="snake-reset" type="button">Reset</button>
+              </div>
+
+              <div class="snake-tool__touch" aria-label="Touch controls">
+                <button class="snake-touch-btn snake-touch-btn--up" data-snake-touch="up" type="button">Up</button>
+                <button class="snake-touch-btn snake-touch-btn--left" data-snake-touch="left" type="button">Left</button>
+                <button class="snake-touch-btn snake-touch-btn--right" data-snake-touch="right" type="button">Right</button>
+                <button class="snake-touch-btn snake-touch-btn--down" data-snake-touch="down" type="button">Down</button>
               </div>
 
               <p class="snake-tool__status" id="snake-status" aria-live="polite"></p>
