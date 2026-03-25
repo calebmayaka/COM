@@ -2,12 +2,12 @@ export const siteContent = {
   profile: {
     name: "Caleb Mayaka",
     siteUrl: "https://www.calebmayaka.com/",
-    roleLine: "Software Engineer",
+    roleLine: "lets build something great",
     seoTitle: "Caleb Mayaka | Software Engineer & Technical Services",
     seoDescription:
       "Caleb Mayaka is a Software Engineer providing dependable software development and practical technical services including hardware support, video editing, and graphics design.",
     ogImageUrl: "https://www.calebmayaka.com/assets/images/og-calebmayaka-1200x630.png",
-    headline: "Software engineer building dependable digital experiences.",
+    headline: "lets build something great",
     subheadline:
       "I build dependable software shaped by hands-on system admin experience and a practical understanding of how systems are used every day.",
     location: "Kenya",

@@ -184,13 +184,24 @@
                 role="tabpanel"
               >
                 <article class="profile-minimal" id="profile-minimal">
-                  <h1 class="section-title profile-minimal__title profile-anim-item" style="--intro-delay: 40ms">Software Engineer</h1>
+                  <h1 class="section-title profile-minimal__title profile-anim-item" style="--intro-delay: 40ms">lets build something great</h1>
                   <p class="section-copy profile-minimal__summary profile-anim-item" id="profile-summary" style="--intro-delay: 120ms">
                     I design dependable web systems that are easy to run and maintain.
                   </p>
                   <section class="profile-tools profile-anim-item" aria-label="Tools I Work With" style="--intro-delay: 200ms">
-                    <p class="meta-label profile-tools__label" id="profile-tools-label"></p>
-                    <div class="tools-row" id="profile-tools-list"></div>
+                    <details class="profile-tools__dropdown">
+                      <summary class="profile-tools__trigger">
+                        <span class="meta-label profile-tools__label" id="profile-tools-label"></span>
+                        <span class="profile-tools__chevron" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </span>
+                      </summary>
+                      <div class="profile-tools__body">
+                        <div class="tools-row" id="profile-tools-list"></div>
+                      </div>
+                    </details>
                   </section>
                   <div class="quick-links profile-minimal__links profile-anim-item" style="--intro-delay: 280ms">
                     <a aria-label="Email" class="profile-icon" id="hero-email">
@@ -221,6 +232,7 @@
                   </div>
                   <div class="panel-actions panel-actions--primary profile-anim-item" style="--intro-delay: 360ms">
                     <button class="hero-link hero-link--standout" data-switch-tab="consultancy" type="button">Work with me</button>
+                    <button class="hero-link hero-link--standout hero-link--subtle" data-switch-tab="tools" type="button">Explore tools</button>
                   </div>
                   <div class="panel-actions profile-anim-item" style="--intro-delay: 440ms">
                     <a class="hero-link" download id="resume-link" rel="noreferrer" target="_blank">View resume</a>
