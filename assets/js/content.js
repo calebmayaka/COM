@@ -25,6 +25,75 @@ export const siteContent = {
       "I help individuals and teams build reliable systems, eliminate technical friction, and get real work done faster without unnecessary complexity.",
     primaryCtaLabel: "Email me",
     responseTimeNote: "Typical response within 24 hours.",
+    terminal: {
+      eyebrow: "Playful terminal",
+      title: "Try a quick command",
+      introLine: "booting caleb.exe ... practical engineering with a little personality.",
+      placeholder: "Type whoami, stack, services, contact, or fun",
+      promptLabel: "caleb@portfolio:~$",
+      submitLabel: "Run",
+      outputLabel: "Output",
+      initialOutput: ["Tap a command chip or type one above to explore."],
+      fallbackOutput: ["Command not found.", "Try one of these: whoami, stack, services, contact, fun."],
+      commands: [
+        {
+          id: "whoami",
+          label: "whoami",
+          output: [
+            "Caleb Mayaka",
+            "Software Engineer based in Kenya.",
+            "I build dependable web systems with a practical, operations-aware mindset."
+          ]
+        },
+        {
+          id: "stack",
+          label: "stack",
+          output: [
+            "Core stack: Python, Django, JavaScript, Tailwind CSS, REST APIs.",
+            "Focus areas: Django, System Admin, Workflow Automation.",
+            "Also comfortable with Docker, Linux/Windows, Proxmox, and design tooling."
+          ]
+        },
+        {
+          id: "services",
+          label: "services",
+          output: [
+            "I offer software development, hardware maintenance & IT support, video editing, graphics design, and consultancy.",
+            "Best fit: practical builds, smoother workflows, and dependable technical support."
+          ],
+          action: {
+            type: "switch-tab",
+            target: "consultancy",
+            label: "Work with me"
+          }
+        },
+        {
+          id: "contact",
+          label: "contact",
+          output: [
+            "Email: mayakaombogo254@gmail.com",
+            "WhatsApp: +254 798 934 667",
+            "Typical response within 24 hours."
+          ],
+          action: {
+            type: "link",
+            href: "mailto:mayakaombogo254@gmail.com",
+            label: "Email Caleb"
+          }
+        },
+        {
+          id: "fun",
+          label: "fun",
+          output: [
+            "I like software that stays calm in production and still feels human to use.",
+            "Also yes, I will absolutely polish a tiny interaction if it makes the page more memorable."
+          ],
+          action: {
+            type: "easter-egg"
+          }
+        }
+      ]
+    },
     whyWorkWithMe: [
       "Outcome-focused delivery with clear timelines and practical scope.",
       "Strong mix of software engineering and hands-on technical troubleshooting.",

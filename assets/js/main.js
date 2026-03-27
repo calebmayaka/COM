@@ -105,6 +105,61 @@ function renderProfileTools(profile) {
     .join("");
 }
 
+function renderProfileTerminal(profile) {
+  const terminal = profile.terminal || {};
+  const eyebrowNode = document.getElementById("profile-terminal-eyebrow");
+  const titleNode = document.getElementById("profile-terminal-title");
+  const promptNode = document.getElementById("profile-terminal-prompt");
+  const inputNode = document.getElementById("profile-terminal-input");
+  const runNode = document.querySelector(".profile-terminal__run");
+  const outputLabelNode = document.getElementById("profile-terminal-output-label");
+  const commandsNode = document.getElementById("profile-terminal-commands");
+  const commands = terminal.commands || [];
+
+  if (eyebrowNode) {
+    eyebrowNode.textContent = terminal.eyebrow || "Playful terminal";
+  }
+
+  if (titleNode) {
+    titleNode.textContent = terminal.title || "Try a quick command";
+  }
+
+  if (promptNode) {
+    promptNode.textContent = terminal.promptLabel || "caleb@portfolio:~$";
+  }
+
+  if (inputNode) {
+    inputNode.placeholder = terminal.placeholder || "Type a command";
+  }
+
+  if (runNode) {
+    runNode.textContent = terminal.submitLabel || "Run";
+  }
+
+  if (outputLabelNode) {
+    outputLabelNode.textContent = terminal.outputLabel || "Output";
+  }
+
+  if (!commandsNode) {
+    return;
+  }
+
+  commandsNode.innerHTML = commands
+    .map(
+      (command) => `
+        <button
+          aria-pressed="false"
+          class="profile-terminal__command"
+          data-terminal-command="${command.id}"
+          type="button"
+        >
+          ${command.label}
+        </button>
+      `
+    )
+    .join("");
+}
+
 function renderProjectLinks(project) {
   if (!project.liveUrl && !project.repoUrl) {
     return "";
@@ -160,7 +215,7 @@ function renderProfile() {
   setLink("contact-linkedin", profile.linkedinUrl);
   setLink("contact-twitter", profile.twitterUrl);
   renderProfileTools(profile);
-
+  renderProfileTerminal(profile);
 }
 
 function renderListItems(items) {
@@ -804,8 +859,198 @@ function setupProfileCtaPulse() {
   }, 6500);
 }
 
+function setupProfileTerminal() {
+  const card = document.getElementById("profile-terminal");
+  const introNode = document.getElementById("profile-terminal-intro");
+  const form = document.getElementById("profile-terminal-form");
+  const input = document.getElementById("profile-terminal-input");
+  const outputNode = document.getElementById("profile-terminal-output");
+  const actionNode = document.getElementById("profile-terminal-output-action");
+  const commands = Array.from(document.querySelectorAll("[data-terminal-command]"));
+  const profile = siteContent.profile || {};
+  const terminal = profile.terminal || {};
+  const commandList = terminal.commands || [];
+
+  if (!card || !introNode || !form || !input || !outputNode || !actionNode || !commandList.length) {
+    return;
+  }
+
+  const commandMap = new Map(commandList.map((command) => [command.id.trim().toLowerCase(), command]));
+  let introTimer = null;
+  let eggTimer = null;
+
+  const clearIntroTimer = () => {
+    if (!introTimer) {
+      return;
+    }
+
+    window.clearTimeout(introTimer);
+    introTimer = null;
+  };
+
+  const setIntroText = (value) => {
+    introNode.textContent = value || "";
+  };
+
+  const finishIntro = () => {
+    clearIntroTimer();
+    card.classList.remove("is-terminal-typing");
+    setIntroText(terminal.introLine || "");
+  };
+
+  const typeIntroLine = () => {
+    const introLine = terminal.introLine || "";
+
+    if (!introLine) {
+      return;
+    }
+
+    if (motionQuery.matches) {
+      finishIntro();
+      return;
+    }
+
+    clearIntroTimer();
+    card.classList.add("is-terminal-typing");
+    setIntroText("");
+
+    const typeCharacter = (index) => {
+      setIntroText(introLine.slice(0, index));
+
+      if (index >= introLine.length) {
+        introTimer = null;
+        card.classList.remove("is-terminal-typing");
+        return;
+      }
+
+      introTimer = window.setTimeout(() => {
+        typeCharacter(index + 1);
+      }, 28);
+    };
+
+    typeCharacter(1);
+  };
+
+  const clearOutput = () => {
+    outputNode.innerHTML = "";
+    actionNode.innerHTML = "";
+  };
+
+  const renderOutput = (lines) => {
+    clearOutput();
+
+    (lines || []).forEach((line) => {
+      const outputLine = document.createElement("p");
+      outputLine.className = "profile-terminal__line";
+      outputLine.textContent = line;
+      outputNode.appendChild(outputLine);
+    });
+  };
+
+  const renderAction = (action) => {
+    actionNode.innerHTML = "";
+
+    if (!action || !action.type) {
+      return;
+    }
+
+    if (action.type === "link") {
+      const link = document.createElement("a");
+      link.className = "profile-terminal__action hero-link hero-link--compact";
+      link.href = action.href || `mailto:${profile.email || ""}`;
+      link.textContent = action.label || "Open link";
+      if (/^https?:/i.test(link.href)) {
+        link.rel = "noreferrer";
+        link.target = "_blank";
+      }
+      actionNode.appendChild(link);
+      return;
+    }
+
+    if (action.type === "switch-tab") {
+      const button = document.createElement("button");
+      button.className = "profile-terminal__action hero-link hero-link--compact";
+      button.type = "button";
+      button.textContent = action.label || "Open";
+      button.addEventListener("click", () => {
+        setActiveTab(action.target || "consultancy");
+      });
+      actionNode.appendChild(button);
+    }
+  };
+
+  const setActiveCommandState = (activeId) => {
+    commands.forEach((button) => {
+      const isActive = button.dataset.terminalCommand === activeId;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+  };
+
+  const triggerEgg = () => {
+    if (motionQuery.matches) {
+      return;
+    }
+
+    window.clearTimeout(eggTimer);
+    card.classList.remove("is-easter-egg-active");
+    void card.offsetWidth;
+    card.classList.add("is-easter-egg-active");
+    eggTimer = window.setTimeout(() => {
+      card.classList.remove("is-easter-egg-active");
+    }, 900);
+  };
+
+  const runCommand = (value) => {
+    finishIntro();
+    const normalizedValue = value.trim().toLowerCase();
+    const command = commandMap.get(normalizedValue);
+
+    if (!command) {
+      setActiveCommandState("");
+      renderOutput(terminal.fallbackOutput || ["Command not found."]);
+      return;
+    }
+
+    setActiveCommandState(command.id);
+    renderOutput(command.output || []);
+    renderAction(command.action);
+
+    if (command.action?.type === "easter-egg") {
+      triggerEgg();
+    }
+  };
+
+  commands.forEach((button) => {
+    button.addEventListener("click", () => {
+      const commandValue = button.dataset.terminalCommand || "";
+      input.value = commandValue;
+      runCommand(commandValue);
+    });
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const commandValue = input.value.trim();
+
+    if (!commandValue) {
+      renderOutput(terminal.initialOutput || []);
+      setActiveCommandState("");
+      return;
+    }
+
+    runCommand(commandValue);
+    input.focus();
+    input.select();
+  });
+
+  renderOutput(terminal.initialOutput || []);
+  typeIntroLine();
+}
+
 function setupProfileAnimations() {
   setupProfileIntro();
+  setupProfileTerminal();
   setupProfileIconTilt();
   setupProfileCtaPulse();
 }

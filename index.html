@@ -188,7 +188,56 @@
                   <p class="section-copy profile-minimal__summary profile-anim-item" id="profile-summary" style="--intro-delay: 120ms">
                     I design dependable web systems that are easy to run and maintain.
                   </p>
-                  <section class="profile-tools profile-anim-item" aria-label="Tools I Work With" style="--intro-delay: 200ms">
+                  <section
+                    aria-labelledby="profile-terminal-title"
+                    class="profile-terminal profile-anim-item"
+                    id="profile-terminal"
+                    style="--intro-delay: 200ms"
+                  >
+                    <div class="profile-terminal__chrome" aria-hidden="true">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <div class="profile-terminal__body">
+                      <div class="profile-terminal__heading">
+                        <p class="meta-label" id="profile-terminal-eyebrow">Playful terminal</p>
+                        <h2 class="profile-terminal__title" id="profile-terminal-title">Try a quick command</h2>
+                      </div>
+                      <p class="profile-terminal__intro" id="profile-terminal-intro" aria-live="polite" aria-atomic="true"></p>
+                      <form class="profile-terminal__prompt" id="profile-terminal-form">
+                        <label class="visually-hidden" for="profile-terminal-input">Enter a terminal command</label>
+                        <span class="profile-terminal__prompt-prefix" id="profile-terminal-prompt">caleb@portfolio:~$</span>
+                        <input
+                          autocomplete="off"
+                          class="profile-terminal__input"
+                          id="profile-terminal-input"
+                          name="profile-terminal-input"
+                          placeholder="Type whoami, stack, services, contact, or fun"
+                          spellcheck="false"
+                          type="text"
+                        />
+                        <button class="profile-terminal__run" type="submit">Run</button>
+                      </form>
+                      <div
+                        aria-label="Terminal command shortcuts"
+                        class="profile-terminal__commands"
+                        id="profile-terminal-commands"
+                      ></div>
+                      <div class="profile-terminal__output-wrap">
+                        <p class="meta-label" id="profile-terminal-output-label">Output</p>
+                        <div
+                          aria-atomic="true"
+                          aria-live="polite"
+                          class="profile-terminal__output"
+                          id="profile-terminal-output"
+                          role="status"
+                        ></div>
+                        <div class="profile-terminal__output-action" id="profile-terminal-output-action"></div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="profile-tools profile-anim-item" aria-label="Tools I Work With" style="--intro-delay: 280ms">
                     <details class="profile-tools__dropdown">
                       <summary class="profile-tools__trigger">
                         <span class="meta-label profile-tools__label" id="profile-tools-label"></span>
@@ -203,7 +252,7 @@
                       </div>
                     </details>
                   </section>
-                  <div class="quick-links profile-minimal__links profile-anim-item" style="--intro-delay: 280ms">
+                  <div class="quick-links profile-minimal__links profile-anim-item" style="--intro-delay: 360ms">
                     <a aria-label="Email" class="profile-icon" id="hero-email">
                       <svg aria-hidden="true" viewBox="0 0 24 24">
                         <path d="M3.8 5h16.4A2.8 2.8 0 0 1 23 7.8v8.4A2.8 2.8 0 0 1 20.2 19H3.8A2.8 2.8 0 0 1 1 16.2V7.8A2.8 2.8 0 0 1 3.8 5Zm0 1.8L12 12l8.2-5.2H3.8Zm17.4 10.4V8.5l-8.7 5.5a1 1 0 0 1-1 0L2.8 8.5v8.7h18.4Z" />
@@ -230,11 +279,11 @@
                       </svg>
                     </a>
                   </div>
-                  <div class="panel-actions panel-actions--primary profile-anim-item" style="--intro-delay: 360ms">
+                  <div class="panel-actions panel-actions--primary profile-anim-item" style="--intro-delay: 440ms">
                     <button class="hero-link hero-link--standout" data-switch-tab="consultancy" type="button">Work with me</button>
                     <button class="hero-link hero-link--standout hero-link--subtle" data-switch-tab="tools" type="button">Explore tools</button>
                   </div>
-                  <div class="panel-actions profile-anim-item" style="--intro-delay: 440ms">
+                  <div class="panel-actions profile-anim-item" style="--intro-delay: 520ms">
                     <a class="hero-link" download id="resume-link" rel="noreferrer" target="_blank">View resume</a>
                     <button class="hero-link" data-switch-tab="contact" type="button">Get in touch</button>
                   </div>
