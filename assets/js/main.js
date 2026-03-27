@@ -1,6 +1,6 @@
 import { siteContent } from "./content.js";
 
-const tabIds = ["profile", "consultancy", "tools", "contact"];
+const tabIds = ["profile", "consultancy", "tools", "windows-office", "contact"];
 const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 const panelTimers = new Map();
 
@@ -256,6 +256,146 @@ function renderToolsHub() {
       )
       .join("");
   }
+}
+
+function renderWindowsOfficeBadges(item) {
+  const badges = [
+    `<span class="windows-hub__badge ${item.isOfficial ? "windows-hub__badge--official" : "windows-hub__badge--reference"}">${item.isOfficial ? "Official" : "Reference"}</span>`
+  ];
+
+  if (item.badge) {
+    badges.push(`<span class="windows-hub__badge">${item.badge}</span>`);
+  }
+
+  if (item.product) {
+    badges.push(`<span class="windows-hub__badge">${item.product}</span>`);
+  }
+
+  return badges.join("");
+}
+
+function renderWindowsOfficeCards(items, modifierClass = "") {
+  return (items || [])
+    .map((item) => {
+      const cardClass = `resource-card${modifierClass ? ` ${modifierClass}` : ""}`;
+
+      return `
+        <article class="${cardClass}">
+          <div class="resource-card__badges">
+            ${renderWindowsOfficeBadges(item)}
+          </div>
+          <div class="resource-card__body">
+            <h3>${item.title}</h3>
+            <p>${item.summary}</p>
+          </div>
+          ${item.note ? `<p class="resource-card__note">${item.note}</p>` : ""}
+          <a aria-label="${item.title} - ${item.sourceLabel}" class="hero-link hero-link--service resource-card__link" href="${item.url}" rel="noreferrer" target="_blank">${item.sourceLabel}</a>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderWindowsOfficeHub() {
+  const hubNode = document.getElementById("windows-office-hub");
+  const hub = siteContent.windowsOfficeHub || {};
+
+  if (!hubNode) {
+    return;
+  }
+
+  hubNode.innerHTML = `
+    <article class="windows-hub__intro">
+      <div class="windows-hub__hero">
+        <p class="eyebrow">${hub.eyebrow || "Resource hub"}</p>
+        <h2 class="section-title windows-hub__title">${hub.title || "Windows & Office"}</h2>
+        <p class="section-copy windows-hub__copy">${hub.intro || ""}</p>
+      </div>
+      <aside class="windows-hub__disclaimer" aria-label="Legal use notice">
+        <p class="meta-label">Important</p>
+        <p>${hub.disclaimer || ""}</p>
+      </aside>
+      <div aria-label="Windows and Office resource sections" class="windows-hub__jumps">
+        ${(hub.jumpLinks || [])
+          .map(
+            (link) => `
+              <button class="windows-hub__jump" data-resource-jump="${link.id}" type="button">${link.label}</button>
+            `
+          )
+          .join("")}
+      </div>
+    </article>
+
+    ${(hub.sections || [])
+      .map(
+        (section) => `
+          <section class="windows-hub__section" id="windows-office-${section.id}">
+            <div class="windows-hub__section-head">
+              <p class="eyebrow">${section.title}</p>
+              <h3>${section.title}</h3>
+              <p>${section.description || ""}</p>
+            </div>
+            <div class="windows-hub__grid">
+              ${renderWindowsOfficeCards(section.items)}
+            </div>
+            ${
+              section.id === "activation"
+                ? `
+                  <div class="windows-hub__disclaimer windows-hub__disclaimer--inline">
+                    <p class="meta-label">Activation note</p>
+                    <p>Activation requires a valid license, subscription, or device entitlement. This site does not provide unofficial activation methods.</p>
+                  </div>
+                `
+                : ""
+            }
+          </section>
+        `
+      )
+      .join("")}
+
+    <section class="windows-hub__section" id="windows-office-faq">
+      <div class="windows-hub__section-head">
+        <p class="eyebrow">FAQ</p>
+        <h3>Common questions</h3>
+        <p>Short answers for the decisions and licensing questions that come up most often.</p>
+      </div>
+      <div class="windows-hub__faq">
+        ${(hub.faq || [])
+          .map(
+            (item) => `
+              <details class="windows-hub__faq-item">
+                <summary>${item.question}</summary>
+                <p>${item.answer}</p>
+              </details>
+            `
+          )
+          .join("")}
+      </div>
+    </section>
+
+    <section class="windows-hub__section" id="windows-office-troubleshooting">
+      <div class="windows-hub__section-head">
+        <p class="eyebrow">Troubleshooting</p>
+        <h3>Safe next steps</h3>
+        <p>Start with official troubleshooting paths before trying deeper cleanup or reinstall work.</p>
+      </div>
+      <div class="windows-hub__grid windows-hub__grid--troubleshooting">
+        ${renderWindowsOfficeCards(hub.troubleshooting, "resource-card--problem")}
+      </div>
+    </section>
+
+    <section class="windows-hub__support">
+      <div class="windows-hub__support-copy">
+        <p class="eyebrow">Need help?</p>
+        <h3>${hub.contactCta?.title || "Need help with installation or activation?"}</h3>
+        <p>${hub.contactCta?.summary || ""}</p>
+      </div>
+      <div class="panel-actions panel-actions--primary windows-hub__support-actions">
+        <button class="hero-link hero-link--standout" data-resource-contact type="button">${hub.contactCta?.primaryLabel || "Go to contact"}</button>
+        <a class="hero-link hero-link--standout hero-link--subtle" href="mailto:${siteContent.profile?.email || ""}">${hub.contactCta?.secondaryLabel || "Email me"}</a>
+      </div>
+    </section>
+  `;
 }
 
 function buildServiceMailtoHref(service, email) {
@@ -1055,12 +1195,44 @@ function setupProfileAnimations() {
   setupProfileCtaPulse();
 }
 
+function setupWindowsOfficeHub() {
+  const hubNode = document.getElementById("windows-office-hub");
+
+  if (!hubNode) {
+    return;
+  }
+
+  hubNode.querySelectorAll("[data-resource-jump]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const targetId = button.dataset.resourceJump || "";
+      const targetNode = document.getElementById(`windows-office-${targetId}`);
+
+      if (!targetNode) {
+        return;
+      }
+
+      targetNode.scrollIntoView({
+        behavior: motionQuery.matches ? "auto" : "smooth",
+        block: "start"
+      });
+    });
+  });
+
+  hubNode.querySelectorAll("[data-resource-contact]").forEach((button) => {
+    button.addEventListener("click", () => {
+      setActiveTab("contact");
+    });
+  });
+}
+
 function init() {
   renderProfile();
   renderConsultancyServices();
   renderToolsHub();
+  renderWindowsOfficeHub();
   setupServiceRevealObserver();
   setupProfileAnimations();
+  setupWindowsOfficeHub();
   setupDeepDive();
   setupThemeToggle();
   setupTabs();

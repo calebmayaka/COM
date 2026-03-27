@@ -153,6 +153,16 @@
               Tools
             </button>
             <button
+              aria-controls="panel-windows-office"
+              class="site-nav__link"
+              data-tab-trigger="windows-office"
+              id="tab-windows-office"
+              role="tab"
+              type="button"
+            >
+              Windows &amp; Office
+            </button>
+            <button
               aria-controls="panel-contact"
               class="site-nav__link"
               data-tab-trigger="contact"
@@ -330,6 +340,17 @@
                     <ul class="tools-roadmap__list" id="tools-planned-list"></ul>
                   </aside>
                 </div>
+              </section>
+
+              <section
+                aria-labelledby="tab-windows-office"
+                class="tab-panel"
+                data-tab-panel="windows-office"
+                id="panel-windows-office"
+                role="tabpanel"
+                hidden
+              >
+                <div class="windows-hub" id="windows-office-hub"></div>
               </section>
 
               <section

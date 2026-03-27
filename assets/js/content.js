@@ -290,6 +290,201 @@ export const siteContent = {
       { title: "Memory Match", category: "Mini game" }
     ]
   },
+  windowsOfficeHub: {
+    navLabel: "Windows & Office",
+    eyebrow: "Resource hub",
+    title: "Windows & Office",
+    intro:
+      "Use this hub to find official Microsoft downloads, legitimate activation guidance, reinstall help, and practical troubleshooting for mainstream Windows and Office products.",
+    disclaimer:
+      "This hub provides official Microsoft downloads and safe support guidance only. It does not include cracks, bypass scripts, unofficial activators, or mirrored pirated downloads.",
+    jumpLinks: [
+      { id: "windows", label: "Windows" },
+      { id: "office", label: "Office" },
+      { id: "activation", label: "Activation" },
+      { id: "faq", label: "FAQ" },
+      { id: "troubleshooting", label: "Troubleshooting" }
+    ],
+    sections: [
+      {
+        id: "windows",
+        title: "Windows Downloads",
+        description: "Choose the official Microsoft download path that matches your device and reinstall goal.",
+        items: [
+          {
+            title: "Windows 11 Download",
+            summary: "Official Installation Assistant, media creation tool, and ISO access for supported devices.",
+            url: "https://www.microsoft.com/en-us/software-download/windows11",
+            sourceLabel: "Official Microsoft download",
+            ctaLabel: "Open Windows 11 download",
+            badge: "Download",
+            product: "Windows 11",
+            isOfficial: true,
+            note: "Best starting point for clean installs, in-place upgrades, and official install media."
+          },
+          {
+            title: "Windows 10 Download",
+            summary: "Official media creation tool and reinstall guidance for Windows 10 systems.",
+            url: "https://www.microsoft.com/en-us/software-download/windows10",
+            sourceLabel: "Official Microsoft download",
+            ctaLabel: "Open Windows 10 download",
+            badge: "Download",
+            product: "Windows 10",
+            isOfficial: true,
+            note: "Windows 10 reached end of free support on October 14, 2025, so upgrade planning matters."
+          }
+        ]
+      },
+      {
+        id: "office",
+        title: "Office Downloads",
+        description: "Install or reinstall the Office edition that matches the license already tied to your account or device.",
+        items: [
+          {
+            title: "Microsoft 365 / Office 2024 / Office 2021",
+            summary: "Official install and reinstall guide for current Microsoft 365 plans and newer perpetual Office releases.",
+            url: "https://support.microsoft.com/en-us/office/download-install-or-reinstall-microsoft-365-office-2024-or-office-2021-on-a-pc-or-mac-4414eaaf-0478-48be-9c42-23adc4716658?ms.officeurl=downloadoffice",
+            sourceLabel: "Official Microsoft support",
+            ctaLabel: "Open install guide",
+            badge: "Install",
+            product: "Microsoft 365 / Office 2024",
+            isOfficial: true,
+            note: "Use the Microsoft account or work account that is already linked to the purchase or subscription."
+          },
+          {
+            title: "Office 2021 / 2019 / 2016 Reinstall",
+            summary: "Official reinstall guidance for older perpetual Office versions after setup or account redemption.",
+            url: "https://support.microsoft.com/en-us/office/download-and-install-or-reinstall-office-2021-office-2019-or-office-2016-7c695b06-6d1a-4917-809c-98ce43f86479",
+            sourceLabel: "Official Microsoft support",
+            ctaLabel: "Open reinstall guide",
+            badge: "Reinstall",
+            product: "Office 2021 / 2019 / 2016",
+            isOfficial: true,
+            note: "Office 2019 and Office 2016 reached end of support on October 14, 2025."
+          },
+          {
+            title: "Preinstalled Office on a New PC",
+            summary: "Official steps for reinstalling Office or Microsoft 365 that originally shipped with your device.",
+            url: "https://support.microsoft.com/en-us/office/reinstall-office-or-microsoft-365-in-your-office-pre-installed-pc-for-personal-1499b339-3860-4d33-9511-daf96310b827",
+            sourceLabel: "Official Microsoft support",
+            ctaLabel: "Open preinstalled-PC guide",
+            badge: "Support",
+            product: "Preinstalled Office",
+            isOfficial: true,
+            note: "Useful when a reset or replacement PC asks you to sign in again before apps will activate."
+          }
+        ]
+      },
+      {
+        id: "activation",
+        title: "Activation & Licensing",
+        description: "Understand the legitimate activation path before reinstalling, switching hardware, or changing editions.",
+        items: [
+          {
+            title: "Activate Windows",
+            summary: "Official guidance for digital licenses, product keys, and what activation method applies to your device.",
+            url: "https://support.microsoft.com/en-us/windows/activate-windows-c39005d4-95ee-b91e-b399-2820fda32227",
+            sourceLabel: "Official Microsoft support",
+            ctaLabel: "Open Windows activation guide",
+            badge: "Activation",
+            product: "Windows",
+            isOfficial: true,
+            note: "You need a valid digital license or 25-character product key to activate Windows legitimately."
+          },
+          {
+            title: "Activate Office for Windows",
+            summary: "Official activation steps for Microsoft 365 and non-subscription Office on Windows devices.",
+            url: "https://support.microsoft.com/en-gb/office/activate-office-5bd38f38-db92-448b-a982-ad170b1e187e",
+            sourceLabel: "Official Microsoft support",
+            ctaLabel: "Open Office activation guide",
+            badge: "Activation",
+            product: "Office",
+            isOfficial: true,
+            note: "Sign in with the same account that bought, redeemed, or was assigned the Office license."
+          },
+          {
+            title: "Reactivate Microsoft 365 or Office",
+            summary: "Official troubleshooting path for Office apps that install successfully but later ask to be activated again.",
+            url: "https://support.microsoft.com/en-us/office/reactivate-microsoft-365-or-office-91600da9-4ff1-4807-bde4-f80d82fb7e28",
+            sourceLabel: "Official Microsoft support",
+            ctaLabel: "Open reactivation guide",
+            badge: "Troubleshoot",
+            product: "Office",
+            isOfficial: true,
+            note: "Best starting point after reinstalling, moving to a new PC, or seeing an unlicensed product message."
+          }
+        ]
+      }
+    ],
+    faq: [
+      {
+        question: "Do I need a product key every time I reinstall Windows?",
+        answer:
+          "Not always. Many systems reactivate automatically using a digital license that is already linked to the device or to a Microsoft account."
+      },
+      {
+        question: "Can I use these download links without already owning Windows or Office?",
+        answer:
+          "You can download the installation media, but legitimate activation still requires a valid license, subscription, or previously linked entitlement."
+      },
+      {
+        question: "Which Office guide should I use if I bought a one-time version?",
+        answer:
+          "Use the reinstall guide for Office 2021, 2019, or 2016 after the product has been redeemed to your Microsoft account. If you are on Microsoft 365 or Office 2024, use the newer install guide."
+      },
+      {
+        question: "Why does Microsoft ask me to sign in before Office activates?",
+        answer:
+          "Because modern Office licensing is usually linked to a Microsoft account or a work or school account. Signing in confirms which license belongs to you."
+      },
+      {
+        question: "Should I still install Windows 10 in 2026?",
+        answer:
+          "Only when you specifically need it for hardware or compatibility reasons. Microsoft ended free Windows 10 support on October 14, 2025, so Windows 11 is the safer default when your hardware allows it."
+      }
+    ],
+    troubleshooting: [
+      {
+        title: "Office install fails or hangs",
+        summary: "Start with Microsoft's install troubleshooter if setup stalls, errors out, or refuses to complete.",
+        url: "https://support.microsoft.com/en-us/office/troubleshoot-installing-office-35ff2def-e0b2-4dac-9784-4cf212c1f6c2",
+        sourceLabel: "Official Microsoft support",
+        ctaLabel: "Open install troubleshooter",
+        note: "This is the safest first response before trying manual cleanup or reinstall loops."
+      },
+      {
+        title: "Windows says it is not activated after reinstall",
+        summary: "Check whether your device should be using a digital license or product key and follow Microsoft's reactivation steps.",
+        url: "https://support.microsoft.com/en-us/windows/activate-windows-c39005d4-95ee-b91e-b399-2820fda32227",
+        sourceLabel: "Official Microsoft support",
+        ctaLabel: "Open Windows activation help",
+        note: "This is especially common after major hardware changes, motherboard replacements, or clean installs."
+      },
+      {
+        title: "Office keeps asking to activate again",
+        summary: "Use Microsoft's reactivation flow when apps are installed but show unlicensed or subscription prompts.",
+        url: "https://support.microsoft.com/en-us/office/reactivate-microsoft-365-or-office-91600da9-4ff1-4807-bde4-f80d82fb7e28",
+        sourceLabel: "Official Microsoft support",
+        ctaLabel: "Open Office reactivation help",
+        note: "Usually fixed by signing in with the correct account, removing conflicting installs, or re-linking the license."
+      },
+      {
+        title: "You cannot switch from Microsoft 365 to Office cleanly",
+        summary: "Use Microsoft's cleanup and uninstall guidance before moving from a Microsoft 365 install to a perpetual Office version.",
+        url: "https://support.microsoft.com/en-us/office/can-t-switch-from-microsoft-365-to-office-763112e1-969c-4bea-b9ab-66b724bf1bb1",
+        sourceLabel: "Official Microsoft support",
+        ctaLabel: "Open switch-version guide",
+        note: "This helps avoid version conflicts that block activation or reinstall attempts."
+      }
+    ],
+    contactCta: {
+      title: "Need help with installation or activation?",
+      summary:
+        "If you want hands-on help choosing the right installer, reinstalling cleanly, or resolving legitimate activation issues, I can help you work through it.",
+      primaryLabel: "Go to contact",
+      secondaryLabel: "Email me"
+    }
+  },
   services: [
     {
       id: "software-development",

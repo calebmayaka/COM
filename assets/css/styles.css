@@ -1174,6 +1174,227 @@ html[data-active-tab="tools"] .section-copy {
   transform: translateY(-1px);
 }
 
+.windows-hub {
+  display: grid;
+  gap: 1.2rem;
+  width: min(100%, 64rem);
+  margin-inline: auto;
+}
+
+.windows-hub__intro,
+.windows-hub__section,
+.windows-hub__support {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.windows-hub__hero,
+.windows-hub__disclaimer,
+.resource-card,
+.windows-hub__faq-item,
+.windows-hub__support {
+  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel) 92%, transparent);
+}
+
+.windows-hub__hero,
+.windows-hub__support {
+  padding: 1.25rem;
+}
+
+.windows-hub__hero {
+  display: grid;
+  gap: 0.8rem;
+  border-radius: 1.35rem;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 42%),
+    color-mix(in srgb, var(--color-panel) 92%, transparent);
+  box-shadow: 0 18px 36px color-mix(in srgb, var(--color-shadow-block) 75%, transparent);
+}
+
+.windows-hub__title {
+  max-width: 12ch;
+}
+
+.windows-hub__copy {
+  max-width: 56rem;
+}
+
+.windows-hub__disclaimer {
+  padding: 0.95rem 1rem;
+  border-left: 3px solid var(--color-accent);
+  border-radius: 1rem;
+  color: var(--color-text-soft);
+  line-height: 1.65;
+}
+
+.windows-hub__disclaimer--inline {
+  margin-top: 0.1rem;
+}
+
+.windows-hub__jumps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.windows-hub__jump {
+  padding: 0.5rem 0.84rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-panel) 88%, transparent);
+  color: var(--color-text-soft);
+  transition: color 180ms ease, border-color 180ms ease, transform 180ms ease, background 180ms ease;
+}
+
+.windows-hub__jump:hover,
+.windows-hub__jump:focus-visible {
+  color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-line));
+  transform: translateY(-1px);
+}
+
+.windows-hub__section-head {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.windows-hub__section-head h3,
+.windows-hub__support h3 {
+  font-size: clamp(1.35rem, 2.1vw, 1.8rem);
+  line-height: 1.12;
+}
+
+.windows-hub__section-head p:last-child,
+.windows-hub__support-copy p:last-child {
+  color: var(--color-text-soft);
+  line-height: 1.65;
+}
+
+.windows-hub__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.resource-card {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+  padding: 1rem;
+  border-radius: 1.15rem;
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--color-shadow-block) 72%, transparent);
+}
+
+.resource-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.windows-hub__badge {
+  padding: 0.28rem 0.56rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  color: var(--color-text-soft);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+}
+
+.windows-hub__badge--official {
+  color: var(--color-text);
+  border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-line));
+  background: color-mix(in srgb, var(--color-accent) 16%, var(--color-panel));
+}
+
+.windows-hub__badge--reference {
+  background: color-mix(in srgb, var(--color-line) 40%, transparent);
+}
+
+.resource-card__body {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.resource-card__body h3 {
+  font-size: 1.08rem;
+  line-height: 1.24;
+}
+
+.resource-card__body p,
+.resource-card__note {
+  color: var(--color-text-soft);
+  line-height: 1.62;
+}
+
+.resource-card__note {
+  font-size: 0.9rem;
+}
+
+.resource-card__link {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.resource-card--problem {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 6%, transparent), transparent 48%),
+    color-mix(in srgb, var(--color-panel) 92%, transparent);
+}
+
+.windows-hub__faq {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.windows-hub__faq-item {
+  padding: 0.95rem 1rem;
+  border-radius: 1rem;
+}
+
+.windows-hub__faq-item summary {
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.windows-hub__faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.windows-hub__faq-item p {
+  margin-top: 0.7rem;
+  color: var(--color-text-soft);
+  line-height: 1.65;
+}
+
+.windows-hub__support {
+  border-radius: 1.35rem;
+}
+
+.windows-hub__support-copy {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.windows-hub__support-actions {
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.windows-hub__support-actions .hero-link--standout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.windows-hub__jump:focus-visible,
+.windows-hub__faq-item summary:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-accent) 82%, transparent);
+  outline-offset: 2px;
+}
+
 .service-story.is-reveal-ready {
   opacity: 0;
   transform: translate3d(0, 24px, 0);
@@ -3220,6 +3441,36 @@ html[data-active-tab="tools"] .section-copy {
 
   .quick-links {
     gap: 0.75rem;
+  }
+
+  .windows-hub__hero,
+  .windows-hub__support,
+  .resource-card,
+  .windows-hub__faq-item {
+    padding: 0.95rem;
+  }
+
+  .windows-hub__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .windows-hub__jumps {
+    gap: 0.5rem;
+  }
+
+  .windows-hub__jump {
+    width: 100%;
+    text-align: center;
+  }
+
+  .windows-hub__support-actions {
+    width: 100%;
+  }
+
+  .windows-hub__support-actions .hero-link--standout {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
   }
 
   .profile-terminal__body {
