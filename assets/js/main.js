@@ -117,7 +117,7 @@ function renderProfileTerminal(profile) {
   const commands = terminal.commands || [];
 
   if (eyebrowNode) {
-    eyebrowNode.textContent = terminal.eyebrow || "Playful terminal";
+    eyebrowNode.textContent = terminal.eyebrow || "Terminal";
   }
 
   if (titleNode) {

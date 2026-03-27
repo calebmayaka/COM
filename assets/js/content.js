@@ -26,7 +26,7 @@ export const siteContent = {
     primaryCtaLabel: "Email me",
     responseTimeNote: "Typical response within 24 hours.",
     terminal: {
-      eyebrow: "Playful terminal",
+      eyebrow: "Terminal",
       title: "Try a quick command",
       introLine: "booting caleb.exe ... practical engineering with a little personality.",
       placeholder: "Type whoami, stack, services, contact, or fun",
@@ -41,7 +41,7 @@ export const siteContent = {
           label: "whoami",
           output: [
             "Caleb Mayaka",
-            "Software Engineer based in Kenya.",
+            "Software Engineer.",
             "I build dependable web systems with a practical, operations-aware mindset."
           ]
         },
